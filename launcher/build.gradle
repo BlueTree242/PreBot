@@ -1,0 +1,12 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+repositories {
+}
+mainClassName = "me.bluetree242.prebot.Main"
+
+dependencies {
+    implementation project(":core")
+}

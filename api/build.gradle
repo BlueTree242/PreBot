@@ -28,5 +28,9 @@ tasks.getByName('javadoc') {
         options.addStringOption("-release", "8")
         options.addBooleanOption("html5", true) // Adds search bar
     }
+    // Fix for https://stackoverflow.com/questions/52326318/maven-javadoc-search-redirects-to-undefined-url
+    if (JavaVersion.current() in JavaVersion.VERSION_11..JavaVersion.VERSION_12) {
+        options.addBooleanOption("-no-module-directories", true)
+    }
 }
 

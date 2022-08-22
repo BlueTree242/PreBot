@@ -23,4 +23,18 @@ public interface PluginManager {
      * @return the unmodifiable set of plugins
      */
     Set<Plugin> getPlugins();
+
+    /**
+     * Enables a plugin, this might call {@link Plugin#onEnable()} and {@link  Plugin#onDisable()}
+     *
+     * @param plugin Plugin to enable
+     */
+    void enablePlugin(Plugin plugin);
+
+    /**
+     * Disables a plugin, this might call @link  Plugin#onDisable()}
+     *
+     * @param plugin Plugin to disable
+     */
+    void disablePlugin(Plugin plugin);
 }

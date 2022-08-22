@@ -1,6 +1,7 @@
 package me.bluetree242.prebot.plugin;
 
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
 
 
 /**
@@ -48,5 +49,26 @@ public interface Plugin {
      * @return the plugin description
      */
     @NotNull
-    PluginDescriptionFile getDescription();
+    PluginDescription getDescription();
+
+    /**
+     * The logger this plugin uses, this logger automatically prepends the plugin name at start of any log
+     *
+     * @return the logger for this plugin
+     */
+    Logger getLogger();
+
+    /**
+     * If the plugin is enabled, this is false when plugin is still loading
+     *
+     * @return true if the plugin is enabled, false otherwise.
+     */
+    boolean isEnabled();
+
+    /**
+     * Sets the enabled status. This method might call {@link PluginManager#enablePlugin(Plugin)} or {@link PluginManager#disablePlugin(Plugin)}
+     *
+     * @param enabled
+     */
+    void setEnabled(boolean enabled);
 }

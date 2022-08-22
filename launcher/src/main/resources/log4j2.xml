@@ -1,0 +1,30 @@
+<Configuration packages="net.minecrell.terminalconsole">
+    <Appenders>
+        <!-- DEFAULT APPENDERS -->
+
+        <!-- console logging - logs to stdout -->
+        <TerminalConsole name="SysOut">
+            <PatternLayout pattern="[%d{HH:mm:ss}] %highlight{[%level]} %minecraftFormatting{%msg}%n"
+                           disableAnsi="false"/>
+        </TerminalConsole>
+
+        <!-- file logging - stuff under the logs/ dir -->
+        <RollingRandomAccessFile name="File" fileName="logs/latest.log"
+                                 filePattern="logs/%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="[%d{HH:mm:ss}] [%level] %minecraftFormatting{%msg}{strip}%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <OnStartupTriggeringPolicy/>
+                <!-- <SizeBasedTriggeringPolicy size="250 MB"/> -->
+            </Policies>
+            <!-- keep up to 20 files before removing them -->
+            <!-- <DefaultRolloverStrategy max="20"/> -->
+        </RollingRandomAccessFile>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="SysOut" level="info"/>
+            <AppenderRef ref="File" level="info"/>
+        </Root>
+    </Loggers>
+</Configuration>

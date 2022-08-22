@@ -1,15 +1,16 @@
 plugins {
     id 'com.github.johnrengelman.shadow' version '7.1.2'
     id 'java'
+    id 'maven-publish'
 }
-
 repositories {
     mavenCentral()
 }
-
+group = 'me.bluetree242'
 allprojects {
     apply plugin: 'java'
     apply plugin: 'com.github.johnrengelman.shadow'
+    apply plugin: 'maven-publish'
     shadowJar {
         classifier ''
     }
@@ -23,6 +24,19 @@ allprojects {
     }
     repositories {
         mavenCentral()
+    }
+}
+
+subprojects{
+    publishing {
+        publications {
+            "$project.name"(MavenPublication) {
+                groupId rootProject.group
+                artifactId project.name
+                version project.version
+                from components.java
+            }
+        }
     }
 }
 

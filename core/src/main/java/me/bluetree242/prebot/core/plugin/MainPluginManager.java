@@ -2,7 +2,7 @@ package me.bluetree242.prebot.core.plugin;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import me.bluetree242.prebot.LoggerFactory;
+import me.bluetree242.prebot.LoggerProvider;
 import me.bluetree242.prebot.core.PreBotMain;
 import me.bluetree242.prebot.core.plugin.loader.JarPluginClassLoader;
 import me.bluetree242.prebot.core.plugin.logging.JarPluginLogger;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class MainPluginManager implements PluginManager {
-    private static final Logger LOGGER = LoggerFactory.getFactory().getLogger(MainPluginManager.class);
+    private static final Logger LOGGER = LoggerProvider.getProvider().getLogger(MainPluginManager.class);
     private final PreBotMain core;
     @Getter
     private final Set<Plugin> plugins = new HashSet<>();

@@ -1,5 +1,6 @@
 package me.bluetree242.prebot.plugin;
 
+import me.bluetree242.prebot.PreBot;
 import me.bluetree242.prebot.exceptions.InvalidPluginException;
 import me.bluetree242.prebot.exceptions.MissingDependenciesException;
 
@@ -7,6 +8,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Set;
 
+/**
+ * This interface is the plugin manager which manage plugins (core implements it)
+ * @see PreBot#getPluginManager()
+ */
 public interface PluginManager {
 
     /**

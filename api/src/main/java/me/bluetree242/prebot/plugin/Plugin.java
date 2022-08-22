@@ -68,7 +68,7 @@ public interface Plugin {
     /**
      * Sets the enabled status. This method might call {@link PluginManager#enablePlugin(Plugin)} or {@link PluginManager#disablePlugin(Plugin)}
      *
-     * @param enabled
+     * @param enabled enable status to set
      */
     void setEnabled(boolean enabled);
 }

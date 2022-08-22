@@ -4,10 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;
 
-public abstract class LoggerFactory {
+public abstract class LoggerProvider {
     @Getter
     @Setter
-    private static LoggerFactory factory;
+    private static LoggerProvider provider;
 
     public abstract Logger getLogger(Class<?> clz);
 }

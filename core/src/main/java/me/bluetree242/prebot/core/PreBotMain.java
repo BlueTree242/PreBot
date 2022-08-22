@@ -1,7 +1,7 @@
 package me.bluetree242.prebot.core;
 
 import lombok.Getter;
-import me.bluetree242.prebot.LoggerFactory;
+import me.bluetree242.prebot.LoggerProvider;
 import me.bluetree242.prebot.PreBot;
 import me.bluetree242.prebot.core.plugin.MainPluginManager;
 import net.dv8tion.jda.api.sharding.ShardManager;
@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import java.nio.file.Path;
 
 public class PreBotMain extends PreBot {
-    private static final Logger LOGGER = LoggerFactory.getFactory().getLogger(PreBotMain.class);
+    private static final Logger LOGGER = LoggerProvider.getProvider().getLogger(PreBotMain.class);
     @Getter
     private final Path rootDirectory;
     @Getter

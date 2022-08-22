@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 
 public class Main {
     static {
-        LoggerFactory.setFactory(new LoggerFactory() {
+        LoggerProvider.setProvider(new LoggerProvider() {
             @Override
             public Logger getLogger(Class<?> clz) {
                 return org.slf4j.LoggerFactory.getLogger(clz);

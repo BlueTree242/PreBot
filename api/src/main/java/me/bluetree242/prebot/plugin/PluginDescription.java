@@ -4,6 +4,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+/**
+ * Represents Plugin Information
+ */
 public interface PluginDescription {
 
     /**

@@ -1,6 +1,7 @@
 package me.bluetree242.prebot.core;
 
 import lombok.Getter;
+import me.bluetree242.prebot.LoggerFactory;
 import me.bluetree242.prebot.PreBot;
 import me.bluetree242.prebot.core.plugin.MainPluginManager;
 import net.dv8tion.jda.api.sharding.ShardManager;

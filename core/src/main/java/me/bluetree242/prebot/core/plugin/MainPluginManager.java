@@ -2,12 +2,13 @@ package me.bluetree242.prebot.core.plugin;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import me.bluetree242.prebot.core.LoggerFactory;
+import me.bluetree242.prebot.LoggerFactory;
 import me.bluetree242.prebot.core.PreBotMain;
 import me.bluetree242.prebot.core.plugin.loader.JarPluginClassLoader;
 import me.bluetree242.prebot.core.plugin.logging.JarPluginLogger;
 import me.bluetree242.prebot.core.utils.Utils;
 import me.bluetree242.prebot.exceptions.InvalidPluginException;
+import me.bluetree242.prebot.exceptions.MissingDependenciesException;
 import me.bluetree242.prebot.plugin.Plugin;
 import me.bluetree242.prebot.plugin.PluginManager;
 import org.slf4j.Logger;
@@ -30,7 +31,7 @@ public class MainPluginManager implements PluginManager {
     @Getter
     private final Set<Plugin> plugins = new HashSet<>();
 
-    public void loadPlugin(File file) throws IOException {
+    public void loadPlugin(File file) throws IOException, MissingDependenciesException {
         if (!file.getName().endsWith(".jar")) throw new IllegalArgumentException("File is not a jar file");
         //load the plugin
         loadPlugin(loadDescription(file), file);
@@ -75,10 +76,7 @@ public class MainPluginManager implements PluginManager {
             if (!found) missingDependencies.add(dependency);
         }
         if (!missingDependencies.isEmpty()) {
-            StringJoiner joiner = new StringJoiner(", ", "", "");
-            missingDependencies.forEach(joiner::add);
-            LOGGER.error(descriptionFile.getName() + " requires " + missingDependencies.size() + " dependency(s). Please install (" + joiner + ")");
-            return;
+            throw new MissingDependenciesException(descriptionFile, missingDependencies);
         }
         JarPluginClassLoader loader = new JarPluginClassLoader(file);
         //now get the main class out of it
@@ -124,6 +122,8 @@ public class MainPluginManager implements PluginManager {
         for (JarPluginDescriptionFile descriptionFile : descriptionsSorted) {
             try {
                 loadPlugin(descriptionFile, descriptionFile.getJarFile());
+            } catch (MissingDependenciesException e) {
+                e.log(); //log it instead of printing stack track
             } catch (Throwable e) {
                 LOGGER.error("An error occurred while loading " + descriptionFile.getName() + " v" + descriptionFile.getVersion(), e);
             }

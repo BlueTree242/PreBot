@@ -1,4 +1,4 @@
-package me.bluetree242.prebot.core;
+package me.bluetree242.prebot;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -2,12 +2,10 @@ package me.bluetree242.prebot.core.plugin;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import me.bluetree242.prebot.core.LoggerFactory;
 import me.bluetree242.prebot.core.plugin.loader.JarPluginClassLoader;
 import me.bluetree242.prebot.core.plugin.logging.JarPluginLogger;
 import me.bluetree242.prebot.plugin.Plugin;
 import me.bluetree242.prebot.plugin.PluginManager;
-import org.slf4j.Logger;
 
 @RequiredArgsConstructor
 public class JarPlugin implements Plugin {

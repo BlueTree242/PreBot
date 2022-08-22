@@ -1,6 +1,7 @@
 package me.bluetree242.prebot.plugin;
 
 import me.bluetree242.prebot.exceptions.InvalidPluginException;
+import me.bluetree242.prebot.exceptions.MissingDependenciesException;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,8 +15,9 @@ public interface PluginManager {
      * @param file the jar file to load
      * @throws IOException            if an IO exception occurs
      * @throws InvalidPluginException if the plugin is not valid
+     * @throws MissingDependenciesException if the plugin has dependencies that are missing
      */
-    void loadPlugin(File file) throws IOException, InvalidPluginException;
+    void loadPlugin(File file) throws IOException, InvalidPluginException, MissingDependenciesException;
 
     /**
      * The set of plugins that exist, can be disabled

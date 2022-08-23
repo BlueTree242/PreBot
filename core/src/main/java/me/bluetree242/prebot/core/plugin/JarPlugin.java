@@ -8,6 +8,7 @@ import me.bluetree242.prebot.core.plugin.logging.JarPluginLogger;
 import me.bluetree242.prebot.api.plugin.Plugin;
 import me.bluetree242.prebot.api.plugin.PluginDescription;
 import me.bluetree242.prebot.api.plugin.PluginManager;
+import net.dv8tion.jda.api.JDA;
 import org.slf4j.Logger;
 
 /**
@@ -52,7 +53,8 @@ public class JarPlugin implements Plugin {
     }
 
     @Override
-    public void onBotOnline() {
+    public void onShardOnline(JDA shard) {
+
     }
 
     @Override

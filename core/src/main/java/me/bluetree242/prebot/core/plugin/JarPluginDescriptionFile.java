@@ -1,7 +1,7 @@
 package me.bluetree242.prebot.core.plugin;
 
 import lombok.Getter;
-import me.bluetree242.prebot.api.exceptions.InvalidPluginException;
+import me.bluetree242.prebot.api.exceptions.plugin.InvalidPluginException;
 import me.bluetree242.prebot.api.plugin.PluginDescription;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class JarPluginDescriptionFile implements PluginDescription, Comparable {
+public class JarPluginDescriptionFile implements PluginDescription, Comparable<JarPluginDescriptionFile> {
     @Getter
     private final String name;
     @Getter
@@ -53,9 +53,7 @@ public class JarPluginDescriptionFile implements PluginDescription, Comparable {
     }
 
     @Override
-    public int compareTo(@NotNull Object o) {
-        if (!(o instanceof JarPluginDescriptionFile)) throw new IllegalArgumentException();
-        JarPluginDescriptionFile plugin = (JarPluginDescriptionFile) o;
+    public int compareTo(@NotNull JarPluginDescriptionFile plugin) {
         if (plugin.getDependencies().contains(name) || plugin.getSoftDependencies().contains(name)) return -1;
         else if (getDependencies().contains(plugin.getName()) || getSoftDependencies().contains(plugin.getName()))
             return 1;

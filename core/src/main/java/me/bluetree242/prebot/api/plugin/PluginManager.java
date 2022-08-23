@@ -1,8 +1,8 @@
 package me.bluetree242.prebot.api.plugin;
 
 import me.bluetree242.prebot.api.PreBot;
-import me.bluetree242.prebot.api.exceptions.InvalidPluginException;
-import me.bluetree242.prebot.api.exceptions.MissingDependenciesException;
+import me.bluetree242.prebot.api.exceptions.plugin.InvalidPluginException;
+import me.bluetree242.prebot.api.exceptions.plugin.MissingDependenciesException;
 
 import java.io.File;
 import java.io.IOException;

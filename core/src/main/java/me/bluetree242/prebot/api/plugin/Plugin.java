@@ -1,5 +1,7 @@
 package me.bluetree242.prebot.api.plugin;
 
+import me.bluetree242.prebot.api.PreBot;
+import net.dv8tion.jda.api.JDA;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
@@ -27,9 +29,10 @@ public interface Plugin {
     void onDisable();
 
     /**
-     * Called when the discord bot goes online
+     * Called when a shard gets online
+     * @param shard the shard that has just went online
      */
-    void onBotOnline();
+    void onShardOnline(JDA shard);
 
     /**
      * Called directly after loading the plugin (all installed plugins should be loaded before that is called)
@@ -71,4 +74,13 @@ public interface Plugin {
      * @param enabled enable status to set
      */
     void setEnabled(boolean enabled);
+
+    /**
+     * Provides the PreBot instance
+     * @return the current prebot instance
+     * @see PreBot#getInstance()
+     */
+    default PreBot getPreBot() {
+        return PreBot.getInstance();
+    }
 }

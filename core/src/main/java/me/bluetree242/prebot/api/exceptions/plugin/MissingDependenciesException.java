@@ -1,4 +1,4 @@
-package me.bluetree242.prebot.api.exceptions;
+package me.bluetree242.prebot.api.exceptions.plugin;
 
 import me.bluetree242.prebot.api.LoggerProvider;
 import me.bluetree242.prebot.api.plugin.PluginDescription;

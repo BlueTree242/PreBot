@@ -1,5 +1,6 @@
 package me.bluetree242.prebot.api;
 
+import me.bluetree242.jdaeventer.JDAEventer;
 import me.bluetree242.prebot.api.plugin.PluginManager;
 import me.bluetree242.prebot.core.config.PreBotConfig;
 import net.dv8tion.jda.api.sharding.ShardManager;
@@ -16,7 +17,7 @@ public abstract class PreBot {
      * @return the instance of PreBot currently running
      * @throws RuntimeException if the implementation of PreBot is not set
      */
-    @Nullable
+    @NotNull
     public static PreBot getInstance() {
         if (bot == null) throw new RuntimeException("Bot Implementation was not set");
         return bot;
@@ -60,4 +61,11 @@ public abstract class PreBot {
      */
     @NotNull
     public abstract PreBotConfig getConfig();
+
+    /**
+     * The JDAEventer for this instance
+     * @return The eventer instance.
+     */
+    @NotNull
+    public abstract JDAEventer getEventer();
 }

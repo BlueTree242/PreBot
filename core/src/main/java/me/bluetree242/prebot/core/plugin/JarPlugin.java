@@ -6,23 +6,23 @@ import me.bluetree242.prebot.api.LoggerProvider;
 import me.bluetree242.prebot.core.plugin.loader.JarPluginClassLoader;
 import me.bluetree242.prebot.core.plugin.logging.JarPluginLogger;
 import me.bluetree242.prebot.api.plugin.Plugin;
-import me.bluetree242.prebot.api.plugin.PluginDescription;
 import me.bluetree242.prebot.api.plugin.PluginManager;
 import net.dv8tion.jda.api.JDA;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
 /**
  * Represents a plugin which is a jar
  */
 @RequiredArgsConstructor
-public class JarPlugin implements Plugin {
+public class JarPlugin implements Plugin, Comparable<JarPlugin> {
     private static final Logger LOGGER = LoggerProvider.getProvider().getLogger(Plugin.class);
     @Getter
-    private final PluginDescription description;
+    private final JarPluginDescriptionFile description;
     @Getter
-    private final ClassLoader classLoader;
+    private final JarPluginClassLoader classLoader;
     @Getter
-    private final Logger logger;
+    private final JarPluginLogger logger;
     @Getter
     private final PluginManager pluginManager;
     private boolean enabled = false;
@@ -30,11 +30,11 @@ public class JarPlugin implements Plugin {
     public JarPlugin() {
         final ClassLoader cl = this.getClass().getClassLoader();
         if (!(cl instanceof JarPluginClassLoader)) {
-            throw new IllegalStateException("JavaPlugin requires " + JarPluginClassLoader.class.getName() + " class loader");
+            throw new IllegalStateException("To initialize JarPlugin with no-param constructor, it must load using JarPluginClassLoaderP");
         }
         JarPluginClassLoader loader = (JarPluginClassLoader) cl;
         description = loader.getDescription();
-        classLoader = cl;
+        classLoader = loader;
         pluginManager = loader.getPluginManager();
         logger = new JarPluginLogger(LOGGER, description);
     }
@@ -75,5 +75,10 @@ public class JarPlugin implements Plugin {
         } else {
             onDisable();
         }
+    }
+
+    @Override
+    public int compareTo(@NotNull JarPlugin o) {
+        return description.compareTo(o.description);
     }
 }

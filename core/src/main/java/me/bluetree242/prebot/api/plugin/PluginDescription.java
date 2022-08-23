@@ -1,4 +1,4 @@
-package me.bluetree242.prebot.plugin;
+package me.bluetree242.prebot.api.plugin;
 
 import org.jetbrains.annotations.NotNull;
 

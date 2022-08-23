@@ -1,8 +1,8 @@
 package me.bluetree242.prebot.core;
 
 import lombok.Getter;
-import me.bluetree242.prebot.LoggerProvider;
-import me.bluetree242.prebot.PreBot;
+import me.bluetree242.prebot.api.LoggerProvider;
+import me.bluetree242.prebot.api.PreBot;
 import me.bluetree242.prebot.core.plugin.MainPluginManager;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.slf4j.Logger;

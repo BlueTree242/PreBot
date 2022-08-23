@@ -1,8 +1,8 @@
 package me.bluetree242.prebot.core.plugin;
 
 import lombok.Getter;
-import me.bluetree242.prebot.exceptions.InvalidPluginException;
-import me.bluetree242.prebot.plugin.PluginDescription;
+import me.bluetree242.prebot.api.exceptions.InvalidPluginException;
+import me.bluetree242.prebot.api.plugin.PluginDescription;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;

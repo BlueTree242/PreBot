@@ -1,4 +1,4 @@
-package me.bluetree242.prebot.plugin;
+package me.bluetree242.prebot.api.plugin;
 
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -66,7 +66,7 @@ public interface Plugin {
     boolean isEnabled();
 
     /**
-     * Sets the enabled status. This method might call {@link PluginManager#enablePlugin(Plugin)} or {@link PluginManager#disablePlugin(Plugin)}
+     * Sets the enabled status. This method might call {@link me.bluetree242.prebot.api.plugin.PluginManager#enablePlugin(Plugin)} or {@link PluginManager#disablePlugin(Plugin)}
      *
      * @param enabled enable status to set
      */

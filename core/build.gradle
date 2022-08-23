@@ -14,3 +14,24 @@ dependencies {
     implementation('org.yaml:snakeyaml:1.30')
     implementation('org.slf4j:slf4j-api:2.0.0')
 }
+
+task packageJavadoc(type: Jar, dependsOn: 'javadoc') {
+    from javadoc.destinationDir
+    classifier = 'javadoc'
+}
+task packageSources(type: Jar, dependsOn: 'classes') {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+artifacts {
+    archives packageJavadoc
+    archives packageSources
+}
+
+tasks.getByName('javadoc') {
+    if (JavaVersion.VERSION_1_8 < JavaVersion.current()) {
+        options.addStringOption("-release", "8")
+        options.addBooleanOption("html5", true) // Adds search bar
+    }
+    exclude("me/bluetree242/prebot/core")
+}

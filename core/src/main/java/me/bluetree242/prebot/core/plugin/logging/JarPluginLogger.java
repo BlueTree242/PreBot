@@ -1,7 +1,7 @@
 package me.bluetree242.prebot.core.plugin.logging;
 
 import lombok.Getter;
-import me.bluetree242.prebot.plugin.PluginDescription;
+import me.bluetree242.prebot.api.plugin.PluginDescription;
 import org.slf4j.Logger;
 import org.slf4j.Marker;
 import org.slf4j.event.Level;

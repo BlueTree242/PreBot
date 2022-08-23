@@ -1,6 +1,6 @@
-package me.bluetree242.prebot;
+package me.bluetree242.prebot.api;
 
-import me.bluetree242.prebot.plugin.PluginManager;
+import me.bluetree242.prebot.api.plugin.PluginManager;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -42,7 +42,8 @@ public abstract class PreBot {
     public abstract ShardManager getShardManager();
 
     /**
-     * @return true if this instance is closed, and is useless now.
+     * if the instance is closed, if this is closed it means it is useless
+     * @return true if this instance is closed
      */
     public abstract boolean isClosed();
 

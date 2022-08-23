@@ -1,8 +1,7 @@
-package me.bluetree242.prebot.exceptions;
+package me.bluetree242.prebot.api.exceptions;
 
-import lombok.Getter;
-import me.bluetree242.prebot.LoggerProvider;
-import me.bluetree242.prebot.plugin.PluginDescription;
+import me.bluetree242.prebot.api.LoggerProvider;
+import me.bluetree242.prebot.api.plugin.PluginDescription;
 import org.slf4j.Logger;
 
 import java.util.Set;

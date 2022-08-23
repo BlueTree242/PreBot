@@ -2,16 +2,14 @@ package me.bluetree242.prebot.core.plugin;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import me.bluetree242.prebot.LoggerProvider;
+import me.bluetree242.prebot.api.LoggerProvider;
 import me.bluetree242.prebot.core.PreBotMain;
 import me.bluetree242.prebot.core.plugin.loader.JarPluginClassLoader;
-import me.bluetree242.prebot.core.plugin.logging.JarPluginLogger;
 import me.bluetree242.prebot.core.utils.Utils;
-import me.bluetree242.prebot.exceptions.InvalidPluginException;
-import me.bluetree242.prebot.exceptions.MissingDependenciesException;
-import me.bluetree242.prebot.plugin.Plugin;
-import me.bluetree242.prebot.plugin.PluginDescription;
-import me.bluetree242.prebot.plugin.PluginManager;
+import me.bluetree242.prebot.api.exceptions.InvalidPluginException;
+import me.bluetree242.prebot.api.exceptions.MissingDependenciesException;
+import me.bluetree242.prebot.api.plugin.Plugin;
+import me.bluetree242.prebot.api.plugin.PluginManager;
 import org.slf4j.Logger;
 import org.yaml.snakeyaml.Yaml;
 
@@ -79,7 +77,7 @@ public class MainPluginManager implements PluginManager {
         if (!missingDependencies.isEmpty()) {
             throw new MissingDependenciesException(descriptionFile, missingDependencies);
         }
-        JarPluginClassLoader loader = new JarPluginClassLoader(file);
+        JarPluginClassLoader loader = new JarPluginClassLoader(file, descriptionFile, this);
         //now get the main class out of it
         Class<JarPlugin> clazz;
         try {
@@ -92,7 +90,7 @@ public class MainPluginManager implements PluginManager {
         }
         JarPlugin plugin;
         try {
-            plugin = clazz.getConstructor(PluginDescription.class, ClassLoader.class, Logger.class, PluginManager.class).newInstance(descriptionFile, loader, new JarPluginLogger(LOGGER, descriptionFile), this);
+            plugin = clazz.getConstructor().newInstance();
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
                  NoSuchMethodException e) {
             throw new RuntimeException(e);

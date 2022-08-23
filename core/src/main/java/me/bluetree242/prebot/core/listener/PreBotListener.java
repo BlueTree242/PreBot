@@ -28,6 +28,7 @@ import me.bluetree242.jdaeventer.annotations.HandleEvent;
 import me.bluetree242.prebot.api.plugin.Plugin;
 import me.bluetree242.prebot.core.PreBotMain;
 import net.dv8tion.jda.api.events.ReadyEvent;
+import net.dv8tion.jda.api.events.ReconnectedEvent;
 
 import java.util.HashSet;
 
@@ -37,7 +38,14 @@ public class PreBotListener implements DiscordListener {
     @HandleEvent
     public void onReady(ReadyEvent e) {
         for (Plugin plugin : new HashSet<>(core.getPluginManager().getPlugins())) {
-            plugin.onShardOnline(e.getJDA());
+            plugin.onShardReady(e.getJDA());
+        }
+    }
+
+    @HandleEvent
+    public void onReconnect(ReconnectedEvent e) {
+        for (Plugin plugin : new HashSet<>(core.getPluginManager().getPlugins())) {
+            plugin.onShardReconnect(e.getJDA());
         }
     }
 }

@@ -29,6 +29,8 @@ import net.dv8tion.jda.api.sharding.ShardManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.concurrent.ThreadPoolExecutor;
+
 public abstract class PreBot {
 
     private static PreBot bot;
@@ -90,4 +92,11 @@ public abstract class PreBot {
      */
     @NotNull
     public abstract JDAEventer getEventer();
+
+    /**
+     *
+     * @return the executor PreBot uses. for events and more.
+     */
+    @NotNull
+    public abstract ThreadPoolExecutor getExecutor();
 }

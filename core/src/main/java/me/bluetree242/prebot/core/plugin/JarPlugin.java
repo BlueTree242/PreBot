@@ -75,7 +75,12 @@ public class JarPlugin implements Plugin, Comparable<JarPlugin> {
     }
 
     @Override
-    public void onShardOnline(JDA shard) {
+    public void onShardReady(JDA shard) {
+
+    }
+
+    @Override
+    public void onShardReconnect(JDA shard) {
 
     }
 

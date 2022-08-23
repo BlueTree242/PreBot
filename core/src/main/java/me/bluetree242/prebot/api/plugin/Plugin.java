@@ -51,10 +51,18 @@ public interface Plugin {
     void onDisable();
 
     /**
-     * Called when a shard gets online
-     * @param shard the shard that has just went online
+     * Called when a shard is ready
+     * @param shard the shard that has just went ready
+     * @see net.dv8tion.jda.api.events.ReadyEvent
      */
-    void onShardOnline(JDA shard);
+    void onShardReady(JDA shard);
+
+    /**
+     * Called when a shard has reconnected
+     * @param shard the shard that has just reconnected
+     * @see net.dv8tion.jda.api.events.ReconnectedEvent
+     */
+    void onShardReconnect(JDA shard);
 
     /**
      * Called directly after loading the plugin (all installed plugins should be loaded before that is called)

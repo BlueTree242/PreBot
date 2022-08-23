@@ -48,4 +48,10 @@ public interface PreBotConfig {
     @ConfDefault.DefaultString("playing with PreBot")
     @ConfComments("The Activity Status of the bot.")
     String activity_status();
+
+    @AnnotationBasedSorter.Order(30)
+    @ConfKey("executor-size")
+    @ConfDefault.DefaultInteger(5)
+    @ConfComments("The Number of threads in the executor thread pool. You need to increase this if the bot has more tasks to do at the same time (or many things happen so fast) for example public bots.")
+    int executor_size();
 }

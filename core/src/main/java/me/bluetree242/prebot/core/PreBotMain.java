@@ -37,6 +37,9 @@ import org.slf4j.Logger;
 
 import javax.security.auth.login.LoginException;
 import java.nio.file.Path;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+
 public class PreBotMain extends PreBot {
     private static final Logger LOGGER = LoggerProvider.getProvider().getLogger(PreBotMain.class);
     @Getter
@@ -51,6 +54,8 @@ public class PreBotMain extends PreBot {
     private ConfigManager<PreBotConfig> configManager;
     @Getter
     private final JDAEventer eventer = new JDAEventer();
+    @Getter
+    private ThreadPoolExecutor executor;
     public PreBotMain(Path rootDirectory) {
         this.rootDirectory = rootDirectory;
         start();
@@ -60,6 +65,7 @@ public class PreBotMain extends PreBot {
         LOGGER.info("Starting PreBot.. ");
         LOGGER.info("Loading configuration..");
         reloadConfig();
+        executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(config.executor_size());
         LOGGER.info("Loading Plugins..");
         pluginManager.loadPlugins();
         addListeners();
@@ -67,6 +73,7 @@ public class PreBotMain extends PreBot {
         builder.setEnableShutdownHook(false)
                 .setStatus(config.online_status())
                 .setActivity(getActivity())
+                .setEventPool(executor)
                 .addEventListeners(eventer.getRootListener());
         try {
             shardManager = builder.build(true);

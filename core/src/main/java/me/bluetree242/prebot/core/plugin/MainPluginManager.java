@@ -25,13 +25,13 @@ package me.bluetree242.prebot.core.plugin;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import me.bluetree242.prebot.api.LoggerProvider;
-import me.bluetree242.prebot.core.PreBotMain;
-import me.bluetree242.prebot.core.plugin.loader.JarPluginClassLoader;
-import me.bluetree242.prebot.core.utils.Utils;
 import me.bluetree242.prebot.api.exceptions.plugin.InvalidPluginException;
 import me.bluetree242.prebot.api.exceptions.plugin.MissingDependenciesException;
 import me.bluetree242.prebot.api.plugin.Plugin;
 import me.bluetree242.prebot.api.plugin.PluginManager;
+import me.bluetree242.prebot.core.PreBotMain;
+import me.bluetree242.prebot.core.plugin.loader.JarPluginClassLoader;
+import me.bluetree242.prebot.core.utils.Utils;
 import org.slf4j.Logger;
 import org.yaml.snakeyaml.Yaml;
 
@@ -150,7 +150,7 @@ public class MainPluginManager implements PluginManager {
             }
         }
         //now enable the plugins
-        for (Plugin plugin : plugins) {
+        for (Plugin plugin : plugins.stream().sorted().collect(Collectors.toList())) {
             try {
                 enablePlugin(plugin);
             } catch (Exception ex) {

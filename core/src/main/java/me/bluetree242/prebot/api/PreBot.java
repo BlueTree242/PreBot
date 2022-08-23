@@ -25,10 +25,12 @@ package me.bluetree242.prebot.api;
 import me.bluetree242.jdaeventer.JDAEventer;
 import me.bluetree242.prebot.api.plugin.PluginManager;
 import me.bluetree242.prebot.core.config.PreBotConfig;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Set;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public abstract class PreBot {
@@ -99,4 +101,16 @@ public abstract class PreBot {
      */
     @NotNull
     public abstract ThreadPoolExecutor getExecutor();
+
+    /**
+     * Requires intents to be enabled. Call this and the intent is guaranteed enabled when the bot starts.
+     * @param intents intents to require
+     */
+    public abstract void requireIntents(GatewayIntent... intents);
+
+    /**
+     * The intents that has been required. NOTE: This is unmodifiable after initialization of {@link ShardManager}
+     * @return the required gateway intents
+     */
+    public abstract Set<GatewayIntent> getIntents();
 }

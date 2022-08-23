@@ -24,6 +24,7 @@ package me.bluetree242.prebot.api.plugin;
 
 import me.bluetree242.prebot.api.PreBot;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
@@ -112,5 +113,14 @@ public interface Plugin {
      */
     default PreBot getPreBot() {
         return PreBot.getInstance();
+    }
+
+    /**
+     * Requires intents to be enabled. This must be done before initialization of {@link net.dv8tion.jda.api.sharding.ShardManager}, you should do that {@link Plugin#onEnable()}
+     * @param intents intents to require
+     * @see PreBot#requireIntents(GatewayIntent...) 
+     */
+    default void requireIntents(GatewayIntent... intents) {
+        getPreBot().requireIntents(intents);
     }
 }

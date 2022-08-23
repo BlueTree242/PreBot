@@ -31,12 +31,14 @@ import me.bluetree242.prebot.core.config.PreBotConfig;
 import me.bluetree242.prebot.core.listener.PreBotListener;
 import me.bluetree242.prebot.core.plugin.MainPluginManager;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.slf4j.Logger;
 
 import javax.security.auth.login.LoginException;
 import java.nio.file.Path;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -56,6 +58,8 @@ public class PreBotMain extends PreBot {
     private final JDAEventer eventer = new JDAEventer();
     @Getter
     private ThreadPoolExecutor executor;
+    @Getter
+    private Set<GatewayIntent> intents = new HashSet<>();
     public PreBotMain(Path rootDirectory) {
         this.rootDirectory = rootDirectory;
         start();
@@ -74,7 +78,9 @@ public class PreBotMain extends PreBot {
                 .setStatus(config.online_status())
                 .setActivity(getActivity())
                 .setEventPool(executor)
+                .enableIntents(intents)
                 .addEventListeners(eventer.getRootListener());
+        intents = Collections.unmodifiableSet(intents); //now it is unmodifiable
         try {
             shardManager = builder.build(true);
         } catch (LoginException e) {
@@ -104,5 +110,10 @@ public class PreBotMain extends PreBot {
         if (configManager == null) configManager = ConfigManager.create(rootDirectory, "config.yml", PreBotConfig.class);
         configManager.reloadConfig();
         config = configManager.getConfigData();
+    }
+
+    @Override
+    public void requireIntents(GatewayIntent... intents) {
+        Collections.addAll(this.intents, intents);
     }
 }

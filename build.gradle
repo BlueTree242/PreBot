@@ -6,7 +6,7 @@ plugins {
 repositories {
     mavenCentral()
 }
-group = 'me.bluetree242'
+group = 'me.bluetree242.prebot'
 allprojects {
     apply plugin: 'java'
     apply plugin: 'com.github.johnrengelman.shadow'

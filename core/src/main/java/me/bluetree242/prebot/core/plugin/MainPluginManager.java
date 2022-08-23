@@ -10,6 +10,7 @@ import me.bluetree242.prebot.core.utils.Utils;
 import me.bluetree242.prebot.exceptions.InvalidPluginException;
 import me.bluetree242.prebot.exceptions.MissingDependenciesException;
 import me.bluetree242.prebot.plugin.Plugin;
+import me.bluetree242.prebot.plugin.PluginDescription;
 import me.bluetree242.prebot.plugin.PluginManager;
 import org.slf4j.Logger;
 import org.yaml.snakeyaml.Yaml;
@@ -91,7 +92,7 @@ public class MainPluginManager implements PluginManager {
         }
         JarPlugin plugin;
         try {
-            plugin = clazz.getConstructor(JarPluginDescriptionFile.class, JarPluginClassLoader.class, JarPluginLogger.class, PluginManager.class).newInstance(descriptionFile, loader, new JarPluginLogger(LOGGER, descriptionFile), this);
+            plugin = clazz.getConstructor(PluginDescription.class, ClassLoader.class, Logger.class, PluginManager.class).newInstance(descriptionFile, loader, new JarPluginLogger(LOGGER, descriptionFile), this);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
                  NoSuchMethodException e) {
             throw new RuntimeException(e);

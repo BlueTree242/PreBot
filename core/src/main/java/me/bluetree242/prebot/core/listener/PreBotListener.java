@@ -38,14 +38,14 @@ public class PreBotListener implements DiscordListener {
     @HandleEvent
     public void onReady(ReadyEvent e) {
         for (Plugin plugin : new HashSet<>(core.getPluginManager().getPlugins())) {
-            plugin.onShardReady(e.getJDA());
+            if (plugin.isEnabled()) plugin.onShardReady(e.getJDA());
         }
     }
 
     @HandleEvent
     public void onReconnect(ReconnectedEvent e) {
         for (Plugin plugin : new HashSet<>(core.getPluginManager().getPlugins())) {
-            plugin.onShardReconnect(e.getJDA());
+            if (plugin.isEnabled()) plugin.onShardReconnect(e.getJDA());
         }
     }
 }

@@ -22,6 +22,7 @@
 
 package me.bluetree242.prebot.api.plugin;
 
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -78,4 +79,11 @@ public interface PluginDescription {
      */
     @NotNull
     List<String> getSoftDependencies();
+
+    /**
+     * The Gateway intents this plugin requires.
+     * @return The Gateway intents required for this plugin.
+     */
+    @NotNull
+    GatewayIntent[] getRequiredIntents();
 }

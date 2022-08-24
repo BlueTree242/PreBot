@@ -118,6 +118,7 @@ public class MainPluginManager implements PluginManager {
             throw new RuntimeException(e);
         }
         plugin.onLoad();
+        core.requireIntents(descriptionFile.getRequiredIntents()); //require the intents required by the plugin
         plugins.add(plugin);
     }
 

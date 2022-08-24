@@ -25,13 +25,11 @@ package me.bluetree242.prebot.core.plugin;
 import lombok.Getter;
 import me.bluetree242.prebot.api.exceptions.plugin.InvalidPluginException;
 import me.bluetree242.prebot.api.plugin.PluginDescription;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class JarPluginDescriptionFile implements PluginDescription, Comparable<JarPluginDescriptionFile> {
     @Getter
@@ -48,6 +46,8 @@ public class JarPluginDescriptionFile implements PluginDescription, Comparable<J
     private final List<String> softDependencies;
     @Getter
     private final File jarFile;
+    @Getter
+    private final GatewayIntent[] requiredIntents;
 
     @SuppressWarnings("unchecked")
     public JarPluginDescriptionFile(Map<String, Object> yml, File jarFile) {
@@ -63,6 +63,15 @@ public class JarPluginDescriptionFile implements PluginDescription, Comparable<J
         main = (String) yml.get("main");
         dependencies = Collections.unmodifiableList(yml.containsKey("dependencies") ? (List<String>) yml.get("dependencies") : new ArrayList<>());
         softDependencies = Collections.unmodifiableList(yml.containsKey("softdependencies") ? (List<String>) yml.get("softdependencies") : new ArrayList<>());
+        if (yml.containsKey("required-intents") && !(yml.get("required-intents") instanceof List)) throw new InvalidPluginException("Required intents must be a list of strings.");
+        if (yml.containsKey("required-intents")) requiredIntents = ((List<String>) yml.get("required-intents")).stream().map(i -> {
+            try {
+                return GatewayIntent.valueOf(i.toUpperCase(Locale.ROOT));
+            } catch (Exception x) {
+                throw new InvalidPluginException("Intent " + i + " is not valid!");
+            }
+        }).toArray(GatewayIntent[]::new);
+        else requiredIntents = new GatewayIntent[0];
     }
 
     private static boolean checkExists(String value, Map<String, Object> yml, Class<?> type) {

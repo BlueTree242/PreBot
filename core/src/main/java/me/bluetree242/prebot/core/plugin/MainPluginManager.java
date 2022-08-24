@@ -85,7 +85,7 @@ public class MainPluginManager implements PluginManager {
         return new JarPluginDescriptionFile(prebotFile, file);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "resource"})
     public void loadPlugin(JarPluginDescriptionFile descriptionFile, File file) throws MalformedURLException {
         LOGGER.info("Loading plugin {} v{}", descriptionFile.getName(), descriptionFile.getVersion());
         Set<String> missingDependencies = new HashSet<>();
@@ -122,6 +122,7 @@ public class MainPluginManager implements PluginManager {
         plugins.add(plugin);
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public void loadPlugins() {
         File directory = new File(core.getRootDirectory() + Utils.fileseparator() + "plugins");
         directory.mkdirs();

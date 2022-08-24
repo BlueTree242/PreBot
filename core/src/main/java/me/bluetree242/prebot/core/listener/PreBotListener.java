@@ -25,15 +25,22 @@ package me.bluetree242.prebot.core.listener;
 import lombok.RequiredArgsConstructor;
 import me.bluetree242.jdaeventer.DiscordListener;
 import me.bluetree242.jdaeventer.annotations.HandleEvent;
+import me.bluetree242.prebot.api.LoggerProvider;
 import me.bluetree242.prebot.api.plugin.Plugin;
 import me.bluetree242.prebot.core.PreBotMain;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.ReconnectedEvent;
+import net.dv8tion.jda.api.events.ShutdownEvent;
+import net.dv8tion.jda.api.requests.CloseCode;
+import net.dv8tion.jda.api.requests.GatewayIntent;
+import org.slf4j.Logger;
 
 import java.util.HashSet;
 
 @RequiredArgsConstructor
 public class PreBotListener implements DiscordListener {
+    private static final Logger LOGGER = LoggerProvider.getProvider().getLogger(PreBotListener.class);
     private final PreBotMain core;
     @HandleEvent
     public void onReady(ReadyEvent e) {
@@ -47,5 +54,32 @@ public class PreBotListener implements DiscordListener {
         for (Plugin plugin : new HashSet<>(core.getPluginManager().getPlugins())) {
             if (plugin.isEnabled()) plugin.onShardReconnect(e.getJDA());
         }
+    }
+
+    @HandleEvent
+    public void onShutdown(ShutdownEvent e) {
+        if (core.getShardManager() != null) {
+            long jdaRunning = core.getShardManager().getShardCache().stream().filter(s -> s.getStatus() != JDA.Status.SHUTDOWN && s.getStatus() != JDA.Status.SHUTTING_DOWN && s.getStatus() != JDA.Status.FAILED_TO_LOGIN).count();
+            if (jdaRunning == 0) {
+                if (e.getCloseCode() == CloseCode.DISALLOWED_INTENTS) {
+                    String[] intents = core.getIntents().stream().filter(i -> i == GatewayIntent.GUILD_PRESENCES || i == GatewayIntent.MESSAGE_CONTENT || i == GatewayIntent.GUILD_MEMBERS)
+                            .map(this::getFriendlyName).toArray(String[]::new);
+                    LOGGER.error("Your bot is not allowed to request one of these intents, please fix in your developer portal. ({})", String.join(", ", intents));
+                } else LOGGER.info("No Shards are running, or queued. Shutting down..");
+                core.getShardManager().shutdown();
+            }
+        }
+    }
+
+    private String getFriendlyName(GatewayIntent intent) {
+        switch (intent) {
+            case GUILD_PRESENCES:
+                return "Presence Intent";
+            case MESSAGE_CONTENT:
+                return "Message Content Intent";
+            case GUILD_MEMBERS:
+                return "Server Member Intent";
+        }
+        return intent.name();
     }
 }

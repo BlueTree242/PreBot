@@ -34,12 +34,14 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
 import javax.security.auth.login.LoginException;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class PreBotMain extends PreBot {
@@ -69,7 +71,16 @@ public class PreBotMain extends PreBot {
         LOGGER.info("Starting PreBot.. ");
         LOGGER.info("Loading configuration..");
         reloadConfig();
-        executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(config.executor_size());
+        executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(config.executor_size(), new ThreadFactory() {
+            int num = 0;
+            @Override
+            public Thread newThread(@NotNull Runnable r) {
+                Thread thread = new Thread(r);
+                thread.setName("PreBot-Executor-" + (num = num + 1));
+                thread.setDaemon(true);
+                return thread;
+            }
+        });
         LOGGER.info("Loading Plugins..");
         pluginManager.loadPlugins();
         addListeners();

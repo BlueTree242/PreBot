@@ -27,6 +27,7 @@ import me.bluetree242.jdaeventer.JDAEventer;
 import me.bluetree242.prebot.api.LoggerProvider;
 import me.bluetree242.prebot.api.PreBot;
 import me.bluetree242.prebot.api.config.ConfigManager;
+import me.bluetree242.prebot.api.events.ShardManagerPreBuildEvent;
 import me.bluetree242.prebot.core.config.PreBotConfig;
 import me.bluetree242.prebot.core.listener.PreBotListener;
 import me.bluetree242.prebot.core.plugin.MainPluginManager;
@@ -34,6 +35,7 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
@@ -90,7 +92,9 @@ public class PreBotMain extends PreBot {
                 .setActivity(getActivity())
                 .setEventPool(executor)
                 .enableIntents(intents)
+                .setMemberCachePolicy(MemberCachePolicy.OWNER)
                 .addEventListeners(eventer.getRootListener());
+        eventer.fireEvent(new ShardManagerPreBuildEvent(builder));
         intents = Collections.unmodifiableSet(intents); //now it is unmodifiable
         try {
             shardManager = builder.build(true);

@@ -20,8 +20,9 @@
  * END
  */
 
-package me.bluetree242.prebot.core.config;
+package me.bluetree242.prebot.config;
 
+import me.bluetree242.prebot.api.PreBot;
 import net.dv8tion.jda.api.OnlineStatus;
 import space.arim.dazzleconf.annote.ConfComments;
 import space.arim.dazzleconf.annote.ConfDefault;
@@ -29,6 +30,10 @@ import space.arim.dazzleconf.annote.ConfHeader;
 import space.arim.dazzleconf.annote.ConfKey;
 import space.arim.dazzleconf.sorter.AnnotationBasedSorter;
 
+/**
+ * The main configuration of PreBot.
+ * @see PreBot#getConfig()
+ */
 @ConfHeader("PreBot Configuration, Here everything is controlled.\n\n")
 public interface PreBotConfig {
 

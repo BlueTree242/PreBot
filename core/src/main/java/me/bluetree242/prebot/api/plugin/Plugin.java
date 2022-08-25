@@ -124,6 +124,7 @@ public interface Plugin {
      * Get the listeners registered by the plugin, this list is cleared after the plugin is disabled
      * @return the listeners registered by this plugin
      */
+    @NotNull
     Set<DiscordListener> getListeners();
 
     /**

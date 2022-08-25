@@ -24,7 +24,7 @@ package me.bluetree242.prebot.api;
 
 import me.bluetree242.jdaeventer.JDAEventer;
 import me.bluetree242.prebot.api.plugin.PluginManager;
-import me.bluetree242.prebot.core.config.PreBotConfig;
+import me.bluetree242.prebot.config.PreBotConfig;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
@@ -48,6 +48,9 @@ public abstract class PreBot {
     public static PreBot getInstance() {
         if (bot == null) throw new RuntimeException("Bot Implementation was not set");
         return bot;
+    }
+
+    protected PreBot() {
     }
 
     /**
@@ -97,7 +100,7 @@ public abstract class PreBot {
     public abstract JDAEventer getEventer();
 
     /**
-     *
+     * get the thread pool used to handle events and more
      * @return the executor PreBot uses. for events and more.
      */
     @NotNull

@@ -35,5 +35,10 @@ tasks.getByName('javadoc') {
         options.addStringOption("-release", "8")
         options.addBooleanOption("html5", true) // Adds search bar
     }
+    // Fix for https://stackoverflow.com/questions/52326318/maven-javadoc-search-redirects-to-undefined-url
+    if (JavaVersion.current() in JavaVersion.VERSION_11..JavaVersion.VERSION_12) {
+        options.addBooleanOption("-no-module-directories", true)
+    }
+    options.links('https://docs.oracle.com/javase/8/docs/api/', 'https://ci.dv8tion.net/job/JDA5/javadoc/', 'https://ci.bluetree242.ml/job/JDAEventer/javadoc/', 'https://www.javadoc.io/static/org.slf4j/slf4j-api/2.0.0/')
     exclude("me/bluetree242/prebot/core")
 }

@@ -53,6 +53,13 @@ public class MainPluginManager implements PluginManager {
     private final Set<Plugin> plugins = new HashSet<>();
 
     @Override
+    public void loadPlugin(File file) throws IOException, InvalidPluginException {
+        if (!file.getName().endsWith(".jar")) throw new IllegalArgumentException("File is not a jar file");
+        //load the plugin
+        loadPlugin(loadDescription(file), file);
+    }
+
+    @Override
     public void enablePlugin(Plugin plugin) {
         LOGGER.info("Enabling plugin {} v{}", plugin.getDescription().getName(), plugin.getDescription().getVersion());
         plugin.setEnabled(true);
@@ -67,7 +74,7 @@ public class MainPluginManager implements PluginManager {
         plugin.setEnabled(false);
     }
 
-    public JarPluginDescriptionFile loadDescription(File file) throws IOException {
+    public JarPluginDescriptionFile loadDescription(File file) throws IOException, MissingDependenciesException {
         if (!file.getName().endsWith(".jar")) throw new IllegalArgumentException("File is not a jar file");
         //get details from prebot.yml
         JarFile jar = new JarFile(file);

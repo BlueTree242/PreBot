@@ -28,7 +28,7 @@ import me.bluetree242.prebot.api.LoggerProvider;
 import me.bluetree242.prebot.api.PreBot;
 import me.bluetree242.prebot.api.config.ConfigManager;
 import me.bluetree242.prebot.api.events.ShardManagerPreBuildEvent;
-import me.bluetree242.prebot.core.config.PreBotConfig;
+import me.bluetree242.prebot.config.PreBotConfig;
 import me.bluetree242.prebot.core.listener.PreBotListener;
 import me.bluetree242.prebot.core.plugin.MainPluginManager;
 import net.dv8tion.jda.api.entities.Activity;

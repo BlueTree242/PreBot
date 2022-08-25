@@ -68,6 +68,7 @@ public class PreBotMain extends PreBot {
     @Getter
     private Set<CacheFlag> cacheFlags = new HashSet<>();
     public PreBotMain(Path rootDirectory) {
+        PreBot.setPreBot(this);
         this.rootDirectory = rootDirectory;
         start();
     }

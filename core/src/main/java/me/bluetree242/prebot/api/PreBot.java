@@ -59,7 +59,7 @@ public abstract class PreBot {
      *
      * @param prebot the instance to set
      */
-    public void setPreBot(@NotNull PreBot prebot) {
+    public static void setPreBot(@NotNull PreBot prebot) {
         if (bot != null)
             throw new UnsupportedOperationException("Instance is already set, and it is not closed.");
         bot = prebot;

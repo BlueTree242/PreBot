@@ -126,7 +126,8 @@ public class JarPlugin implements Plugin, Comparable<JarPlugin> {
 
     @Override
     public @Nullable PluginConfig getConfig(String name) {
-        return null;
+        if (!configs.containsKey(name)) throw new IllegalArgumentException(name + ".yml was never reloaded before, or failed to reload");
+        return configs.get(name);
     }
 
     @Override

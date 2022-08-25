@@ -26,7 +26,6 @@ import me.bluetree242.jdaeventer.DiscordListener;
 import me.bluetree242.prebot.api.PreBot;
 import net.dv8tion.jda.api.JDA;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
 import java.nio.file.Path;
@@ -155,11 +154,11 @@ public interface Plugin {
     /**
      * gets a config by its name.
      * @param name name of the config without extension
-     * @return the configuration, or null if it doesn't exist (or it was never reloaded)
+     * @return the configuration by name
+     * @throws IllegalArgumentException if the config by this name was never reloaded.
      * @see Plugin#reloadConfig(String, Class)
      */
-    @Nullable
-    PluginConfig getConfig(String name);
+    PluginConfig getConfig(String name) throws IllegalArgumentException;
 
     /**
      * reloads (or loads) a configuration by name
@@ -171,11 +170,11 @@ public interface Plugin {
 
     /**
      * gets the main config, the config.yml
-     * @return the configuration, or null if it doesn't exist (or it was never reloaded)
+     * @return your main configuration
+     * @throws IllegalArgumentException if the main config was never reloaded.
      * @see Plugin#reloadConfig(Class)
      */
-    @Nullable
-    default PluginConfig getConfig() {
+    default PluginConfig getConfig() throws IllegalArgumentException{
         return getConfig("config");
     }
 

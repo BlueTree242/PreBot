@@ -23,6 +23,7 @@
 package me.bluetree242.prebot.api.plugin;
 
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -86,4 +87,11 @@ public interface PluginDescription {
      */
     @NotNull
     GatewayIntent[] getRequiredIntents();
+
+    /**
+     * The Cache flags this plugin requires.
+     * @return The Cache flags required for this plugin.
+     */
+    @NotNull
+    CacheFlag[] getRequiredCacheFlags();
 }

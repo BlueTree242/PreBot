@@ -31,7 +31,7 @@ import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 /**
  * This event is right before we are about to build our {@link net.dv8tion.jda.api.sharding.ShardManager}.
  * You always receive that after we set up our listeners, plugin listeners activity, gateway intents and status.<br>
- * {@link PreBot#getIntents()} is still modifiable the time this event is fired.
+ * {@link PreBot#getIntents()} and {@link PreBot#getCacheFlags()} are still modifiable the time this event is fired.
  */
 @CustomEvent
 @RequiredArgsConstructor

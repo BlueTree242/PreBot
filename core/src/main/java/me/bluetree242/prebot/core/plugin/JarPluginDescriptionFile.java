@@ -26,6 +26,7 @@ import lombok.Getter;
 import me.bluetree242.prebot.api.exceptions.plugin.InvalidPluginException;
 import me.bluetree242.prebot.api.plugin.PluginDescription;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -48,6 +49,8 @@ public class JarPluginDescriptionFile implements PluginDescription, Comparable<J
     private final File jarFile;
     @Getter
     private final GatewayIntent[] requiredIntents;
+    @Getter
+    private final CacheFlag[] requiredCacheFlags;
 
     @SuppressWarnings("unchecked")
     public JarPluginDescriptionFile(Map<String, Object> yml, File jarFile) {
@@ -72,6 +75,15 @@ public class JarPluginDescriptionFile implements PluginDescription, Comparable<J
             }
         }).toArray(GatewayIntent[]::new);
         else requiredIntents = new GatewayIntent[0];
+        if (yml.containsKey("required-cache-flags") && !(yml.get("required-cache-flags") instanceof List)) throw new InvalidPluginException("Required Cache Flags must be a list of strings.");
+        if (yml.containsKey("required-cache-flags")) requiredCacheFlags = ((List<String>) yml.get("required-intents")).stream().map(c -> {
+            try {
+                return CacheFlag.valueOf(c.toUpperCase(Locale.ROOT));
+            } catch (Exception x) {
+                throw new InvalidPluginException("Cache flag " + c + " is not valid!");
+            }
+        }).toArray(CacheFlag[]::new);
+        else requiredCacheFlags = new CacheFlag[0];
     }
 
     private static boolean checkExists(String value, Map<String, Object> yml, Class<?> type) {

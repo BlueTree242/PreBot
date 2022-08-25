@@ -119,6 +119,7 @@ public class MainPluginManager implements PluginManager {
         }
         plugin.onLoad();
         core.requireIntents(descriptionFile.getRequiredIntents()); //require the intents required by the plugin
+        core.requireCacheFlags(descriptionFile.getRequiredCacheFlags());
         plugins.add(plugin);
     }
 

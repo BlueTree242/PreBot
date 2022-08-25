@@ -27,6 +27,7 @@ import me.bluetree242.prebot.api.plugin.PluginManager;
 import me.bluetree242.prebot.core.config.PreBotConfig;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.ShardManager;
+import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -113,4 +114,16 @@ public abstract class PreBot {
      * @return the required gateway intents
      */
     public abstract Set<GatewayIntent> getIntents();
+
+    /**
+     * Requires cache flags to be enabled. Call this and the cache flag is guaranteed enabled when the bot starts.
+     * @param cacheFlags cache flags to enable to require
+     */
+    public abstract void requireCacheFlags(CacheFlag... cacheFlags);
+
+    /**
+     * The cache flags that has been required. NOTE: This is unmodifiable after initialization of {@link ShardManager}
+     * @return the required cache flags
+     */
+    public abstract Set<CacheFlag> getCacheFlags();
 }

@@ -36,6 +36,7 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
+import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
@@ -64,6 +65,8 @@ public class PreBotMain extends PreBot {
     private ThreadPoolExecutor executor;
     @Getter
     private Set<GatewayIntent> intents = new HashSet<>();
+    @Getter
+    private Set<CacheFlag> cacheFlags = new HashSet<>();
     public PreBotMain(Path rootDirectory) {
         this.rootDirectory = rootDirectory;
         start();
@@ -93,9 +96,11 @@ public class PreBotMain extends PreBot {
                 .setEventPool(executor)
                 .enableIntents(intents)
                 .setMemberCachePolicy(MemberCachePolicy.OWNER)
+                .enableCache(cacheFlags)
                 .addEventListeners(eventer.getRootListener());
         eventer.fireEvent(new ShardManagerPreBuildEvent(builder));
         intents = Collections.unmodifiableSet(intents); //now it is unmodifiable
+        cacheFlags = Collections.unmodifiableSet(cacheFlags);
         try {
             shardManager = builder.build(true);
         } catch (LoginException e) {
@@ -130,5 +135,10 @@ public class PreBotMain extends PreBot {
     @Override
     public void requireIntents(GatewayIntent... intents) {
         Collections.addAll(this.intents, intents);
+    }
+
+    @Override
+    public void requireCacheFlags(CacheFlag... cacheFlags) {
+        Collections.addAll(this.cacheFlags, cacheFlags);
     }
 }

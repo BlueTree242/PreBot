@@ -25,9 +25,11 @@ package me.bluetree242.prebot.api.plugin;
 import me.bluetree242.prebot.api.PreBot;
 import me.bluetree242.prebot.api.exceptions.plugin.InvalidPluginException;
 import me.bluetree242.prebot.api.exceptions.plugin.MissingDependenciesException;
+import me.bluetree242.prebot.core.plugin.JarPluginDescriptionFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.Set;
 
 /**
@@ -40,11 +42,35 @@ public interface PluginManager {
      * Loads a plugin jar file
      *
      * @param file the jar file to load
-     * @throws IOException            if an IO exception occurs
+     * @throws IOException if an IO exception occurs
      * @throws InvalidPluginException if the plugin is not valid
      * @throws MissingDependenciesException if the plugin has dependencies that are missing
+     * @see PluginManager#loadDescription(File)
+     * @see PluginManager#loadPlugin(JarPluginDescriptionFile, File)
      */
-    void loadPlugin(File file) throws IOException, InvalidPluginException, MissingDependenciesException;
+   default void loadPlugin(File file) throws IOException, InvalidPluginException, MissingDependenciesException {
+       if (!file.getName().endsWith(".jar")) throw new IllegalArgumentException("File is not a jar file");
+       //load the plugin
+       loadPlugin(loadDescription(file), file);
+   }
+
+    /**
+     * Loads the jar file of a plugin, and adds it to the plugins list
+     * @param descriptionFile Plugin's Description
+     * @param file jar file fo the plugin, which will be loaded
+     * @throws MalformedURLException if the jar file is malformed
+     * @throws MissingDependenciesException if the plugin has dependencies that are not loaded
+     */
+    void loadPlugin(JarPluginDescriptionFile descriptionFile, File file) throws MalformedURLException, MissingDependenciesException;
+
+    /**
+     * Loads the Jar Description from the jar file
+     * @param file jar file to load
+     * @return the description of the plugin
+     * @throws IOException if an IO Error happens
+     * @throws InvalidPluginException If the plugin's description is not valid
+     */
+    JarPluginDescriptionFile loadDescription(File file) throws IOException, InvalidPluginException;
 
     /**
      * The set of plugins that exist, can be disabled

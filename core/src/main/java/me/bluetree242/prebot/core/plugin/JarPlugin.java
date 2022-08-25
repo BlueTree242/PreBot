@@ -24,6 +24,7 @@ package me.bluetree242.prebot.core.plugin;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import me.bluetree242.jdaeventer.DiscordListener;
 import me.bluetree242.prebot.api.LoggerProvider;
 import me.bluetree242.prebot.core.plugin.loader.JarPluginClassLoader;
 import me.bluetree242.prebot.core.plugin.logging.JarPluginLogger;
@@ -32,6 +33,9 @@ import me.bluetree242.prebot.api.plugin.PluginManager;
 import net.dv8tion.jda.api.JDA;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Represents a plugin which is a jar
@@ -48,7 +52,8 @@ public class JarPlugin implements Plugin, Comparable<JarPlugin> {
     @Getter
     private final PluginManager pluginManager;
     private boolean enabled = false;
-
+    @Getter
+    private final Set<DiscordListener> listeners = new HashSet<>();
     public JarPlugin() {
         final ClassLoader cl = this.getClass().getClassLoader();
         if (!(cl instanceof JarPluginClassLoader)) {

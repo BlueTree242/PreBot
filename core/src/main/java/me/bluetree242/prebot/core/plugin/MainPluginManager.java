@@ -52,21 +52,18 @@ public class MainPluginManager implements PluginManager {
     @Getter
     private final Set<Plugin> plugins = new HashSet<>();
 
-    public void loadPlugin(File file) throws IOException, MissingDependenciesException {
-        if (!file.getName().endsWith(".jar")) throw new IllegalArgumentException("File is not a jar file");
-        //load the plugin
-        loadPlugin(loadDescription(file), file);
-    }
-
     @Override
     public void enablePlugin(Plugin plugin) {
         LOGGER.info("Enabling plugin {} v{}", plugin.getDescription().getName(), plugin.getDescription().getVersion());
         plugin.setEnabled(true);
+        plugin.getListeners().forEach(l -> core.getEventer().addListener(l));
     }
 
     @Override
     public void disablePlugin(Plugin plugin) {
         LOGGER.info("Disabling plugin {} v{}", plugin.getDescription().getName(), plugin.getDescription().getVersion());
+        plugin.getListeners().forEach(l -> core.getEventer().removeListener(l));
+        plugin.getListeners().clear(); //clear all listeners
         plugin.setEnabled(false);
     }
 

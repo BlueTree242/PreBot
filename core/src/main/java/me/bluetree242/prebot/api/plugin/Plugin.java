@@ -22,10 +22,14 @@
 
 package me.bluetree242.prebot.api.plugin;
 
+import me.bluetree242.jdaeventer.DiscordListener;
 import me.bluetree242.prebot.api.PreBot;
 import net.dv8tion.jda.api.JDA;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -114,5 +118,28 @@ public interface Plugin {
      */
     default PreBot getPreBot() {
         return PreBot.getInstance();
+    }
+
+    /**
+     * Get the listeners registered by the plugin, this list is cleared after the plugin is disabled
+     * @return the listeners registered by this plugin
+     */
+    Set<DiscordListener> getListeners();
+
+    /**
+     * Registers a listener, by default this adds a listener to {@link Plugin#getListeners()}, which is cleared after the plugin is disabled.
+     * @param listeners listeners to register.
+     */
+    default void registerListeners(DiscordListener... listeners) {
+        Collections.addAll(getListeners(), listeners);
+    }
+
+    /**
+     * Removes a listener, by default this removes listeners from {@link Plugin#getListeners()}, which is cleared after the plugin is disabled.
+     * @param listeners listeners to remove.
+     */
+    default void removeListeners(DiscordListener... listeners) {
+        Set<DiscordListener> listenerSet = Arrays.stream(listeners).collect(Collectors.toSet());
+        getListeners().removeAll(listenerSet);
     }
 }

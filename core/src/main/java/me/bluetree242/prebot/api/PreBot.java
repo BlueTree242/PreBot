@@ -31,6 +31,7 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.nio.file.Path;
 import java.util.Set;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -129,4 +130,10 @@ public abstract class PreBot {
      * @return the required cache flags
      */
     public abstract Set<CacheFlag> getCacheFlags();
+
+    /**
+     * get the root directory of prebot, usually at the location of the application.
+     * @return the root directory of prebot
+     */
+    public abstract Path getRootDirectory();
 }

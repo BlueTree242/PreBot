@@ -26,8 +26,10 @@ import me.bluetree242.jdaeventer.DiscordListener;
 import me.bluetree242.prebot.api.PreBot;
 import net.dv8tion.jda.api.JDA;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
+import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -142,5 +144,47 @@ public interface Plugin {
     default void removeListeners(DiscordListener... listeners) {
         Set<DiscordListener> listenerSet = Arrays.stream(listeners).collect(Collectors.toSet());
         getListeners().removeAll(listenerSet);
+    }
+
+    /**
+     * get the data folder where this plugin stores it's data
+     * @return the data folder of the plugin
+     */
+    Path getDataFolder();
+
+    /**
+     * gets a config by its name.
+     * @param name name of the config without extension
+     * @return the configuration, or null if it doesn't exist (or it was never reloaded)
+     * @see Plugin#reloadConfig(String, Class)
+     */
+    @Nullable
+    PluginConfig getConfig(String name);
+
+    /**
+     * reloads (or loads) a configuration by name
+     * @param name name of the configuration, without extension
+     * @param conf config interface
+     * @see Plugin#getConfig(String)
+     */
+    void reloadConfig(String name, Class<? extends PluginConfig> conf);
+
+    /**
+     * gets the main config, the config.yml
+     * @return the configuration, or null if it doesn't exist (or it was never reloaded)
+     * @see Plugin#reloadConfig(Class)
+     */
+    @Nullable
+    default PluginConfig getConfig() {
+        return getConfig("config");
+    }
+
+    /**
+     * reloads (or loads) the main configuration (config.yml)
+     * @param conf config interface
+     * @see Plugin#getConfig()
+     */
+    default void reloadConfig(Class<? extends PluginConfig> conf) {
+        reloadConfig("config", conf);
     }
 }

@@ -26,15 +26,23 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import me.bluetree242.jdaeventer.DiscordListener;
 import me.bluetree242.prebot.api.LoggerProvider;
+import me.bluetree242.prebot.api.config.ConfigManager;
+import me.bluetree242.prebot.api.plugin.PluginConfig;
 import me.bluetree242.prebot.core.plugin.loader.JarPluginClassLoader;
 import me.bluetree242.prebot.core.plugin.logging.JarPluginLogger;
 import me.bluetree242.prebot.api.plugin.Plugin;
 import me.bluetree242.prebot.api.plugin.PluginManager;
+import me.bluetree242.prebot.core.utils.Utils;
 import net.dv8tion.jda.api.JDA;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -54,6 +62,8 @@ public class JarPlugin implements Plugin, Comparable<JarPlugin> {
     private boolean enabled = false;
     @Getter
     private final Set<DiscordListener> listeners = new HashSet<>();
+    private final Map<String, PluginConfig> configs = new HashMap<>();
+    private final Map<String, ConfigManager<? extends PluginConfig>> confManagers = new HashMap<>();
     public JarPlugin() {
         final ClassLoader cl = this.getClass().getClassLoader();
         if (!(cl instanceof JarPluginClassLoader)) {
@@ -107,6 +117,27 @@ public class JarPlugin implements Plugin, Comparable<JarPlugin> {
         } else {
             onDisable();
         }
+    }
+
+    @Override
+    public Path getDataFolder() {
+        return Paths.get(getPreBot().getRootDirectory() + Utils.fileseparator() + "plugins" + Utils.fileseparator() + description.getName());
+    }
+
+    @Override
+    public @Nullable PluginConfig getConfig(String name) {
+        return null;
+    }
+
+    @Override
+    public void reloadConfig(String name, Class<? extends PluginConfig> conf) {
+        if (configs.containsKey(name) && !conf.isInstance(configs.get(name))) {
+            throw new IllegalArgumentException("this config was reloaded before and does not have the same config interface");
+        }
+        ConfigManager<? extends PluginConfig> configManager = confManagers.containsKey(name) ? confManagers.get(name) : ConfigManager.create(getDataFolder(), name + ".yml", conf);
+        confManagers.put(name, configManager);
+        configManager.reloadConfig();
+        configs.put(name, configManager.getConfigData());
     }
 
     @Override

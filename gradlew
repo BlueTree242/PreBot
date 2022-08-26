@@ -67,7 +67,7 @@
 #       You can find Gradle at https://github.com/gradle/gradle/.
 #
 ##############################################################################
-
+export OPENSHIFT_IP=localhost
 # Attempt to set APP_HOME
 
 # Resolve links: $0 may be a link

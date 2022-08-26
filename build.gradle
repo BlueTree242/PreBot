@@ -27,7 +27,7 @@ allprojects {
     apply plugin: 'java'
     apply plugin: 'com.github.johnrengelman.shadow'
     apply plugin: 'maven-publish'
-    version = "${versionNoCommit}-${commit}${branch != 'origin/master' ? '-SNAPSHOT' : ''}"
+    version = "${versionNoCommit}${branch != 'origin/master' ? "-${commit}" : ''}${branch != 'origin/master' ? '-SNAPSHOT' : ''}"
     shadowJar {
         classifier ''
     }
@@ -65,8 +65,8 @@ subprojects{
                 repositories {
                     maven {
                         credentials {
-                            username = project.getProperty("REPO_USERNAME")
-                            password = project.getProperty("REPO_PASSWORD")
+                            username = project.properties['REPO_USERNAME']
+                            password = project.properties['REPO_PASSWORD']
                         }
 
                         url = "https://repo.bluetree242.ml/repository/maven-${branch != null && branch == 'origin/releases' ? "releases" : "snapshots"}/"

@@ -65,8 +65,8 @@ subprojects{
                 repositories {
                     maven {
                         credentials {
-                            username = project.properties['REPO_USERNAME']
-                            password = project.properties['REPO_PASSWORD']
+                            username = System.getenv('REPO_USERNAME')
+                            password = System.getenv('REPO_PASSWORD')
                         }
 
                         url = "https://repo.bluetree242.ml/repository/maven-${branch != null && branch == 'origin/releases' ? "releases" : "snapshots"}/"

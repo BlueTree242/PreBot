@@ -6,11 +6,28 @@ plugins {
 repositories {
     mavenCentral()
 }
+var isCI = project.properties["BUILD_NUMBER"] != null // jenkins
+        || System.getenv("BUILD_NUMBER") != null
+        || project.properties["GIT_COMMIT"] != null // jitpack
+        || System.getenv("GIT_COMMIT") != null
+var branch = isCI ? project.properties['GIT_BRANCH'] : null
+var major = 1
+var minor = 0
+var revision = 0
+var verClassifier = 'alpha'
+var versionNoCommit = "${major}.${minor}.${revision}_${verClassifier}"
+var commit = System.getenv("GIT_COMMIT") ?: project.project.properties["GIT_COMMIT"]
+if (isCI && commit != null)
+    commit = commit.substring(0, 7)
+else commit = 'LOCAL'
+System.out.println("Commit: " + commit)
+System.out.println("Branch: " + branch)
 group = 'me.bluetree242.prebot'
 allprojects {
     apply plugin: 'java'
     apply plugin: 'com.github.johnrengelman.shadow'
     apply plugin: 'maven-publish'
+    version = "${versionNoCommit}-${commit}${branch != 'origin/master' ? '-SNAPSHOT' : ''}"
     shadowJar {
         classifier ''
     }
@@ -26,7 +43,6 @@ allprojects {
         mavenCentral()
     }
 }
-
 subprojects{
     task packageJavadoc(type: Jar, dependsOn: 'javadoc') {
         dependsOn(javadoc)
@@ -46,6 +62,16 @@ subprojects{
                 from components.java
                 artifact(packageSources)
                 artifact(packageJavadoc)
+                repositories {
+                    maven {
+                        credentials {
+                            username = project.getProperty("REPO_USERNAME")
+                            password = project.getProperty("REPO_PASSWORD")
+                        }
+
+                        url = "https://repo.bluetree242.ml/repository/maven-${branch != null && branch == 'origin/releases' ? "releases" : "snapshots"}/"
+                    }
+                }
             }
         }
     }

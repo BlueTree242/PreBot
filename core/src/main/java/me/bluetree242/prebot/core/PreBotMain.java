@@ -96,7 +96,7 @@ public class PreBotMain extends PreBot {
                 .setActivity(getActivity())
                 .setEventPool(executor)
                 .enableIntents(intents)
-                .setMemberCachePolicy(MemberCachePolicy.OWNER)
+                .setMemberCachePolicy(MemberCachePolicy.VOICE.or(MemberCachePolicy.OWNER))
                 .enableCache(cacheFlags)
                 .addEventListeners(eventer.getRootListener());
         eventer.fireEvent(new ShardManagerPreBuildEvent(builder));

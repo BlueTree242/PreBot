@@ -35,6 +35,9 @@ import java.nio.file.Path;
 import java.util.Set;
 import java.util.concurrent.ThreadPoolExecutor;
 
+/**
+ * The main class of PreBot
+ */
 public abstract class PreBot {
 
     private static PreBot bot;
@@ -51,6 +54,9 @@ public abstract class PreBot {
         return bot;
     }
 
+    /**
+     * Only classes that extend PreBot may call this
+     */
     protected PreBot() {
     }
 

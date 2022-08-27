@@ -26,6 +26,10 @@ import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;
 
+/**
+ * This class Provides Loggers for PreBot.
+ * Plugins should never use this.
+ */
 public abstract class LoggerProvider {
     @Getter
     @Setter

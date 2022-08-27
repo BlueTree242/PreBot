@@ -4,7 +4,6 @@ PreBot is a Discord Bot Software made in java, PreBot alone does nothing,
 but you add your features by using plugins! plugins design are similar to bukkit, with most things simplified to you!
 
 # NOTE:
-
 This project is still in alpha, if you have any suggestions feel free to open a feature request on this github!
 
 # Installation
@@ -26,5 +25,5 @@ Use the following command to build PreBot from the source:
 
 Then you should find the standalone launcher in `launcher\build\libs`.
 
-```Making a PreBot Plugin```
+# Making a PreBot Plugin
 See the Instructions for making a PreBot Plugin [here](MAKING_PLUGIN.md)

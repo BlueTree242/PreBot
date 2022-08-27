@@ -22,6 +22,12 @@ if (isCI && commit != null)
 else commit = 'LOCAL'
 System.out.println("Commit: " + commit)
 System.out.println("Branch: " + branch)
+project.ext.set('branch', branch)
+project.ext.set('major', major)
+project.ext.set('minor', minor)
+project.ext.set('revision', revision)
+project.ext.set('verClassifier', verClassifier)
+project.ext.set('commit', commit)
 group = 'me.bluetree242.prebot'
 allprojects {
     apply plugin: 'java'

@@ -59,6 +59,7 @@ public class PreBotListener implements DiscordListener {
 
     @HandleEvent
     public void onShutdown(ShutdownEvent e) {
+        if (core.isStopped()) return;
         if (core.getShardManager() != null) {
             long jdaRunning = core.getShardManager().getShardCache().stream().filter(s -> s.getStatus() != JDA.Status.SHUTDOWN && s.getStatus() != JDA.Status.SHUTTING_DOWN && s.getStatus() != JDA.Status.FAILED_TO_LOGIN).count();
             if (jdaRunning == 0) {

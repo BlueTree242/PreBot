@@ -164,6 +164,12 @@ public abstract class PreBot {
     public abstract boolean isStopped();
 
     /**
+     * if prebot has started, and {@link PreBot#getShardManager()} has been initialized, this is always true even if {@link PreBot#isStopped()} is true.
+     * @return true if prebot has started, false otherwise
+     */
+    public abstract boolean isStarted();
+
+    /**
      * Starts to disable all plugins, and shuts down {@link PreBot#getShardManager()}
      */
     public abstract void stop();

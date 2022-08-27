@@ -22,6 +22,7 @@
 
 package me.bluetree242.prebot;
 
+import lombok.SneakyThrows;
 import me.bluetree242.prebot.api.LoggerProvider;
 import me.bluetree242.prebot.api.PreBot;
 import me.bluetree242.prebot.core.PreBotMain;
@@ -55,15 +56,19 @@ public class Main extends SimpleTerminalConsole{
         return !PreBot.getInstance().isStopped();
     }
 
+    @SneakyThrows
     @Override
     protected void runCommand(String command) {
         if (PreBot.getInstance() == null) return;
+        while (!PreBot.getInstance().isStarted()) Thread.sleep(100); //wait for prebot to start
         PreBot.getInstance().getConsoleCommandManager().executeConsoleCommand(command);
     }
 
+    @SneakyThrows
     @Override
     protected void shutdown() {
         if (PreBot.getInstance() == null || PreBot.getInstance().isStopped()) return;
+        while (!PreBot.getInstance().isStarted()) Thread.sleep(100); //wait for prebot to start
         PreBot.getInstance().stop();
     }
 }

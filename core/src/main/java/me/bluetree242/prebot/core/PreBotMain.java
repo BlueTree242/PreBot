@@ -23,6 +23,7 @@
 package me.bluetree242.prebot.core;
 
 import lombok.Getter;
+import lombok.SneakyThrows;
 import me.bluetree242.jdaeventer.JDAEventer;
 import me.bluetree242.prebot.api.LoggerProvider;
 import me.bluetree242.prebot.api.PreBot;
@@ -36,6 +37,7 @@ import me.bluetree242.prebot.core.consolecommands.StopConsoleCommand;
 import me.bluetree242.prebot.core.consolecommands.VersionConsoleCommand;
 import me.bluetree242.prebot.core.listener.PreBotListener;
 import me.bluetree242.prebot.core.plugin.MainPluginManager;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
@@ -78,6 +80,8 @@ public class PreBotMain extends PreBot {
     private final MainConsoleCommandManager consoleCommandManager = new MainConsoleCommandManager(this);
     @Getter
     private boolean stopped = false;
+    @Getter
+    private boolean started;
     public PreBotMain(Path rootDirectory) {
         PreBot.setPreBot(this);
         this.rootDirectory = rootDirectory;
@@ -107,7 +111,7 @@ public class PreBotMain extends PreBot {
         builder.setEnableShutdownHook(false)
                 .setStatus(config.online_status())
                 .setActivity(getActivity())
-                .setEventPool(executor)
+                .setEventPool(executor, false)
                 .enableIntents(intents)
                 .setMemberCachePolicy(MemberCachePolicy.VOICE.or(MemberCachePolicy.OWNER))
                 .enableCache(cacheFlags)
@@ -117,6 +121,7 @@ public class PreBotMain extends PreBot {
         cacheFlags = Collections.unmodifiableSet(cacheFlags);
         try {
             shardManager = builder.build(true);
+            started = true;
         } catch (LoginException e) {
             LOGGER.error("The provided token in config.yml is invalid. Please make sure the token is correct and try again.");
         }
@@ -162,10 +167,14 @@ public class PreBotMain extends PreBot {
         Collections.addAll(this.cacheFlags, cacheFlags);
     }
 
+    @SneakyThrows
     @Override
     public void stop() {
+        if (stopped) return; //already stopped/stopping
         LOGGER.info("Shutting down PreBot..");
         stopped = true;
+        //make sure no shards are reconnecting
+        while (shardManager.getShards().stream().anyMatch(j -> j.getStatus() != JDA.Status.CONNECTED && j.getStatus() != JDA.Status.DISCONNECTED)) Thread.sleep(100);
         pluginManager.disablePlugins();
         shardManager.shutdown();
     }

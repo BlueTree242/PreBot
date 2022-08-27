@@ -26,6 +26,7 @@ import me.bluetree242.prebot.api.LoggerProvider;
 import me.bluetree242.prebot.api.PreBot;
 import me.bluetree242.prebot.core.PreBotMain;
 import net.minecrell.terminalconsole.SimpleTerminalConsole;
+import net.minecrell.terminalconsole.TerminalConsoleAppender;
 import org.slf4j.Logger;
 
 import java.nio.file.Paths;
@@ -41,6 +42,7 @@ public class Main extends SimpleTerminalConsole{
     }
 
     public static void main(String[] args) {
+        TerminalConsoleAppender.isAnsiSupported(); //this initializes terminal
         Thread thread = new Thread(() -> new Main().start());
         thread.setDaemon(true);
         thread.setName("PreBot-Command-Listener");

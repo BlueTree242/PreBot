@@ -26,7 +26,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class InvalidSyntaxException extends RuntimeException{
+public class InvalidSyntaxException extends RuntimeException {
     @Getter
     private final String config;
 

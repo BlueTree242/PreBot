@@ -1,4 +1,5 @@
 # Requirements
+
 1. An IDE
 2. Java 8+
 3. Experience with how java works
@@ -9,6 +10,7 @@
 2. Add the repo and dependency to your build.gradle/pom.xml
 
 ## For Maven:
+
 ```xml
   <repositories>
         <repository>
@@ -31,6 +33,7 @@
 Replace VERSION with the prebot version you use.
 
 ## For Gradle
+
 ```groovy
 repositories {
     mavenCentral()
@@ -39,6 +42,7 @@ repositories {
     }
 }
 ```
+
 ```groovy
 dependencies {
     compileOnly 'me.bluetree242.prebot:core:VERSION'
@@ -86,10 +90,13 @@ public class MainClass extends JarPlugin {
 ```
 
 # Logging
+
 If you want to log something using your plugin, please use `getLogger()` method available in your main class instance.
 
 # Configuration
-Configuration in PreBot uses [DazzleConf](https://github.com/A248/DazzleConf). This library makes life with configuration easier
+
+Configuration in PreBot uses [DazzleConf](https://github.com/A248/DazzleConf). This library makes life with
+configuration easier
 
 To create a config.yml, create a config interface (more details on dazzleconf's github).
 Extend `PluginConfiguration` in your interface. here is an example
@@ -120,6 +127,7 @@ After that, you must reload your config on enable, this is how:
 ```
 
 ## Multiple Configurations
+
 Here is an example if you want your config to be named `otherconfig.yml`
 
 ```java
@@ -158,10 +166,12 @@ public class ListenerClass implements DiscordListener {
 }
 ```
 
-**NOTE: Listeners are removed when plugin is disabled, which means you will not receive events if the plugin is disabled**
+**NOTE: Listeners are removed when plugin is disabled, which means you will not receive events if the plugin is
+disabled**
 
 # Custom Events
 
 Custom events are simple in PreBot (and JDAEventer generally). All you have to do is to make
 your event class, and annotate it with `CustomEvent`. you can fire it using `JDAEventer#fireEvent`.
-You can get JDAEventer instance using `PreBot#getJDAEventer`. And you can get PreBot instance using `PreBot#getInstance` static method or `JarPlugin#getPreBot.
+You can get JDAEventer instance using `PreBot#getJDAEventer`. And you can get PreBot instance using `PreBot#getInstance`
+static method or `JarPlugin#getPreBot.

@@ -32,6 +32,7 @@ import space.arim.dazzleconf.sorter.AnnotationBasedSorter;
 
 /**
  * The main configuration of PreBot.
+ *
  * @see PreBot#getConfig()
  */
 @ConfHeader("PreBot Configuration, Here everything is controlled.\n\n")

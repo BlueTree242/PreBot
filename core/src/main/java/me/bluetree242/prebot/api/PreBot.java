@@ -43,6 +43,12 @@ public abstract class PreBot {
     private static PreBot bot;
 
     /**
+     * Only classes that extend PreBot may call this
+     */
+    protected PreBot() {
+    }
+
+    /**
      * gets the current instance of PreBot
      *
      * @return the instance of PreBot currently running
@@ -52,12 +58,6 @@ public abstract class PreBot {
     public static PreBot getInstance() {
         if (bot == null) throw new RuntimeException("Bot Implementation was not set");
         return bot;
-    }
-
-    /**
-     * Only classes that extend PreBot may call this
-     */
-    protected PreBot() {
     }
 
     /**
@@ -94,6 +94,7 @@ public abstract class PreBot {
 
     /**
      * Returns the PreBot config
+     *
      * @return the prebot config
      */
     @NotNull
@@ -101,6 +102,7 @@ public abstract class PreBot {
 
     /**
      * The JDAEventer for this instance
+     *
      * @return The eventer instance.
      */
     @NotNull
@@ -108,6 +110,7 @@ public abstract class PreBot {
 
     /**
      * get the thread pool used to handle events and more
+     *
      * @return the executor PreBot uses. for events and more.
      */
     @NotNull
@@ -115,30 +118,35 @@ public abstract class PreBot {
 
     /**
      * Requires intents to be enabled. Call this and the intent is guaranteed enabled when the bot starts.
+     *
      * @param intents intents to require
      */
     public abstract void requireIntents(GatewayIntent... intents);
 
     /**
      * The intents that has been required. NOTE: This is unmodifiable after initialization of {@link ShardManager}
+     *
      * @return the required gateway intents
      */
     public abstract Set<GatewayIntent> getIntents();
 
     /**
      * Requires cache flags to be enabled. Call this and the cache flag is guaranteed enabled when the bot starts.
+     *
      * @param cacheFlags cache flags to enable to require
      */
     public abstract void requireCacheFlags(CacheFlag... cacheFlags);
 
     /**
      * The cache flags that has been required. NOTE: This is unmodifiable after initialization of {@link ShardManager}
+     *
      * @return the required cache flags
      */
     public abstract Set<CacheFlag> getCacheFlags();
 
     /**
      * get the root directory of prebot, usually at the location of the application.
+     *
      * @return the root directory of prebot
      */
     public abstract Path getRootDirectory();

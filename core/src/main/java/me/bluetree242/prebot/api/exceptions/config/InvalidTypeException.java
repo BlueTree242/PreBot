@@ -26,7 +26,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class InvalidTypeException extends RuntimeException{
+public class InvalidTypeException extends RuntimeException {
     @Getter
     private final String config;
 

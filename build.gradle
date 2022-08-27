@@ -49,7 +49,7 @@ allprojects {
         mavenCentral()
     }
 }
-subprojects{
+subprojects {
     task packageJavadoc(type: Jar, dependsOn: 'javadoc') {
         dependsOn(javadoc)
         from javadoc.destinationDir

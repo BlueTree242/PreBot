@@ -27,11 +27,11 @@ import lombok.RequiredArgsConstructor;
 import me.bluetree242.jdaeventer.DiscordListener;
 import me.bluetree242.prebot.api.LoggerProvider;
 import me.bluetree242.prebot.api.config.ConfigManager;
+import me.bluetree242.prebot.api.plugin.Plugin;
 import me.bluetree242.prebot.api.plugin.PluginConfig;
+import me.bluetree242.prebot.api.plugin.PluginManager;
 import me.bluetree242.prebot.core.plugin.loader.JarPluginClassLoader;
 import me.bluetree242.prebot.core.plugin.logging.JarPluginLogger;
-import me.bluetree242.prebot.api.plugin.Plugin;
-import me.bluetree242.prebot.api.plugin.PluginManager;
 import me.bluetree242.prebot.core.utils.Utils;
 import net.dv8tion.jda.api.JDA;
 import org.jetbrains.annotations.NotNull;
@@ -59,11 +59,12 @@ public class JarPlugin implements Plugin, Comparable<JarPlugin> {
     private final JarPluginLogger logger;
     @Getter
     private final PluginManager pluginManager;
-    private boolean enabled = false;
     @Getter
     private final Set<DiscordListener> listeners = new HashSet<>();
     private final Map<String, PluginConfig> configs = new HashMap<>();
     private final Map<String, ConfigManager<? extends PluginConfig>> confManagers = new HashMap<>();
+    private boolean enabled = false;
+
     public JarPlugin() {
         final ClassLoader cl = this.getClass().getClassLoader();
         if (!(cl instanceof JarPluginClassLoader)) {
@@ -126,7 +127,8 @@ public class JarPlugin implements Plugin, Comparable<JarPlugin> {
 
     @Override
     public @Nullable PluginConfig getConfig(String name) {
-        if (!configs.containsKey(name)) throw new IllegalArgumentException(name + ".yml was never reloaded before, or failed to reload");
+        if (!configs.containsKey(name))
+            throw new IllegalArgumentException(name + ".yml was never reloaded before, or failed to reload");
         return configs.get(name);
     }
 

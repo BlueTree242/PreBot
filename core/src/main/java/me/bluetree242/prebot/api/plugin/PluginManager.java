@@ -32,6 +32,7 @@ import java.util.Set;
 
 /**
  * This interface is the plugin manager which manage plugins (core implements it)
+ *
  * @see PreBot#getPluginManager()
  */
 public interface PluginManager {
@@ -40,8 +41,8 @@ public interface PluginManager {
      * Loads a plugin jar file
      *
      * @param file the jar file to load
-     * @throws IOException            if an IO exception occurs
-     * @throws InvalidPluginException if the plugin is not valid
+     * @throws IOException                  if an IO exception occurs
+     * @throws InvalidPluginException       if the plugin is not valid
      * @throws MissingDependenciesException if the plugin has dependencies that are missing
      */
     void loadPlugin(File file) throws IOException, InvalidPluginException, MissingDependenciesException;

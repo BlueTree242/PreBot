@@ -29,7 +29,9 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
 import java.nio.file.Path;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -58,6 +60,7 @@ public interface Plugin {
     /**
      * Called when a shard is ready.
      * This is only called when plugin is enabled
+     *
      * @param shard the shard that has just went ready
      * @see net.dv8tion.jda.api.events.ReadyEvent
      */
@@ -66,6 +69,7 @@ public interface Plugin {
     /**
      * Called when a shard has reconnected.
      * This is only called when plugin is enabled
+     *
      * @param shard the shard that has just reconnected
      * @see net.dv8tion.jda.api.events.ReconnectedEvent
      */
@@ -114,6 +118,7 @@ public interface Plugin {
 
     /**
      * Provides the PreBot instance
+     *
      * @return the current prebot instance
      * @see PreBot#getInstance()
      */
@@ -123,6 +128,7 @@ public interface Plugin {
 
     /**
      * Get the listeners registered by the plugin, this list is cleared after the plugin is disabled
+     *
      * @return the listeners registered by this plugin
      */
     @NotNull
@@ -130,6 +136,7 @@ public interface Plugin {
 
     /**
      * Registers a listener, by default this adds a listener to {@link Plugin#getListeners()}, which is cleared after the plugin is disabled.
+     *
      * @param listeners listeners to register.
      */
     default void registerListeners(DiscordListener... listeners) {
@@ -138,6 +145,7 @@ public interface Plugin {
 
     /**
      * Removes a listener, by default this removes listeners from {@link Plugin#getListeners()}, which is cleared after the plugin is disabled.
+     *
      * @param listeners listeners to remove.
      */
     default void removeListeners(DiscordListener... listeners) {
@@ -147,12 +155,14 @@ public interface Plugin {
 
     /**
      * get the data folder where this plugin stores it's data
+     *
      * @return the data folder of the plugin
      */
     Path getDataFolder();
 
     /**
      * gets a config by its name.
+     *
      * @param name name of the config without extension
      * @return the configuration by name
      * @throws IllegalArgumentException if the config by this name was never reloaded.
@@ -162,6 +172,7 @@ public interface Plugin {
 
     /**
      * reloads (or loads) a configuration by name
+     *
      * @param name name of the configuration, without extension
      * @param conf config interface
      * @see Plugin#getConfig(String)
@@ -170,16 +181,18 @@ public interface Plugin {
 
     /**
      * gets the main config, the config.yml
+     *
      * @return your main configuration
      * @throws IllegalArgumentException if the main config was never reloaded.
      * @see Plugin#reloadConfig(Class)
      */
-    default PluginConfig getConfig() throws IllegalArgumentException{
+    default PluginConfig getConfig() throws IllegalArgumentException {
         return getConfig("config");
     }
 
     /**
      * reloads (or loads) the main configuration (config.yml)
+     *
      * @param conf config interface
      * @see Plugin#getConfig()
      */

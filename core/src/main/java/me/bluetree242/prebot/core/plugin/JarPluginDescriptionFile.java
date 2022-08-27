@@ -66,23 +66,27 @@ public class JarPluginDescriptionFile implements PluginDescription, Comparable<J
         main = (String) yml.get("main");
         dependencies = Collections.unmodifiableList(yml.containsKey("dependencies") ? (List<String>) yml.get("dependencies") : new ArrayList<>());
         softDependencies = Collections.unmodifiableList(yml.containsKey("softdependencies") ? (List<String>) yml.get("softdependencies") : new ArrayList<>());
-        if (yml.containsKey("required-intents") && !(yml.get("required-intents") instanceof List)) throw new InvalidPluginException("Required intents must be a list of strings.");
-        if (yml.containsKey("required-intents")) requiredIntents = ((List<String>) yml.get("required-intents")).stream().map(i -> {
-            try {
-                return GatewayIntent.valueOf(i.toUpperCase(Locale.ROOT));
-            } catch (Exception x) {
-                throw new InvalidPluginException("Intent " + i + " is not valid!");
-            }
-        }).toArray(GatewayIntent[]::new);
+        if (yml.containsKey("required-intents") && !(yml.get("required-intents") instanceof List))
+            throw new InvalidPluginException("Required intents must be a list of strings.");
+        if (yml.containsKey("required-intents"))
+            requiredIntents = ((List<String>) yml.get("required-intents")).stream().map(i -> {
+                try {
+                    return GatewayIntent.valueOf(i.toUpperCase(Locale.ROOT));
+                } catch (Exception x) {
+                    throw new InvalidPluginException("Intent " + i + " is not valid!");
+                }
+            }).toArray(GatewayIntent[]::new);
         else requiredIntents = new GatewayIntent[0];
-        if (yml.containsKey("required-cache-flags") && !(yml.get("required-cache-flags") instanceof List)) throw new InvalidPluginException("Required Cache Flags must be a list of strings.");
-        if (yml.containsKey("required-cache-flags")) requiredCacheFlags = ((List<String>) yml.get("required-intents")).stream().map(c -> {
-            try {
-                return CacheFlag.valueOf(c.toUpperCase(Locale.ROOT));
-            } catch (Exception x) {
-                throw new InvalidPluginException("Cache flag " + c + " is not valid!");
-            }
-        }).toArray(CacheFlag[]::new);
+        if (yml.containsKey("required-cache-flags") && !(yml.get("required-cache-flags") instanceof List))
+            throw new InvalidPluginException("Required Cache Flags must be a list of strings.");
+        if (yml.containsKey("required-cache-flags"))
+            requiredCacheFlags = ((List<String>) yml.get("required-intents")).stream().map(c -> {
+                try {
+                    return CacheFlag.valueOf(c.toUpperCase(Locale.ROOT));
+                } catch (Exception x) {
+                    throw new InvalidPluginException("Cache flag " + c + " is not valid!");
+                }
+            }).toArray(CacheFlag[]::new);
         else requiredCacheFlags = new CacheFlag[0];
     }
 

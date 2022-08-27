@@ -26,6 +26,7 @@ import lombok.Getter;
 import me.bluetree242.jdaeventer.JDAEventer;
 import me.bluetree242.prebot.api.LoggerProvider;
 import me.bluetree242.prebot.api.PreBot;
+import me.bluetree242.prebot.api.PreBotVersion;
 import me.bluetree242.prebot.api.config.ConfigManager;
 import me.bluetree242.prebot.api.events.ShardManagerPreBuildEvent;
 import me.bluetree242.prebot.config.PreBotConfig;
@@ -42,7 +43,9 @@ import org.slf4j.Logger;
 
 import javax.security.auth.login.LoginException;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -54,19 +57,20 @@ public class PreBotMain extends PreBot {
     @Getter
     private final MainPluginManager pluginManager = new MainPluginManager(this);
     @Getter
+    private final JDAEventer eventer = new JDAEventer();
+    @Getter
     private ShardManager shardManager;
     @Getter
     private PreBotConfig config;
     @Getter
     private ConfigManager<PreBotConfig> configManager;
     @Getter
-    private final JDAEventer eventer = new JDAEventer();
-    @Getter
     private ThreadPoolExecutor executor;
     @Getter
     private Set<GatewayIntent> intents = new HashSet<>();
     @Getter
     private Set<CacheFlag> cacheFlags = new HashSet<>();
+
     public PreBotMain(Path rootDirectory) {
         PreBot.setPreBot(this);
         this.rootDirectory = rootDirectory;
@@ -74,11 +78,12 @@ public class PreBotMain extends PreBot {
     }
 
     private void start() {
-        LOGGER.info("Starting PreBot.. ");
+        LOGGER.info("Starting PreBot {}...", PreBotVersion.VERSION);
         LOGGER.info("Loading configuration..");
         reloadConfig();
         executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(config.executor_size(), new ThreadFactory() {
             int num = 0;
+
             @Override
             public Thread newThread(@NotNull Runnable r) {
                 Thread thread = new Thread(r);
@@ -128,7 +133,8 @@ public class PreBotMain extends PreBot {
 
     @Override
     public void reloadConfig() {
-        if (configManager == null) configManager = ConfigManager.create(rootDirectory, "config.yml", PreBotConfig.class);
+        if (configManager == null)
+            configManager = ConfigManager.create(rootDirectory, "config.yml", PreBotConfig.class);
         configManager.reloadConfig();
         config = configManager.getConfigData();
     }

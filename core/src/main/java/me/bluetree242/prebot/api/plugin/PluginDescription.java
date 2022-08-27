@@ -83,6 +83,7 @@ public interface PluginDescription {
 
     /**
      * The Gateway intents this plugin requires.
+     *
      * @return The Gateway intents required for this plugin.
      */
     @NotNull
@@ -90,6 +91,7 @@ public interface PluginDescription {
 
     /**
      * The Cache flags this plugin requires.
+     *
      * @return The Cache flags required for this plugin.
      */
     @NotNull

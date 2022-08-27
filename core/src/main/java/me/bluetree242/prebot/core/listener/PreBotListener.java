@@ -42,6 +42,7 @@ import java.util.HashSet;
 public class PreBotListener implements DiscordListener {
     private static final Logger LOGGER = LoggerProvider.getProvider().getLogger(PreBotListener.class);
     private final PreBotMain core;
+
     @HandleEvent
     public void onReady(ReadyEvent e) {
         for (Plugin plugin : new HashSet<>(core.getPluginManager().getPlugins())) {

@@ -40,8 +40,8 @@ import java.nio.file.Path;
 public final class ConfigManager<C> {
 
     private final ConfigurationHelper<C> configHelper;
-    private volatile C configData;
     private final String fileName;
+    private volatile C configData;
 
     private ConfigManager(ConfigurationHelper<C> configHelper, String fileName) {
         this.configHelper = configHelper;

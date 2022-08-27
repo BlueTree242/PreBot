@@ -28,6 +28,7 @@ import me.bluetree242.prebot.api.PreBot;
 import me.bluetree242.prebot.api.commands.console.ConsoleCommand;
 import me.bluetree242.prebot.api.commands.console.ConsoleCommandManager;
 import me.bluetree242.prebot.api.commands.console.ConsoleCommandResponder;
+import me.bluetree242.prebot.api.plugin.commands.console.PluginConsoleCommand;
 
 import java.util.*;
 
@@ -45,7 +46,7 @@ public class MainConsoleCommandManager implements ConsoleCommandManager {
             String[] split = cmd.split(" ");
             String label = split[0];
             String[] args = Arrays.copyOfRange(split, 1, split.length);
-            ConsoleCommand command = commandsMap.get(label);
+            ConsoleCommand command = commandsMap.get(label.toLowerCase(Locale.ROOT));
             ConsoleCommandResponder responder = new ConsoleCommandResponder(command);
             if (command != null) {
                 command.execute(label, args, responder); //execute the command
@@ -60,10 +61,12 @@ public class MainConsoleCommandManager implements ConsoleCommandManager {
         for (ConsoleCommand command : commands) {
             this.commands.add(command);
             for (String alias : command.getAliases()) {
-                commandsMap.put(alias, command);
+                commandsMap.put(alias.toLowerCase(Locale.ROOT), command);
             }
-            commandsMap.put(command.getName(), command);
-            //TODO: add plugin prefix
+            commandsMap.put(command.getName().toLowerCase(Locale.ROOT), command);
+            if (command instanceof PluginConsoleCommand) {
+                commandsMap.put(((PluginConsoleCommand) command).getPlugin().getDescription().getName().toLowerCase(Locale.ROOT), command);
+            }
         }
     }
 

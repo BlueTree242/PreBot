@@ -24,6 +24,7 @@ package me.bluetree242.prebot.api.plugin;
 
 import me.bluetree242.jdaeventer.DiscordListener;
 import me.bluetree242.prebot.api.PreBot;
+import me.bluetree242.prebot.api.plugin.commands.console.PluginConsoleCommand;
 import net.dv8tion.jda.api.JDA;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -200,5 +201,13 @@ public interface Plugin extends Comparable<Plugin>{
      */
     default void reloadConfig(Class<? extends PluginConfig> conf) {
         reloadConfig("config", conf);
+    }
+
+    /**
+     * Registers console commands to PreBot, controlled by this plugin
+     * @param commands commands to register
+     */
+    default void registerConsoleCommands(PluginConsoleCommand... commands) {
+        getPreBot().getConsoleCommandManager().registerCommands(commands);
     }
 }

@@ -20,17 +20,29 @@
  * END
  */
 
-package me.bluetree242.prebot.core.command.console;
+package me.bluetree242.prebot.api.plugin.commands.console;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import me.bluetree242.prebot.api.commands.console.ConsoleCommand;
-@RequiredArgsConstructor
-public abstract class PreBotConsoleCommand implements ConsoleCommand {
+import me.bluetree242.prebot.api.plugin.Plugin;
+
+public abstract class PluginConsoleCommand implements ConsoleCommand {
     @Getter
     private final String name;
     @Getter
     private final String[] aliases;
     @Getter
     private final String description;
+    private final Plugin plugin;
+    public PluginConsoleCommand(Plugin plugin, String name, String description, String... aliases) {
+        this.plugin = null;
+        if (plugin == null) throw new IllegalArgumentException("Plugin may not be null.");
+        this.name = name;
+        this.aliases = aliases;
+        this.description = description;
+    }
+
+    public final Plugin getPlugin() {
+        return plugin;
+    }
 }

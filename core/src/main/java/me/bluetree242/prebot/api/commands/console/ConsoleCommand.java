@@ -48,6 +48,12 @@ public interface ConsoleCommand {
     @Nullable String getDescription();
 
     /**
+     * Gets the usage of the command. If the command requires an argument of name, and of type, this is the usage: &lt;name&gt; &lt;type&gt;
+     * @return command usage, null if usage is nothing
+     */
+    @Nullable String getUsage();
+
+    /**
      * Called when this command is executed
      * @param label label used to execute the command
      * @param args command arguments.

@@ -31,6 +31,7 @@ import me.bluetree242.prebot.api.config.ConfigManager;
 import me.bluetree242.prebot.api.events.ShardManagerPreBuildEvent;
 import me.bluetree242.prebot.config.PreBotConfig;
 import me.bluetree242.prebot.core.command.console.MainConsoleCommandManager;
+import me.bluetree242.prebot.core.consolecommands.HelpConsoleCommand;
 import me.bluetree242.prebot.core.consolecommands.StopConsoleCommand;
 import me.bluetree242.prebot.core.consolecommands.VersionConsoleCommand;
 import me.bluetree242.prebot.core.listener.PreBotListener;
@@ -125,7 +126,9 @@ public class PreBotMain extends PreBot {
         eventer.addListener(new PreBotListener(this));
     }
     private void addConsoleCommands() {
-        consoleCommandManager.registerCommands(new VersionConsoleCommand(this), new StopConsoleCommand(this));
+        consoleCommandManager.registerCommands(new VersionConsoleCommand(this)
+                , new StopConsoleCommand(this),
+                new HelpConsoleCommand(this));
     }
 
     public Activity getActivity() {

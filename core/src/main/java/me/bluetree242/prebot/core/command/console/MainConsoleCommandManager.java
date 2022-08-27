@@ -51,7 +51,7 @@ public class MainConsoleCommandManager implements ConsoleCommandManager {
             if (command != null) {
                 command.execute(label, args, responder); //execute the command
             } else {
-                responder.send("Unknown Command.");
+                responder.send("Unknown Command. Type \"?\" for list of existing commands.");
             }
         });
     }

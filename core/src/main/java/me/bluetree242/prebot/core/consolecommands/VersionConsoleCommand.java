@@ -31,7 +31,7 @@ import me.bluetree242.prebot.core.command.console.PreBotConsoleCommand;
 public class VersionConsoleCommand extends PreBotConsoleCommand {
     private final PreBot core;
     public VersionConsoleCommand(PreBot core) {
-        super("version", "Get the version of PreBot, or a plugin", "ver");
+        super("version", "Get the version of PreBot, or a plugin","[plugin]",  "ver");
         this.core = core;
     }
 

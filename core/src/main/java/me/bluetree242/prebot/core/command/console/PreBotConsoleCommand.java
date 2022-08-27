@@ -23,9 +23,8 @@
 package me.bluetree242.prebot.core.command.console;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import me.bluetree242.prebot.api.commands.console.ConsoleCommand;
-@RequiredArgsConstructor
+
 public abstract class PreBotConsoleCommand implements ConsoleCommand {
     @Getter
     private final String name;
@@ -33,4 +32,13 @@ public abstract class PreBotConsoleCommand implements ConsoleCommand {
     private final String[] aliases;
     @Getter
     private final String description;
+    @Getter
+    private final String usage;
+
+    public PreBotConsoleCommand(String name, String description, String usage, String... aliases) {
+        this.name = name;
+        this.aliases = aliases;
+        this.description = description;
+        this.usage = usage;
+    }
 }

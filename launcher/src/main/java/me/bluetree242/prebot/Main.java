@@ -23,12 +23,14 @@
 package me.bluetree242.prebot;
 
 import me.bluetree242.prebot.api.LoggerProvider;
+import me.bluetree242.prebot.api.PreBot;
 import me.bluetree242.prebot.core.PreBotMain;
+import net.minecrell.terminalconsole.SimpleTerminalConsole;
 import org.slf4j.Logger;
 
 import java.nio.file.Paths;
 
-public class Main {
+public class Main extends SimpleTerminalConsole{
     static {
         LoggerProvider.setProvider(new LoggerProvider() {
             @Override
@@ -39,6 +41,27 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        new PreBotMain(Paths.get("."));
+        Thread thread = new Thread(() -> new Main().start());
+        thread.setDaemon(true);
+        thread.setName("PreBot-Command-Listener");
+        thread.start(); //start listening for commands
+        PreBotMain prebot = new PreBotMain(Paths.get("."));
+    }
+    @Override
+    protected boolean isRunning() {
+        if (PreBot.getInstance() == null) return true;
+        return !PreBot.getInstance().isStopped();
+    }
+
+    @Override
+    protected void runCommand(String command) {
+        if (PreBot.getInstance() == null) return;
+        PreBot.getInstance().getConsoleCommandManager().executeConsoleCommand(command);
+    }
+
+    @Override
+    protected void shutdown() {
+        if (PreBot.getInstance() == null || PreBot.getInstance().isStopped()) return;
+        PreBot.getInstance().stop();
     }
 }

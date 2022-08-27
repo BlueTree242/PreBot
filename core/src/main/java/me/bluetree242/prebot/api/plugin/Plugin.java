@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -38,7 +39,7 @@ import java.util.stream.Collectors;
 /**
  * Represents a PreBot Plugin
  */
-public interface Plugin {
+public interface Plugin extends Comparable<Plugin>{
 
     /**
      * if the plugin is visible in the plugin list or not
@@ -122,8 +123,9 @@ public interface Plugin {
      * @return the current prebot instance
      * @see PreBot#getInstance()
      */
+    @NotNull
     default PreBot getPreBot() {
-        return PreBot.getInstance();
+        return Objects.requireNonNull(PreBot.getInstance());
     }
 
     /**

@@ -67,4 +67,11 @@ public interface PluginManager {
      * @param plugin Plugin to disable
      */
     void disablePlugin(Plugin plugin);
+
+    /**
+     * returns the plugin with this name
+     * @param name name of the plugin
+     * @return plugin with this name, null otherwise
+     */
+    Plugin getPluginByName(String name);
 }

@@ -23,6 +23,7 @@
 package me.bluetree242.prebot.api;
 
 import me.bluetree242.jdaeventer.JDAEventer;
+import me.bluetree242.prebot.api.commands.console.ConsoleCommandManager;
 import me.bluetree242.prebot.api.plugin.PluginManager;
 import me.bluetree242.prebot.config.PreBotConfig;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -49,14 +50,13 @@ public abstract class PreBot {
     }
 
     /**
-     * gets the current instance of PreBot
-     *
+     * gets the current instance of PreBot.
+     * This is never null when plugins are being loaded.
      * @return the instance of PreBot currently running
      * @throws RuntimeException if the implementation of PreBot is not set
      */
-    @NotNull
+    @Nullable
     public static PreBot getInstance() {
-        if (bot == null) throw new RuntimeException("Bot Implementation was not set");
         return bot;
     }
 
@@ -150,4 +150,21 @@ public abstract class PreBot {
      * @return the root directory of prebot
      */
     public abstract Path getRootDirectory();
+
+    /**
+     * The console command manager.
+     * @return the console command manager.
+     */
+    public abstract ConsoleCommandManager getConsoleCommandManager();
+
+    /**
+     * if prebot has stopped, or is being stopped
+     * @return true if prebot is stopped or being stopped, false otherwise
+     */
+    public abstract boolean isStopped();
+
+    /**
+     * Starts to disable all plugins, and shuts down {@link PreBot#getShardManager()}
+     */
+    public abstract void stop();
 }

@@ -74,6 +74,14 @@ public class MainPluginManager implements PluginManager {
         plugin.setEnabled(false);
     }
 
+    @Override
+    public Plugin getPluginByName(String name) {
+        for (Plugin plugin : plugins) {
+            if (plugin.getDescription().getName().equals(name)) return plugin;
+        }
+        return null;
+    }
+
     public JarPluginDescriptionFile loadDescription(File file) throws IOException, MissingDependenciesException {
         if (!file.getName().endsWith(".jar")) throw new IllegalArgumentException("File is not a jar file");
         //get details from prebot.yml
@@ -168,6 +176,13 @@ public class MainPluginManager implements PluginManager {
                     LOGGER.error("An error occurred while disabling " + plugin.getDescription().getName() + " v" + plugin.getDescription().getVersion(), ex);
                 }
             }
+        }
+    }
+
+    public void disablePlugins() {
+        List<Plugin> pluginsSorted = plugins.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+        for (Plugin plugin : pluginsSorted) {
+            if (plugin.isEnabled()) disablePlugin(plugin);
         }
     }
 }

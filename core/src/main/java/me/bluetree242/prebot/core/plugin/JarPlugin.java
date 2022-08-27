@@ -49,7 +49,7 @@ import java.util.Set;
  * Represents a plugin which is a jar
  */
 @RequiredArgsConstructor
-public class JarPlugin implements Plugin, Comparable<JarPlugin> {
+public class JarPlugin implements Plugin {
     private static final Logger LOGGER = LoggerProvider.getProvider().getLogger(Plugin.class);
     @Getter
     private final JarPluginDescriptionFile description;
@@ -144,7 +144,7 @@ public class JarPlugin implements Plugin, Comparable<JarPlugin> {
     }
 
     @Override
-    public int compareTo(@NotNull JarPlugin o) {
-        return description.compareTo(o.description);
+    public int compareTo(@NotNull Plugin o) {
+        return description.compareTo(o.getDescription());
     }
 }

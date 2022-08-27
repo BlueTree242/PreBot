@@ -30,6 +30,9 @@ import me.bluetree242.prebot.api.PreBotVersion;
 import me.bluetree242.prebot.api.config.ConfigManager;
 import me.bluetree242.prebot.api.events.ShardManagerPreBuildEvent;
 import me.bluetree242.prebot.config.PreBotConfig;
+import me.bluetree242.prebot.core.command.console.MainConsoleCommandManager;
+import me.bluetree242.prebot.core.consolecommands.StopConsoleCommand;
+import me.bluetree242.prebot.core.consolecommands.VersionConsoleCommand;
 import me.bluetree242.prebot.core.listener.PreBotListener;
 import me.bluetree242.prebot.core.plugin.MainPluginManager;
 import net.dv8tion.jda.api.entities.Activity;
@@ -70,7 +73,10 @@ public class PreBotMain extends PreBot {
     private Set<GatewayIntent> intents = new HashSet<>();
     @Getter
     private Set<CacheFlag> cacheFlags = new HashSet<>();
-
+    @Getter
+    private final MainConsoleCommandManager consoleCommandManager = new MainConsoleCommandManager(this);
+    @Getter
+    private boolean stopped = false;
     public PreBotMain(Path rootDirectory) {
         PreBot.setPreBot(this);
         this.rootDirectory = rootDirectory;
@@ -92,6 +98,7 @@ public class PreBotMain extends PreBot {
                 return thread;
             }
         });
+        addConsoleCommands();
         LOGGER.info("Loading Plugins..");
         pluginManager.loadPlugins();
         addListeners();
@@ -116,6 +123,9 @@ public class PreBotMain extends PreBot {
 
     private void addListeners() {
         eventer.addListener(new PreBotListener(this));
+    }
+    private void addConsoleCommands() {
+        consoleCommandManager.registerCommands(new VersionConsoleCommand(this), new StopConsoleCommand(this));
     }
 
     public Activity getActivity() {
@@ -147,5 +157,13 @@ public class PreBotMain extends PreBot {
     @Override
     public void requireCacheFlags(CacheFlag... cacheFlags) {
         Collections.addAll(this.cacheFlags, cacheFlags);
+    }
+
+    @Override
+    public void stop() {
+        LOGGER.info("Shutting down PreBot..");
+        stopped = true;
+        pluginManager.disablePlugins();
+        shardManager.shutdown();
     }
 }

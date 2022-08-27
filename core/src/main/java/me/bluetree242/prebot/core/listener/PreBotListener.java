@@ -67,7 +67,7 @@ public class PreBotListener implements DiscordListener {
                             .map(this::getFriendlyName).toArray(String[]::new);
                     LOGGER.error("Your bot is not allowed to request one of these intents, please fix in your developer portal. ({})", String.join(", ", intents));
                 } else LOGGER.info("No Shards are running, or queued. Shutting down..");
-                core.getShardManager().shutdown();
+                core.stop();
             }
         }
     }

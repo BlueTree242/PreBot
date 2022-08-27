@@ -32,7 +32,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.util.*;
 
-public class JarPluginDescriptionFile implements PluginDescription, Comparable<JarPluginDescriptionFile> {
+public class JarPluginDescriptionFile implements PluginDescription {
     @Getter
     private final String name;
     @Getter
@@ -100,7 +100,7 @@ public class JarPluginDescriptionFile implements PluginDescription, Comparable<J
     }
 
     @Override
-    public int compareTo(@NotNull JarPluginDescriptionFile plugin) {
+    public int compareTo(@NotNull PluginDescription plugin) {
         if (plugin.getDependencies().contains(name) || plugin.getSoftDependencies().contains(name)) return -1;
         else if (getDependencies().contains(plugin.getName()) || getSoftDependencies().contains(plugin.getName()))
             return 1;

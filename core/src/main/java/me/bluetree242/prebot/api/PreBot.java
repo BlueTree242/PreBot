@@ -170,7 +170,9 @@ public abstract class PreBot {
     public abstract boolean isStarted();
 
     /**
-     * Starts to disable all plugins, and shuts down {@link PreBot#getShardManager()}
+     * Starts to disable all plugins, and shuts down {@link PreBot#getShardManager()}<br>
+     * This is a blocking method, it will block the thread until all jda shards are connected (it's a bad idea to shut it down while shards are connecting)<br>
+     * This method does nothing if {@link PreBot#isStopped()} is true
      */
     public abstract void stop();
 }

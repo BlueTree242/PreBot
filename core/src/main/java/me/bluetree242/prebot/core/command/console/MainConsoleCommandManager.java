@@ -24,16 +24,19 @@ package me.bluetree242.prebot.core.command.console;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import me.bluetree242.prebot.api.LoggerProvider;
 import me.bluetree242.prebot.api.PreBot;
 import me.bluetree242.prebot.api.commands.console.ConsoleCommand;
 import me.bluetree242.prebot.api.commands.console.ConsoleCommandManager;
 import me.bluetree242.prebot.api.commands.console.ConsoleCommandResponder;
 import me.bluetree242.prebot.api.plugin.commands.console.PluginConsoleCommand;
+import org.slf4j.Logger;
 
 import java.util.*;
 
 @RequiredArgsConstructor
 public class MainConsoleCommandManager implements ConsoleCommandManager {
+    private static final Logger LOGGER = LoggerProvider.getProvider().getLogger(MainConsoleCommandManager.class);
     @Getter
     private final Set<ConsoleCommand> commands = new HashSet<>();
     @Getter
@@ -47,11 +50,18 @@ public class MainConsoleCommandManager implements ConsoleCommandManager {
             String label = split[0];
             String[] args = Arrays.copyOfRange(split, 1, split.length);
             ConsoleCommand command = commandsMap.get(label.toLowerCase(Locale.ROOT));
-            ConsoleCommandResponder responder = new ConsoleCommandResponder(command);
-            if (command != null) {
-                command.execute(label, args, responder); //execute the command
-            } else {
-                responder.send("Unknown Command. Type \"?\" for list of existing commands.");
+            try {
+                ConsoleCommandResponder responder = new ConsoleCommandResponder(command);
+                if (command != null) {
+                    if (command instanceof PluginConsoleCommand) {
+                        if (!((PluginConsoleCommand) command).getPlugin().isEnabled()) throw new IllegalStateException("Plugin is disabled");
+                    }
+                    command.execute(label, args, responder); //execute the command
+                } else {
+                    responder.send("Unknown Command. Type \"?\" for list of existing commands.");
+                }
+            } catch (Exception ex) {
+                LOGGER.error("An error occurred while executing console command \"" + cmd + "\"", ex);
             }
         });
     }

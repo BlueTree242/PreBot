@@ -135,10 +135,11 @@ public class MainPluginManager implements PluginManager {
         plugins.add(plugin);
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     public void loadPlugins() {
         File directory = new File(core.getRootDirectory() + Utils.fileseparator() + "plugins");
-        directory.mkdirs();
+        if (!directory.mkdirs() && !directory.exists()) {
+            throw new IllegalStateException("Failed to create plugins folder");
+        }
         File[] files = directory.listFiles(file1 -> file1.getName().endsWith(".jar") && !file1.isDirectory());
         if (files == null) throw new RuntimeException();
         Map<String, JarPluginDescriptionFile> descriptions = new HashMap<>();

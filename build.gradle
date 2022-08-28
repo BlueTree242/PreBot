@@ -35,7 +35,7 @@ allprojects {
     apply plugin: 'maven-publish'
     version = "${versionNoCommit}${branch != 'origin/master' ? "-${commit}" : ''}${branch != 'origin/master' ? '-SNAPSHOT' : ''}"
     shadowJar {
-        classifier ''
+        classifier 'withDependencies'
     }
     build.dependsOn shadowJar
     dependencies {

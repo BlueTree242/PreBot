@@ -28,6 +28,7 @@ import me.bluetree242.prebot.core.command.console.PreBotConsoleCommand;
 
 public class StopConsoleCommand extends PreBotConsoleCommand {
     private final PreBot core;
+
     public StopConsoleCommand(PreBot core) {
         super("stop", "Stops PreBot", null);
         this.core = core;

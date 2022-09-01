@@ -34,6 +34,7 @@ public abstract class PluginConsoleCommand implements ConsoleCommand {
     @Getter
     private final String description;
     private final Plugin plugin;
+
     public PluginConsoleCommand(Plugin plugin, String name, String description, String... aliases) {
         this.plugin = null;
         if (plugin == null) throw new IllegalArgumentException("Plugin may not be null.");

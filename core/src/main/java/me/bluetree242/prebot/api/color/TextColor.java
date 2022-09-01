@@ -48,11 +48,14 @@ public enum TextColor {
     DARK_GRAY("7"),
     BLACK("0"),
     RESET("r");
-    @Getter private final String code;
-    @Getter public static final String codePrefix = "§";
+    @Getter
+    public static final String codePrefix = "§";
+    @Getter
+    private final String code;
 
     /**
      * Strips any color codes from a message
+     *
      * @param s string to strip from
      * @return provided string but without any color codes
      */

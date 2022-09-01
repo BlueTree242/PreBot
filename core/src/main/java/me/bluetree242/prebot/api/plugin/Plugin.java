@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
 /**
  * Represents a PreBot Plugin
  */
-public interface Plugin extends Comparable<Plugin>{
+public interface Plugin extends Comparable<Plugin> {
 
     /**
      * if the plugin is visible in the plugin list or not
@@ -205,6 +205,7 @@ public interface Plugin extends Comparable<Plugin>{
 
     /**
      * Registers console commands to PreBot, controlled by this plugin
+     *
      * @param commands commands to register
      */
     default void registerConsoleCommands(PluginConsoleCommand... commands) {

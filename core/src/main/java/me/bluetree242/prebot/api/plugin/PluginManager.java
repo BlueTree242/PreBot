@@ -70,6 +70,7 @@ public interface PluginManager {
 
     /**
      * returns the plugin with this name
+     *
      * @param name name of the plugin
      * @return plugin with this name, null otherwise
      */

@@ -52,6 +52,7 @@ public abstract class PreBot {
     /**
      * gets the current instance of PreBot.
      * This is never null when plugins are being loaded.
+     *
      * @return the instance of PreBot currently running
      * @throws RuntimeException if the implementation of PreBot is not set
      */
@@ -153,18 +154,21 @@ public abstract class PreBot {
 
     /**
      * The console command manager.
+     *
      * @return the console command manager.
      */
     public abstract ConsoleCommandManager getConsoleCommandManager();
 
     /**
      * if prebot has stopped, or is being stopped
+     *
      * @return true if prebot is stopped or being stopped, false otherwise
      */
     public abstract boolean isStopped();
 
     /**
      * if prebot has started, and {@link PreBot#getShardManager()} has been initialized, this is always true even if {@link PreBot#isStopped()} is true.
+     *
      * @return true if prebot has started, false otherwise
      */
     public abstract boolean isStarted();

@@ -54,7 +54,8 @@ public class MainConsoleCommandManager implements ConsoleCommandManager {
                 ConsoleCommandResponder responder = new ConsoleCommandResponder(command);
                 if (command != null) {
                     if (command instanceof PluginConsoleCommand) {
-                        if (!((PluginConsoleCommand) command).getPlugin().isEnabled()) throw new IllegalStateException("Plugin is disabled");
+                        if (!((PluginConsoleCommand) command).getPlugin().isEnabled())
+                            throw new IllegalStateException("Plugin is disabled");
                     }
                     command.execute(label, args, responder); //execute the command
                 } else {

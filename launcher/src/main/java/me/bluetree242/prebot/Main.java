@@ -29,15 +29,16 @@ import me.bluetree242.prebot.core.PreBotMain;
 import net.minecrell.terminalconsole.SimpleTerminalConsole;
 import net.minecrell.terminalconsole.TerminalConsoleAppender;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.file.Paths;
 
-public class Main extends SimpleTerminalConsole{
+public class Main extends SimpleTerminalConsole {
     static {
         LoggerProvider.setProvider(new LoggerProvider() {
             @Override
             public Logger getLogger(Class<?> clz) {
-                return org.slf4j.LoggerFactory.getLogger(clz);
+                return LoggerFactory.getLogger(clz);
             }
         });
     }
@@ -50,6 +51,7 @@ public class Main extends SimpleTerminalConsole{
         thread.start(); //start listening for commands
         PreBotMain prebot = new PreBotMain(Paths.get("."));
     }
+
     @Override
     protected boolean isRunning() {
         if (PreBot.getInstance() == null) return true;

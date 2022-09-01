@@ -30,17 +30,20 @@ import java.util.Set;
 
 /**
  * This class controls console commands
+ *
  * @see ConsoleCommandManager
  */
 public interface ConsoleCommandManager {
     /**
      * Executes a console command, in {@link PreBot#getExecutor()}
+     *
      * @param cmd exact command to execute, as if it was written in the console.
      */
     void executeConsoleCommand(String cmd);
 
     /**
      * The registered Commands
+     *
      * @return the commands registered in this manager instance.
      * @see ConsoleCommandManager#registerCommands(ConsoleCommand...)
      */
@@ -49,6 +52,7 @@ public interface ConsoleCommandManager {
 
     /**
      * The commands in this manager. The Map's key is name, and aliases, and even pluginname:command, this means values can be duplicated in this map.
+     *
      * @return a map of all labels, values can be repeated.
      * @see ConsoleCommandManager#registerCommands(ConsoleCommand...)
      */
@@ -56,6 +60,7 @@ public interface ConsoleCommandManager {
 
     /**
      * Registers commands to the manager
+     *
      * @param commands commands to register
      */
     void registerCommands(ConsoleCommand... commands);

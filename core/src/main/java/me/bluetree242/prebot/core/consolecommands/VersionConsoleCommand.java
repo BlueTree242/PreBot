@@ -30,15 +30,16 @@ import me.bluetree242.prebot.core.command.console.PreBotConsoleCommand;
 
 public class VersionConsoleCommand extends PreBotConsoleCommand {
     private final PreBot core;
+
     public VersionConsoleCommand(PreBot core) {
-        super("version", "Get the version of PreBot, or a plugin","[plugin]",  "ver");
+        super("version", "Get the version of PreBot, or a plugin", "[plugin]", "ver");
         this.core = core;
     }
 
     @Override
     public void execute(String label, String[] args, ConsoleCommandResponder responder) {
         if (args.length == 0)
-        responder.send("Running PreBot §c" + PreBotVersion.VERSION);
+            responder.send("Running PreBot §c" + PreBotVersion.VERSION);
         else {
             String name = args[0];
             Plugin plugin = core.getPluginManager().getPluginByName(name);

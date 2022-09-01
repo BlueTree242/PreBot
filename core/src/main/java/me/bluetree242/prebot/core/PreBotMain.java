@@ -65,6 +65,8 @@ public class PreBotMain extends PreBot {
     @Getter
     private final JDAEventer eventer = new JDAEventer();
     @Getter
+    private final MainConsoleCommandManager consoleCommandManager = new MainConsoleCommandManager(this);
+    @Getter
     private ShardManager shardManager;
     @Getter
     private PreBotConfig config;
@@ -77,11 +79,10 @@ public class PreBotMain extends PreBot {
     @Getter
     private Set<CacheFlag> cacheFlags = new HashSet<>();
     @Getter
-    private final MainConsoleCommandManager consoleCommandManager = new MainConsoleCommandManager(this);
-    @Getter
     private boolean stopped = false;
     @Getter
     private boolean started;
+
     public PreBotMain(Path rootDirectory) {
         PreBot.setPreBot(this);
         this.rootDirectory = rootDirectory;
@@ -130,6 +131,7 @@ public class PreBotMain extends PreBot {
     private void addListeners() {
         eventer.addListener(new PreBotListener(this));
     }
+
     private void addConsoleCommands() {
         consoleCommandManager.registerCommands(new VersionConsoleCommand(this)
                 , new StopConsoleCommand(this),
@@ -174,7 +176,8 @@ public class PreBotMain extends PreBot {
         LOGGER.info("Shutting down PreBot..");
         stopped = true;
         //make sure no shards are reconnecting
-        while (shardManager.getShards().stream().anyMatch(j -> j.getStatus() != JDA.Status.CONNECTED && j.getStatus() != JDA.Status.DISCONNECTED)) Thread.sleep(100);
+        while (shardManager.getShards().stream().anyMatch(j -> j.getStatus() != JDA.Status.CONNECTED && j.getStatus() != JDA.Status.DISCONNECTED))
+            Thread.sleep(100);
         pluginManager.disablePlugins();
         LOGGER.info("Shutting down Shard Manager..");
         shardManager.shutdown();

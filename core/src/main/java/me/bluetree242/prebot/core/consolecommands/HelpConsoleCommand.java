@@ -33,6 +33,7 @@ import java.util.Locale;
 
 public class HelpConsoleCommand extends PreBotConsoleCommand {
     private final PreBot core;
+
     public HelpConsoleCommand(PreBot core) {
         super("help", "Get help with a command or list all existing console commands.", "[command]", "?");
         this.core = core;

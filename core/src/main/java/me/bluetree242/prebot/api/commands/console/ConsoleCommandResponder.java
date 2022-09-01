@@ -34,11 +34,12 @@ import org.slf4j.Logger;
 @RequiredArgsConstructor
 public class ConsoleCommandResponder {
     private static final Logger LOGGER = LoggerProvider.getProvider().getLogger(ConsoleCommandResponder.class);
-    @Getter(onMethod_={@Nullable})
+    @Getter(onMethod_ = {@Nullable})
     private final ConsoleCommand command;
 
     /**
      * Sends a response to the command
+     *
      * @param toSend Text to respond with
      */
     public void send(String toSend) {

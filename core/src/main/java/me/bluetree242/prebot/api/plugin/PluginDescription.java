@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * Represents Plugin Information
  */
-public interface PluginDescription extends Comparable<PluginDescription>{
+public interface PluginDescription extends Comparable<PluginDescription> {
 
     /**
      * The Version of the plugin

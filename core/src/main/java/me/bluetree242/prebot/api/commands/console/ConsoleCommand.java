@@ -31,32 +31,37 @@ import org.jetbrains.annotations.Nullable;
 public interface ConsoleCommand {
     /**
      * The name of the command
+     *
      * @return the name of the command
      */
     @NotNull String getName();
 
     /**
      * Other names this command owns.
+     *
      * @return Aliases of the command.
      */
     @NotNull String[] getAliases();
 
     /**
      * The description of the command
+     *
      * @return text that describes the command, might be null.
      */
     @Nullable String getDescription();
 
     /**
      * Gets the usage of the command. If the command requires an argument of name, and of type, this is the usage: &lt;name&gt; &lt;type&gt;
+     *
      * @return command usage, null if usage is nothing
      */
     @Nullable String getUsage();
 
     /**
      * Called when this command is executed
-     * @param label label used to execute the command
-     * @param args command arguments.
+     *
+     * @param label     label used to execute the command
+     * @param args      command arguments.
      * @param responder the responder attached to this event
      */
     void execute(String label, String[] args, ConsoleCommandResponder responder);

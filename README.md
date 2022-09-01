@@ -12,7 +12,7 @@ This project is still in alpha, if you have any suggestions feel free to open a 
 1. Download the latest dev build from the [Jenkins](https://ci.bluetree242.ml/job/PreBot),
    Download the `PreBot-VERSION.jar`. put it on your server root (you can use a java pterodactyl container egg).
 2. Set up a start script that starts the bot
-3. Start the bot, the configuration will be generated. Configure your token in `prebot.yml`
+3. Start the bot, the configuration will be generated. Configure your token in `config.yml`
 4. Put your plugins in the plugins folder
 5. Start the bot again, it should go online.
 

@@ -38,7 +38,7 @@ public class VersionConsoleCommand extends PreBotConsoleCommand {
     @Override
     public void execute(String label, String[] args, ConsoleCommandResponder responder) {
         if (args.length == 0)
-        responder.send("Running PreBot " + PreBotVersion.VERSION);
+        responder.send("Running PreBot §c" + PreBotVersion.VERSION);
         else {
             String name = args[0];
             Plugin plugin = core.getPluginManager().getPluginByName(name);

@@ -42,6 +42,6 @@ public class ConsoleCommandResponder {
      * @param toSend Text to respond with
      */
     public void send(String toSend) {
-        LOGGER.info(toSend);
+        LOGGER.info("§e{}", toSend);
     }
 }

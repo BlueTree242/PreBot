@@ -33,6 +33,7 @@ allprojects {
     apply plugin: 'java'
     apply plugin: 'com.github.johnrengelman.shadow'
     apply plugin: 'maven-publish'
+    compileJava.options.encoding 'UTF-8'
     version = "${versionNoCommit}${branch != 'origin/master' ? "-${commit}" : ''}${branch != 'origin/master' ? '-SNAPSHOT' : ''}"
     shadowJar {
         classifier 'withDependencies'

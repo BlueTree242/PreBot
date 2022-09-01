@@ -46,21 +46,21 @@ public class HelpConsoleCommand extends PreBotConsoleCommand {
             if (command == null) {
                 responder.send("This command does not exist");
             } else {
-                responder.send("Name: " + command.getName());
-                responder.send("Description: " + command.getDescription());
+                responder.send("Name: §r" + command.getName());
+                responder.send("Description: §r" + command.getDescription());
                 if (command.getUsage() != null) {
-                    responder.send("Usage: " + cmd + " " + command.getUsage());
+                    responder.send("Usage: §r" + cmd + " " + command.getUsage());
                 }
                 if (command instanceof PluginConsoleCommand) {
                     Plugin plugin = ((PluginConsoleCommand) command).getPlugin();
-                    responder.send("Plugin: " + plugin);
+                    responder.send("Plugin: §r" + plugin);
                 }
             }
             return;
         }
         responder.send("Listing all commands, run \"" + label + " <command> to get help for a specific command");
         for (ConsoleCommand command : core.getConsoleCommandManager().getCommands()) {
-            responder.send(command.getName() + ": " + command.getDescription());
+            responder.send(command.getName() + ": §r" + command.getDescription());
         }
     }
 }

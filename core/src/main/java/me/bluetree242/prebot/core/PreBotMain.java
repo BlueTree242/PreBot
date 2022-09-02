@@ -28,10 +28,12 @@ import me.bluetree242.jdaeventer.JDAEventer;
 import me.bluetree242.prebot.api.LoggerProvider;
 import me.bluetree242.prebot.api.PreBot;
 import me.bluetree242.prebot.api.PreBotVersion;
+import me.bluetree242.prebot.api.commands.discord.DiscordCommandManager;
 import me.bluetree242.prebot.api.config.ConfigManager;
 import me.bluetree242.prebot.api.events.ShardManagerPreBuildEvent;
 import me.bluetree242.prebot.config.PreBotConfig;
 import me.bluetree242.prebot.core.command.console.MainConsoleCommandManager;
+import me.bluetree242.prebot.core.command.discord.MainDiscordCommandManager;
 import me.bluetree242.prebot.core.consolecommands.HelpConsoleCommand;
 import me.bluetree242.prebot.core.consolecommands.StopConsoleCommand;
 import me.bluetree242.prebot.core.consolecommands.VersionConsoleCommand;
@@ -66,6 +68,8 @@ public class PreBotMain extends PreBot {
     private final JDAEventer eventer = new JDAEventer();
     @Getter
     private final MainConsoleCommandManager consoleCommandManager = new MainConsoleCommandManager(this);
+    @Getter
+    private final DiscordCommandManager discordCommandManager = new MainDiscordCommandManager(this);
     @Getter
     private ShardManager shardManager;
     @Getter
@@ -110,8 +114,8 @@ public class PreBotMain extends PreBot {
         addListeners();
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(config.token());
         builder.setEnableShutdownHook(false)
-                .setStatus(config.online_status())
-                .setActivity(getActivity())
+                .setStatusProvider(s -> config.online_status())
+                .setActivityProvider(s -> getActivity())
                 .setEventPool(executor, false)
                 .enableIntents(intents)
                 .setMemberCachePolicy(MemberCachePolicy.VOICE.or(MemberCachePolicy.OWNER))

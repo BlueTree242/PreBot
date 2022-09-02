@@ -46,9 +46,9 @@ public class VersionConsoleCommand extends PreBotConsoleCommand {
             if (plugin == null) {
                 responder.send("This plugin was not found");
             } else {
-                responder.send("Name: " + plugin.getDescription().getName());
-                responder.send("Version: " + plugin.getDescription().getVersion());
-                responder.send("Authors: " + String.join(", ", plugin.getDescription().getAuthors()));
+                responder.send("Name: §r" + plugin.getDescription().getName());
+                responder.send("Version: §r" + plugin.getDescription().getVersion());
+                responder.send("Authors: §r" + String.join(", ", plugin.getDescription().getAuthors()));
             }
         }
     }

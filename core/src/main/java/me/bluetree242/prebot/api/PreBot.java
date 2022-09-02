@@ -24,6 +24,7 @@ package me.bluetree242.prebot.api;
 
 import me.bluetree242.jdaeventer.JDAEventer;
 import me.bluetree242.prebot.api.commands.console.ConsoleCommandManager;
+import me.bluetree242.prebot.api.commands.discord.DiscordCommandManager;
 import me.bluetree242.prebot.api.plugin.PluginManager;
 import me.bluetree242.prebot.config.PreBotConfig;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -158,6 +159,12 @@ public abstract class PreBot {
      * @return the console command manager.
      */
     public abstract ConsoleCommandManager getConsoleCommandManager();
+
+    /**
+     * Get the discord command manager
+     * @return the discord command manager
+     */
+    public abstract DiscordCommandManager getDiscordCommandManager();
 
     /**
      * if prebot has stopped, or is being stopped

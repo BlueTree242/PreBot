@@ -161,6 +161,9 @@ public class MainPluginManager implements PluginManager {
                 loadPlugin(descriptionFile, descriptionFile.getJarFile());
             } catch (MissingDependenciesException e) {
                 e.log(); //log it instead of printing stack track
+            } catch (UnsupportedClassVersionError e) {
+                LOGGER.error("Failed to load plugin {} v{} because it requires a more modern version of java, please upgrade your java version and try again", descriptionFile.getName(), descriptionFile.getVersion());
+                if (LOGGER.isDebugEnabled()) e.printStackTrace();
             } catch (Throwable e) {
                 LOGGER.error("An error occurred while loading " + descriptionFile.getName() + " v" + descriptionFile.getVersion(), e);
             }

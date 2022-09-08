@@ -51,7 +51,7 @@ public interface DiscordCommand {
     CommandData getData();
 
     /**
-     * If this command is admin command. Admin Commands are commands only available for Admin guilds & Admin Users
+     * If this command is admin command. Admin Commands are commands only available for Admin guilds &amp; Admin Users
      *
      * @return true if command is admin, false otherwise
      */

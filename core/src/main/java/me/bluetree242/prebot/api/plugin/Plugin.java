@@ -208,7 +208,8 @@ public interface Plugin extends Comparable<Plugin> {
 
     /**
      * Registers some commands
-      * @param commands commands to register
+     *
+     * @param commands commands to register
      */
     default void registerCommands(PreBotDiscordCommand... commands) {
         getPreBot().getDiscordCommandManager().registerCommands(commands);

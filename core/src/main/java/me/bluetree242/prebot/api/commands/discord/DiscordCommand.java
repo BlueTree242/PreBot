@@ -35,6 +35,7 @@ public interface DiscordCommand {
 
     /**
      * The type of the command
+     *
      * @return the type of the command
      */
     @NotNull
@@ -44,18 +45,21 @@ public interface DiscordCommand {
 
     /**
      * The command data for this command
+     *
      * @return the command data
      */
     CommandData getData();
 
     /**
      * If this command is admin command. Admin Commands are commands only available for Admin guilds & Admin Users
+     *
      * @return true if command is admin, false otherwise
      */
     boolean isAdmin();
 
     /**
      * Check if command be registered in this guild. returns the opposite of {@link DiscordCommand#isAdmin()} by default
+     *
      * @param guild Guild to check
      * @return true if the command should be registered there, false otherwise.
      */
@@ -65,6 +69,7 @@ public interface DiscordCommand {
 
     /**
      * Called when this command was executed
+     *
      * @param event the event
      */
     void onCommand(@NotNull GenericCommandInteractionEvent event);

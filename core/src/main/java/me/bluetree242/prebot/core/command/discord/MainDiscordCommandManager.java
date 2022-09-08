@@ -35,18 +35,25 @@ import java.util.*;
 @RequiredArgsConstructor
 public class MainDiscordCommandManager implements DiscordCommandManager {
     private final PreBot core;
-    @Getter private final Set<DiscordCommand> commands = new HashSet<>();
-    @Getter private final Map<String, DiscordCommand> messageCommands = new HashMap<>();
-    @Getter private final Map<String, DiscordCommand> userCommands = new HashMap<>();
-    @Getter private final Map<String, SlashCommand> slashCommands = new HashMap<>();
+    @Getter
+    private final Set<DiscordCommand> commands = new HashSet<>();
+    @Getter
+    private final Map<String, DiscordCommand> messageCommands = new HashMap<>();
+    @Getter
+    private final Map<String, DiscordCommand> userCommands = new HashMap<>();
+    @Getter
+    private final Map<String, SlashCommand> slashCommands = new HashMap<>();
 
     @Override
     public void registerCommands(DiscordCommand... cmds) {
         Collections.addAll(commands, cmds);
         for (DiscordCommand cmd : cmds) {
-            if (cmd.getType() == Command.Type.SLASH && slashCommands.size() < 100) slashCommands.put(cmd.getData().getName(), (SlashCommand) cmd);
-            else if (cmd.getType() == Command.Type.MESSAGE && messageCommands.size() < 10) messageCommands.put(cmd.getData().getName(), cmd);
-            else if (cmd.getType() == Command.Type.USER && userCommands.size() < 10) userCommands.put(cmd.getData().getName(), cmd);
+            if (cmd.getType() == Command.Type.SLASH && slashCommands.size() < 100)
+                slashCommands.put(cmd.getData().getName(), (SlashCommand) cmd);
+            else if (cmd.getType() == Command.Type.MESSAGE && messageCommands.size() < 10)
+                messageCommands.put(cmd.getData().getName(), cmd);
+            else if (cmd.getType() == Command.Type.USER && userCommands.size() < 10)
+                userCommands.put(cmd.getData().getName(), cmd);
         }
     }
 }

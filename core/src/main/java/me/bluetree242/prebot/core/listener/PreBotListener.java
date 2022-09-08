@@ -88,7 +88,10 @@ public class PreBotListener implements DiscordListener {
             commands.addAll(core.getDiscordCommandManager().getMessageCommands().values());
             commands.addAll(core.getDiscordCommandManager().getUserCommands().values());
             commands.addAll(core.getDiscordCommandManager().getSlashCommands().values());
-            commands = commands.stream().filter(c -> c.canRegister(guild)).filter(c -> {if (core.isAdmin(guild)) return true; else return !c.isAdmin();}).collect(Collectors.toSet());
+            commands = commands.stream().filter(c -> c.canRegister(guild)).filter(c -> {
+                if (core.isAdmin(guild)) return true;
+                else return !c.isAdmin();
+            }).collect(Collectors.toSet());
             Set<CommandData> data = commands.stream().map(DiscordCommand::getData).collect(Collectors.toSet());
             Set<DiscordCommand> finalCommands = commands;
             actions.add(
@@ -145,9 +148,12 @@ public class PreBotListener implements DiscordListener {
     @HandleEvent(priority = HandlerPriority.MONITOR, ignoreCancelMark = true)
     public void onCommand(GenericCommandInteractionEvent e) {
         final DiscordCommand command;
-        if (e.getCommandType() == Command.Type.SLASH) command = core.getDiscordCommandManager().getSlashCommands().get(e.getName());
-        else if (e.getCommandType() == Command.Type.USER) command = core.getDiscordCommandManager().getUserCommands().get(e.getName());
-        else if (e.getCommandType() == Command.Type.MESSAGE) command = core.getDiscordCommandManager().getMessageCommands().get(e.getName());
+        if (e.getCommandType() == Command.Type.SLASH)
+            command = core.getDiscordCommandManager().getSlashCommands().get(e.getName());
+        else if (e.getCommandType() == Command.Type.USER)
+            command = core.getDiscordCommandManager().getUserCommands().get(e.getName());
+        else if (e.getCommandType() == Command.Type.MESSAGE)
+            command = core.getDiscordCommandManager().getMessageCommands().get(e.getName());
         else command = null;
         if (command == null) return;
         if (command instanceof PluginDiscordCommand) {
@@ -169,7 +175,7 @@ public class PreBotListener implements DiscordListener {
             } catch (Exception x) {
                 if (!e.isAcknowledged()) {
                     if (!core.isAdmin(e.getUser()))
-                    e.reply(":x: An error occurred. Please contact bot admins").setEphemeral(true).queue();
+                        e.reply(":x: An error occurred. Please contact bot admins").setEphemeral(true).queue();
                     else
                         e.reply(":x: An error occurred. Please check console for more details").setEphemeral(true).queue();
                 }

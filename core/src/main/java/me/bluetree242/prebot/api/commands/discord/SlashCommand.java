@@ -30,18 +30,20 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents a {@link DiscordCommand}, but as a slash command
  */
-public interface SlashCommand extends DiscordCommand{
+public interface SlashCommand extends DiscordCommand {
 
     SlashCommandData getData();
 
     /**
      * Called when the slash command is used
+     *
      * @param event slash command event
      */
     void onCommand(SlashCommandInteractionEvent event);
 
     /**
      * This redirects to {@link SlashCommand#onCommand(SlashCommandInteractionEvent)} <strong>DO NOT OVERRIDE THIS</strong>
+     *
      * @param event the event
      */
     @Override

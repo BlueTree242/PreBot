@@ -71,7 +71,7 @@ public class PreBotDiscordCommand implements SlashCommand {
                     .addField("Branch", PreBotVersion.BRANCH, true)
                     .addField("Current Shard", e.getJDA().getShardInfo().getShardId() + "", true)
                     .addField("Total Shards", e.getJDA().getShardInfo().getShardTotal() + "", true)
-                            .addField("Enabled Plugins", core.getPluginManager().getPlugins().stream().filter(Plugin::isEnabled).count() + "", false);
+                    .addField("Enabled Plugins", core.getPluginManager().getPlugins().stream().filter(Plugin::isEnabled).count() + "", false);
             e.replyEmbeds(embed.build()).setEphemeral(true).queue();
         }
     }

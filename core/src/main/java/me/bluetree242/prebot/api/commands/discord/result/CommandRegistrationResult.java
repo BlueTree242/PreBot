@@ -38,6 +38,7 @@ public class CommandRegistrationResult {
     private final Set<DiscordCommand> commands;
     private final boolean failed;
     private final Throwable exception;
+
     public CommandRegistrationResult(Guild guild, Set<CommandData> commandDatas, Set<DiscordCommand> commands) {
         this.guild = guild;
         this.commandDatas = commandDatas;
@@ -56,6 +57,7 @@ public class CommandRegistrationResult {
 
     /**
      * The guild where this result has happened
+     *
      * @return the guild
      */
     public Guild getGuild() {
@@ -64,6 +66,7 @@ public class CommandRegistrationResult {
 
     /**
      * The command data set that is registered in the guild
+     *
      * @return the command data set which is registered in the guild
      */
     public Set<CommandData> getCommandDatas() {
@@ -72,6 +75,7 @@ public class CommandRegistrationResult {
 
     /**
      * The Discord Commands that is registered in the guild
+     *
      * @return Discord commands registered in guild
      */
     public Set<DiscordCommand> getCommands() {
@@ -80,6 +84,7 @@ public class CommandRegistrationResult {
 
     /**
      * If this registration attempt failed
+     *
      * @return true if the registration failed, false otherwise
      */
     public boolean isFailed() {
@@ -88,6 +93,7 @@ public class CommandRegistrationResult {
 
     /**
      * The exception in case of failure, null if {@link CommandRegistrationResult#isFailed()} is false
+     *
      * @return the exception in case of failure, null otherwise.
      * @see CommandRegistrationResult#isFailed()
      */

@@ -30,7 +30,10 @@ import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 
 @RequiredArgsConstructor
 public abstract class PluginDiscordCommand implements DiscordCommand {
-    @Getter private final Plugin plugin;
-    @Getter private final CommandData data;
-    @Getter private final boolean admin;
+    @Getter
+    private final Plugin plugin;
+    @Getter
+    private final CommandData data;
+    @Getter
+    private final boolean admin;
 }

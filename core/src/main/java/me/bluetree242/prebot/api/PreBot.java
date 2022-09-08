@@ -164,6 +164,7 @@ public abstract class PreBot {
 
     /**
      * Get the discord command manager
+     *
      * @return the discord command manager
      */
     public abstract DiscordCommandManager getDiscordCommandManager();
@@ -191,6 +192,7 @@ public abstract class PreBot {
 
     /**
      * Check if guild is admin
+     *
      * @param guild guild to perform check on
      * @return true if guild is admin, false otherwise
      */
@@ -198,6 +200,7 @@ public abstract class PreBot {
 
     /**
      * Check if user is admin
+     *
      * @param user user to perform check on
      * @return true if user is admin, false otherwise
      */

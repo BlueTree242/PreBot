@@ -22,9 +22,10 @@
 
 package me.bluetree242.prebot.api.commands.discord;
 
+import net.dv8tion.jda.api.interactions.commands.Command;
+
 import java.util.Map;
 import java.util.Set;
-import net.dv8tion.jda.api.interactions.commands.Command;
 
 /**
  * Represents the Discord Command Manager
@@ -33,30 +34,35 @@ public interface DiscordCommandManager {
 
     /**
      * Returns evert single command, even ones that cannot be used
+     *
      * @return all existing commands
      */
     Set<DiscordCommand> getCommands();
 
     /**
      * All slash commands, while key is the identifier, and value is the command
+     *
      * @return all slash commands that exist in discord
      */
     Map<String, SlashCommand> getSlashCommands();
 
     /**
      * All context commands of type {@link Command.Type#MESSAGE}
+     *
      * @return all message commands that exist in discord
      */
     Map<String, DiscordCommand> getMessageCommands();
 
     /**
      * All context commands of type {@link Command.Type#MESSAGE}
+     *
      * @return all user commands that exist in discord
      */
     Map<String, DiscordCommand> getUserCommands();
 
     /**
      * Registers commands and puts them to their correct locations according to user configuration
+     *
      * @param cmd commands to register
      */
     void registerCommands(DiscordCommand... cmd);

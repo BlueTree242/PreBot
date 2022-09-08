@@ -35,10 +35,10 @@ import java.util.*;
 @RequiredArgsConstructor
 public class MainDiscordCommandManager implements DiscordCommandManager {
     private final PreBot core;
-    @Getter private Set<DiscordCommand> commands = new HashSet<>();
-    @Getter private Map<String, DiscordCommand> messageCommands = new HashMap<>();
-    @Getter private  Map<String, DiscordCommand> userCommands = new HashMap<>();
-    @Getter private  Map<String, SlashCommand> slashCommands = new HashMap<>();
+    @Getter private final Set<DiscordCommand> commands = new HashSet<>();
+    @Getter private final Map<String, DiscordCommand> messageCommands = new HashMap<>();
+    @Getter private final Map<String, DiscordCommand> userCommands = new HashMap<>();
+    @Getter private final Map<String, SlashCommand> slashCommands = new HashMap<>();
 
     @Override
     public void registerCommands(DiscordCommand... cmds) {

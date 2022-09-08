@@ -48,10 +48,4 @@ public interface SlashCommand extends DiscordCommand{
     default void onCommand(@NotNull GenericCommandInteractionEvent event) {
         onCommand((SlashCommandInteractionEvent) event);
     }
-
-    /**
-     * Usage of the command, just the options but in a user-friendly way, for example <strong><user> [reason]</strong>, cannot be null but can be empty
-     * @return usage of the command
-     */
-    @NotNull String getUsage();
 }

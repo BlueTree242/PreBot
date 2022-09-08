@@ -6,6 +6,7 @@ plugins {
 blossom {
     var verClass = "src/main/java/me/bluetree242/prebot/api/PreBotVersion.java"
     replaceToken("@versionMajor@", major, verClass)
+    replaceToken("@branch@", branch, verClass)
     replaceToken("@versionMinor@", minor, verClass)
     replaceToken("@versionRevision@", revision, verClass)
     replaceToken("@versionClassifier@", verClassifier, verClass)

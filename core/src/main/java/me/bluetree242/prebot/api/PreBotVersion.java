@@ -50,4 +50,9 @@ public class PreBotVersion {
      * The full PreBot version, this might contain -SNAPSHOT at the end.
      */
     public static final String VERSION = "@version@";
+
+    /**
+     * Branch name that was used when building, this is usually unknown when not built by a CI
+     */
+    public static final String BRANCH = "@branch@";
 }

@@ -30,6 +30,8 @@ import space.arim.dazzleconf.annote.ConfHeader;
 import space.arim.dazzleconf.annote.ConfKey;
 import space.arim.dazzleconf.sorter.AnnotationBasedSorter;
 
+import java.util.List;
+
 /**
  * The main configuration of PreBot.
  *
@@ -60,4 +62,16 @@ public interface PreBotConfig {
     @ConfDefault.DefaultInteger(5)
     @ConfComments("The Number of threads in the executor thread pool. You need to increase this if the bot has more tasks to do at the same time (or many things happen so fast) for example public bots.")
     int executor_size();
+
+    @AnnotationBasedSorter.Order(40)
+    @ConfKey("admin-guilds")
+    @ConfDefault.DefaultLongs({0})
+    @ConfComments("The Guilds for Admin Commands to be registered. These guilds will be considered as owned by the owner of the bot.")
+    List<Long> admin_guilds();
+
+    @AnnotationBasedSorter.Order(50)
+    @ConfKey("admin-users")
+    @ConfDefault.DefaultLongs({0})
+    @ConfComments("The Admin Users for the bot, these people might have special abilities.")
+    List<Long> admin_users();
 }

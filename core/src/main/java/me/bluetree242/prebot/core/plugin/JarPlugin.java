@@ -78,11 +78,6 @@ public class JarPlugin implements Plugin {
     }
 
     @Override
-    public final boolean isVisible() {
-        return true;
-    }
-
-    @Override
     public void onEnable() {
     }
 

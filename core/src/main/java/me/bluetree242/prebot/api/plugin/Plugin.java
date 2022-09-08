@@ -25,6 +25,7 @@ package me.bluetree242.prebot.api.plugin;
 import me.bluetree242.jdaeventer.DiscordListener;
 import me.bluetree242.prebot.api.PreBot;
 import me.bluetree242.prebot.api.plugin.commands.console.PluginConsoleCommand;
+import me.bluetree242.prebot.core.discordcommands.PreBotDiscordCommand;
 import net.dv8tion.jda.api.JDA;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -41,13 +42,6 @@ import java.util.stream.Collectors;
  * Represents a PreBot Plugin
  */
 public interface Plugin extends Comparable<Plugin> {
-
-    /**
-     * if the plugin is visible in the plugin list or not
-     *
-     * @return true if the plugin is visible in the plugin list
-     */
-    boolean isVisible();
 
     /**
      * Called when the plugin is being enabled
@@ -210,5 +204,13 @@ public interface Plugin extends Comparable<Plugin> {
      */
     default void registerConsoleCommands(PluginConsoleCommand... commands) {
         getPreBot().getConsoleCommandManager().registerCommands(commands);
+    }
+
+    /**
+     * Registers some commands
+      * @param commands commands to register
+     */
+    default void registerCommands(PreBotDiscordCommand... commands) {
+        getPreBot().getDiscordCommandManager().registerCommands(commands);
     }
 }

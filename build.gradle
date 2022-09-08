@@ -11,6 +11,7 @@ var isCI = project.properties["BUILD_NUMBER"] != null // jenkins
         || project.properties["GIT_COMMIT"] != null // jitpack
         || System.getenv("GIT_COMMIT") != null
 var branch = System.getenv("GIT_BRANCH") ?: project.project.properties["GIT_BRANCH"]
+if (branch == null) branch = "unknown";
 var major = 1
 var minor = 0
 var revision = 0

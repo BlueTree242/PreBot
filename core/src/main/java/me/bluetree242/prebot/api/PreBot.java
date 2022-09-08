@@ -27,6 +27,8 @@ import me.bluetree242.prebot.api.commands.console.ConsoleCommandManager;
 import me.bluetree242.prebot.api.commands.discord.DiscordCommandManager;
 import me.bluetree242.prebot.api.plugin.PluginManager;
 import me.bluetree242.prebot.config.PreBotConfig;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.UserSnowflake;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
@@ -186,4 +188,18 @@ public abstract class PreBot {
      * This method does nothing if {@link PreBot#isStopped()} is true
      */
     public abstract void stop();
+
+    /**
+     * Check if guild is admin
+     * @param guild guild to perform check on
+     * @return true if guild is admin, false otherwise
+     */
+    public abstract boolean isAdmin(Guild guild);
+
+    /**
+     * Check if user is admin
+     * @param user user to perform check on
+     * @return true if user is admin, false otherwise
+     */
+    public abstract boolean isAdmin(UserSnowflake user);
 }

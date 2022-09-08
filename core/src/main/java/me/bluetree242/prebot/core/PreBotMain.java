@@ -37,10 +37,13 @@ import me.bluetree242.prebot.core.command.discord.MainDiscordCommandManager;
 import me.bluetree242.prebot.core.consolecommands.HelpConsoleCommand;
 import me.bluetree242.prebot.core.consolecommands.StopConsoleCommand;
 import me.bluetree242.prebot.core.consolecommands.VersionConsoleCommand;
+import me.bluetree242.prebot.core.discordcommands.PreBotDiscordCommand;
 import me.bluetree242.prebot.core.listener.PreBotListener;
 import me.bluetree242.prebot.core.plugin.MainPluginManager;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.UserSnowflake;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
@@ -108,6 +111,7 @@ public class PreBotMain extends PreBot {
                 return thread;
             }
         });
+        addDiscordCommands();
         addConsoleCommands();
         LOGGER.info("Loading Plugins..");
         pluginManager.loadPlugins();
@@ -134,6 +138,10 @@ public class PreBotMain extends PreBot {
 
     private void addListeners() {
         eventer.addListener(new PreBotListener(this));
+    }
+
+    private void addDiscordCommands() {
+        getDiscordCommandManager().registerCommands(new PreBotDiscordCommand(this));
     }
 
     private void addConsoleCommands() {
@@ -185,5 +193,15 @@ public class PreBotMain extends PreBot {
         pluginManager.disablePlugins();
         LOGGER.info("Shutting down Shard Manager..");
         shardManager.shutdown();
+    }
+
+    @Override
+    public boolean isAdmin(Guild guild) {
+        return config.admin_guilds().contains(guild.getIdLong());
+    }
+
+    @Override
+    public boolean isAdmin(UserSnowflake user) {
+        return config.admin_users().contains(user.getIdLong());
     }
 }

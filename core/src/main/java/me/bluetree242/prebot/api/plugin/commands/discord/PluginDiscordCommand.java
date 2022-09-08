@@ -26,19 +26,11 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import me.bluetree242.prebot.api.commands.discord.DiscordCommand;
 import me.bluetree242.prebot.api.plugin.Plugin;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
-import org.jetbrains.annotations.NotNull;
 
 @RequiredArgsConstructor
 public abstract class PluginDiscordCommand implements DiscordCommand {
     @Getter private final Plugin plugin;
     @Getter private final CommandData data;
     @Getter private final boolean admin;
-
-    @Override
-    public boolean canRegister(@NotNull Guild guild) {
-        if (!plugin.isEnabled()) return false;
-        return DiscordCommand.super.canRegister(guild);
-    }
 }

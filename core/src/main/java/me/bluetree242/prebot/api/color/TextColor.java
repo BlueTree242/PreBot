@@ -32,26 +32,28 @@ import lombok.RequiredArgsConstructor;
  */
 @RequiredArgsConstructor
 public enum TextColor {
-    DARK_RED("4"),
-    RED("c"),
-    GOLD("6"),
-    YELLOW("e"),
-    DARK_GREEN("2"),
-    GREEN("a"),
-    AQUA("b"),
-    DARK_AQUA("3"),
-    DARK_BLUE("1"),
-    BLUE("9"),
-    LIGHT_PURPLE("d"),
-    WHITE("f"),
-    GRAY("7"),
-    DARK_GRAY("7"),
-    BLACK("0"),
-    RESET("r");
+    DARK_RED("4", "\u001B[0;31m"),
+    RED("c", "\u001B[0;31;1m"),
+    GOLD("6", "\u001B[0;33m"),
+    YELLOW("e", "\u001b[33m"),
+    DARK_GREEN("2", "\u001B[0;32m"),
+    GREEN("a", "\u001b[32m"),
+    AQUA("b", "\u001B[0;36;1m"),
+    DARK_AQUA("3", "\u001B[0;36m"),
+    DARK_BLUE("1", "\u001B[0;34m"),
+    BLUE("9", "\u001B[0;34;1m"),
+    LIGHT_PURPLE("d", "\u001B[0;35;1m"),
+    WHITE("f", "\u001B[0;37;1m"),
+    GRAY("7", "\u001B[0;37m"),
+    DARK_GRAY("8", "\u001B[0;30;1m"),
+    BLACK("0", "\u001B[0;30m"),
+    RESET("r", "\u001B[0m");
     @Getter
     public static final String codePrefix = "§";
     @Getter
     private final String code;
+    @Getter
+    private final String ansiCode;
 
     /**
      * Strips any color codes from a message

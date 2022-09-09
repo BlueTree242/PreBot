@@ -23,6 +23,7 @@
 package me.bluetree242.prebot.api.commands.discord.slash;
 
 import me.bluetree242.prebot.api.commands.discord.DiscordCommand;
+import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
@@ -50,5 +51,13 @@ public interface SlashCommand extends DiscordCommand {
     @Override
     default void onCommand(@NotNull GenericCommandInteractionEvent event) {
         onCommand((SlashCommandInteractionEvent) event);
+    }
+
+    /**
+     * Called when auto complete is requested for this command
+     * @param event the event
+     */
+    default void onAutoComplete(CommandAutoCompleteInteractionEvent event) {
+        //by default, nothing
     }
 }

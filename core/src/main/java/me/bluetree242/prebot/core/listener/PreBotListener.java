@@ -29,6 +29,7 @@ import me.bluetree242.jdaeventer.annotations.HandleEvent;
 import me.bluetree242.prebot.api.LoggerProvider;
 import me.bluetree242.prebot.api.commands.discord.DiscordCommand;
 import me.bluetree242.prebot.api.commands.discord.result.CommandRegistrationResult;
+import me.bluetree242.prebot.api.commands.discord.slash.SlashCommand;
 import me.bluetree242.prebot.api.plugin.Plugin;
 import me.bluetree242.prebot.api.plugin.commands.discord.PluginDiscordCommand;
 import me.bluetree242.prebot.core.PreBotMain;
@@ -37,6 +38,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.ReconnectedEvent;
 import net.dv8tion.jda.api.events.ShutdownEvent;
+import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.interactions.commands.Command;
@@ -181,6 +183,22 @@ public class PreBotListener implements DiscordListener {
                 }
                 LOGGER.error("An error occurred while executing command /" + command.getData().getName(), x);
             }
+        }
+    }
+
+    @HandleEvent(priority = HandlerPriority.MONITOR, ignoreCancelMark = true)
+    public void onAutoComplete(CommandAutoCompleteInteractionEvent e) {
+        SlashCommand command = core.getDiscordCommandManager().getSlashCommands().get(e.getName());
+        if (command == null) return;
+        if (command.isAdmin() && !core.isAdmin(e.getUser())) return;
+        if (command instanceof PluginDiscordCommand) {
+            Plugin plugin = ((PluginDiscordCommand) command).getPlugin();
+            if (!plugin.isEnabled()) return;
+        }
+        try {
+            command.onAutoComplete(e);
+        } catch (Exception x) {
+            LOGGER.error("An error occurred while auto completing command /" + command.getData().getName(), x);
         }
     }
 }

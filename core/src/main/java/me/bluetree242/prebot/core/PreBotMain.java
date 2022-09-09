@@ -35,6 +35,7 @@ import me.bluetree242.prebot.config.PreBotConfig;
 import me.bluetree242.prebot.core.command.console.MainConsoleCommandManager;
 import me.bluetree242.prebot.core.command.discord.MainDiscordCommandManager;
 import me.bluetree242.prebot.core.consolecommands.HelpConsoleCommand;
+import me.bluetree242.prebot.core.consolecommands.PluginsConsoleCommand;
 import me.bluetree242.prebot.core.consolecommands.StopConsoleCommand;
 import me.bluetree242.prebot.core.consolecommands.VersionConsoleCommand;
 import me.bluetree242.prebot.core.discordcommands.PreBotDiscordCommand;
@@ -145,9 +146,10 @@ public class PreBotMain extends PreBot {
     }
 
     private void addConsoleCommands() {
-        consoleCommandManager.registerCommands(new VersionConsoleCommand(this)
-                , new StopConsoleCommand(this),
-                new HelpConsoleCommand(this));
+        consoleCommandManager.registerCommands(new VersionConsoleCommand(this),
+                new StopConsoleCommand(this),
+                new HelpConsoleCommand(this),
+                new PluginsConsoleCommand(this));
     }
 
     public Activity getActivity() {

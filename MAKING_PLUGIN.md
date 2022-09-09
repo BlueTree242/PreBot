@@ -73,16 +73,19 @@ Example:
 
 ```java
 public class MainClass extends JarPlugin {
+    @Override
     public void onEnable() {
         //this is called when this plugin is enabling
     }
+    @Override
     public void onDisable() {
         //this is called when this plugin is disabling
     }
-    
+    @Override
     public void onShardReady(JDA shard) {
         //this is called when a jda shard is ready
     }
+    @Override
     public void onShardReconnect(JDA shard) {
         //this is called when a jda shard has reconnected
     }
@@ -115,11 +118,13 @@ After that, you must reload your config on enable, this is how:
 
 ```java
  public class MainClass extends JarPlugin {
+    @Override
     public void onEnable() {
         reloadConfig(Config.class);
         getLogger().info("Value: {}", getConfig().test()); //prints "It's Working!"
     }
-    
+
+    @Override
     public Config getConfig() {
         return (Config) super.getConfig(); //return your Config and not PluginConfig
     }
@@ -132,6 +137,7 @@ Here is an example if you want your config to be named `otherconfig.yml`
 
 ```java
  public class MainClass extends JarPlugin {
+    @Override
     public void onEnable() {
         reloadConfig("otherconfig", Config.class);
         getLogger().info("Value: {}", getOtherConfig().test()); //prints "It's Working!"
@@ -149,6 +155,7 @@ Event System is managed by [JDAEventer](https://github.com/BlueTree242/JDAEvente
 
 ```java
  public class MainClass extends JarPlugin {
+    @Override
     public void onEnable() {
         registerListeners(new ListenerClass()); 
     }
@@ -186,6 +193,7 @@ commands into the console command manager (there is a shortcut in your main clas
 
 ```java
  public class MainClass extends JarPlugin {
+    @Override
     public void onEnable() {
         registerConsoleCommands(new TestCommand(this)); 
     }
@@ -195,6 +203,7 @@ public class TestCommand extends PluginConsoleCommand {
         super(main, "test", "Test console command");
     }
 
+    @Override
     public void execute(String label, String[] args, ConsoleCommandResponder responder) {
         responder.send(TextColor.GREEN + "Console command Working!");
     }
@@ -208,6 +217,7 @@ Discord Commands are divided into 2 types, Slash Commands, and Context Commands,
 ### Slash Command
 ```java
 public class MainClass extends JarPlugin {
+    @Override
     public void onEnable() {
         registerCommand(new TestCommand(this)); 
     }
@@ -221,9 +231,17 @@ public class TestCommand extends PluginSlashCommand {
         );
     }
 
+    @Override
     public void onCommand(SlashCommandInteractionEvent event) {
         event.reply("Hello World!").setEphemeral(true).queue();
     }
+
+    //this is optional, to auto complete this command
+    @Override
+    public void onAutoComplete(CommandAutoCompleteInteractionEvent event) {
+        
+    }
+    
 }
 ```
 
@@ -244,6 +262,7 @@ public class TestCommand extends PluginMessageContextCommand {
         );
     }
 
+    @Override
     public void onCommand(MessageContextInteractionEvent event) {
         event.reply("Words: " + event.getTarget().getContentRaw().split("\\s+").length).setEphemeral(true).queue();
     }

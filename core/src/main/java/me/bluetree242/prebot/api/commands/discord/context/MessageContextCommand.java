@@ -25,6 +25,9 @@ package me.bluetree242.prebot.api.commands.discord.context;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionEvent;
 
+/**
+ * Represents a {@link ContextCommand}, but of type MESSAGE
+ */
 public interface MessageContextCommand extends ContextCommand<Message, MessageContextInteractionEvent> {
 
     @Override

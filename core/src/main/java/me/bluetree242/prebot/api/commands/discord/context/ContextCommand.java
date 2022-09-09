@@ -27,6 +27,9 @@ import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionE
 import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Represents a {@link DiscordCommand}, but as a context command
+ */
 public interface ContextCommand<T, E extends GenericContextInteractionEvent<T>> extends DiscordCommand {
 
     /**

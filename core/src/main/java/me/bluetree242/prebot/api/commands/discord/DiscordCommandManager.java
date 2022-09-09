@@ -22,6 +22,8 @@
 
 package me.bluetree242.prebot.api.commands.discord;
 
+import me.bluetree242.prebot.api.commands.discord.context.MessageContextCommand;
+import me.bluetree242.prebot.api.commands.discord.context.UserContextCommand;
 import me.bluetree242.prebot.api.commands.discord.slash.SlashCommand;
 import net.dv8tion.jda.api.interactions.commands.Command;
 
@@ -52,14 +54,14 @@ public interface DiscordCommandManager {
      *
      * @return all message commands that exist in discord
      */
-    Map<String, DiscordCommand> getMessageCommands();
+    Map<String, MessageContextCommand> getMessageCommands();
 
     /**
      * All context commands of type {@link Command.Type#MESSAGE}
      *
      * @return all user commands that exist in discord
      */
-    Map<String, DiscordCommand> getUserCommands();
+    Map<String, UserContextCommand> getUserCommands();
 
     /**
      * Registers commands and puts them to their correct locations according to user configuration

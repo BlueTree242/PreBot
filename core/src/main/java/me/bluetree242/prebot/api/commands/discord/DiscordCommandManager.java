@@ -22,6 +22,7 @@
 
 package me.bluetree242.prebot.api.commands.discord;
 
+import me.bluetree242.prebot.api.commands.discord.slash.SlashCommand;
 import net.dv8tion.jda.api.interactions.commands.Command;
 
 import java.util.Map;
@@ -64,6 +65,7 @@ public interface DiscordCommandManager {
      * Registers commands and puts them to their correct locations according to user configuration
      *
      * @param cmd commands to register
+     * @throws IllegalArgumentException if one of the commands has data different from class type
      */
     void registerCommands(DiscordCommand... cmd);
 }

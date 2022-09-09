@@ -26,7 +26,7 @@ import lombok.Getter;
 import me.bluetree242.prebot.api.PreBot;
 import me.bluetree242.prebot.api.PreBotVersion;
 import me.bluetree242.prebot.api.color.TextColor;
-import me.bluetree242.prebot.api.commands.discord.SlashCommand;
+import me.bluetree242.prebot.api.commands.discord.slash.SlashCommand;
 import me.bluetree242.prebot.api.plugin.Plugin;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;

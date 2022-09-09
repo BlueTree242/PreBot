@@ -76,7 +76,7 @@ public class MainConsoleCommandManager implements ConsoleCommandManager {
             }
             commandsMap.put(command.getName().toLowerCase(Locale.ROOT), command);
             if (command instanceof PluginConsoleCommand) {
-                commandsMap.put(((PluginConsoleCommand) command).getPlugin().getDescription().getName().toLowerCase(Locale.ROOT), command);
+                commandsMap.put(((PluginConsoleCommand) command).getPlugin().getDescription().getName().toLowerCase(Locale.ROOT) + ":" + command.getName().toLowerCase(Locale.ROOT), command);
             }
         }
     }

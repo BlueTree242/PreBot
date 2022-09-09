@@ -20,23 +20,17 @@
  * END
  */
 
-package me.bluetree242.prebot.api.plugin.commands.discord;
+package me.bluetree242.prebot.api.plugin.commands.discord.context;
 
-import me.bluetree242.prebot.api.commands.discord.SlashCommand;
+import me.bluetree242.prebot.api.commands.discord.context.MessageContextCommand;
 import me.bluetree242.prebot.api.plugin.Plugin;
-import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
+import me.bluetree242.prebot.api.plugin.commands.discord.PluginDiscordCommand;
+import net.dv8tion.jda.api.interactions.commands.Command;
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 
-public abstract class PluginSlashCommand extends PluginDiscordCommand implements SlashCommand {
-    public PluginSlashCommand(Plugin plugin, SlashCommandData data, boolean admin) {
+public abstract class PluginMessageContextCommand extends PluginDiscordCommand implements MessageContextCommand {
+    public PluginMessageContextCommand(Plugin plugin, CommandData data, boolean admin) {
         super(plugin, data, admin);
+        if (!(data.getType() == Command.Type.MESSAGE)) throw new IllegalArgumentException("Command Data must be of type MESSAGE");
     }
-
-    @Override
-    public SlashCommandData getData() {
-        return (SlashCommandData) super.getData();
-    }
-
-    @Override
-    public abstract void onCommand(SlashCommandInteractionEvent event);
 }

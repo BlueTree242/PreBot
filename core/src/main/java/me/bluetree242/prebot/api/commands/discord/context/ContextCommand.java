@@ -20,34 +20,29 @@
  * END
  */
 
-package me.bluetree242.prebot.api.commands.discord;
+package me.bluetree242.prebot.api.commands.discord.context;
 
+import me.bluetree242.prebot.api.commands.discord.DiscordCommand;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
-import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
+import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * Represents a {@link DiscordCommand}, but as a slash command
- */
-public interface SlashCommand extends DiscordCommand {
-
-    SlashCommandData getData();
+public interface ContextCommand<T, E extends GenericContextInteractionEvent<T>> extends DiscordCommand {
 
     /**
      * Called when the slash command is used
      *
      * @param event slash command event
      */
-    void onCommand(SlashCommandInteractionEvent event);
+    void onCommand(E event);
 
     /**
-     * This redirects to {@link SlashCommand#onCommand(SlashCommandInteractionEvent)} <strong>DO NOT OVERRIDE THIS</strong>
-     *
+     * This redirects to {@link ContextCommand#onCommand(GenericContextInteractionEvent)} <strong>DO NOT OVERRIDE THIS</strong>
      * @param event the event
      */
+    @SuppressWarnings({"InfiniteRecursion", "unchecked", "RedundantCast"})
     @Override
     default void onCommand(@NotNull GenericCommandInteractionEvent event) {
-        onCommand((SlashCommandInteractionEvent) event);
+        onCommand((GenericContextInteractionEvent<T>) event);
     }
 }

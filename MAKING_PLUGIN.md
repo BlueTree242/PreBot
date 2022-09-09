@@ -175,3 +175,77 @@ Custom events are simple in PreBot (and JDAEventer generally). All you have to d
 your event class, and annotate it with `CustomEvent`. you can fire it using `JDAEventer#fireEvent`.
 You can get JDAEventer instance using `PreBot#getJDAEventer`. And you can get PreBot instance using `PreBot#getInstance`
 static method or `JarPlugin#getPreBot.
+
+# Commands
+
+PreBot has API for Discord & Console Commands.
+
+## Console Commands
+If you want to have your own console commands for PreBot, you have to register your
+commands into the console command manager (there is a shortcut in your main class). Here is an example
+
+```java
+ public class MainClass extends JarPlugin {
+    public void onEnable() {
+        registerConsoleCommands(new TestCommand(this)); 
+    }
+}
+public class TestCommand extends PluginConsoleCommand {
+    public TestCommand(MainClass main) {
+        super(main, "test", "Test console command");
+    }
+
+    public void execute(String label, String[] args, ConsoleCommandResponder responder) {
+        responder.send(TextColor.GREEN + "Console command Working!");
+    }
+}
+```
+
+## Discord Commands
+
+Discord Commands are divided into 2 types, Slash Commands, and Context Commands, here is an example for both of them
+
+### Slash Command
+```java
+public class MainClass extends JarPlugin {
+    public void onEnable() {
+        registerCommand(new TestCommand(this)); 
+    }
+}
+public class TestCommand extends PluginSlashCommand {
+    public TestCommand(MainClass main) {
+        super(
+                main,
+                Commands.slash("test", "Responds with Hello World"),
+                false //this boolean is for admin command, if it is true only admins can execute it and the command will be registered only in admin guilds as well
+        );
+    }
+
+    public void execute(SlashCommandInteractionEvent event) {
+        event.reply("Hello World!").setEphermal(true).queue();
+    }
+}
+```
+
+### Context Commands
+Example of a message command that counts words on a message:
+```java
+public class MainClass extends JarPlugin {
+    public void onEnable() {
+        registerCommand(new TestCommand(this));
+    }
+}
+public class TestCommand extends PluginMessageContextCommand {
+    public TestCommand(MainClass main) {
+        super(
+                main,
+                Commands.user("Count Words"),
+                false //this boolean is for admin command, if it is true only admins can execute it and the command will be registered only in admin guilds as well
+        );
+    }
+
+    public void execute(MessageContextInteractionEvent event) {
+        event.reply("Words: " + event.getTarget().getContentRaw().split("\\s+").length).setEphermal(true).queue();
+    }
+}
+```

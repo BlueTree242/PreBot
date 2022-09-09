@@ -221,7 +221,7 @@ public class TestCommand extends PluginSlashCommand {
         );
     }
 
-    public void execute(SlashCommandInteractionEvent event) {
+    public void onCommand(SlashCommandInteractionEvent event) {
         event.reply("Hello World!").setEphemeral(true).queue();
     }
 }
@@ -244,7 +244,7 @@ public class TestCommand extends PluginMessageContextCommand {
         );
     }
 
-    public void execute(MessageContextInteractionEvent event) {
+    public void onCommand(MessageContextInteractionEvent event) {
         event.reply("Words: " + event.getTarget().getContentRaw().split("\\s+").length).setEphemeral(true).queue();
     }
 }

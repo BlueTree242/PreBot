@@ -22,9 +22,6 @@ dependencies {
     implementation 'net.minecrell:terminalconsoleappender:1.3.0'
     implementation 'org.jline:jline:3.21.0'
 }
-shadowJar {
-    classifier ''
-}
 jar {
     manifest {
         attributes("Multi-Release": true, "Main-Class": mainClassName)

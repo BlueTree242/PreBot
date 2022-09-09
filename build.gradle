@@ -37,7 +37,7 @@ allprojects {
     compileJava.options.encoding 'UTF-8'
     version = "${versionNoCommit}${branch != 'origin/master' ? "-${commit}" : ''}${branch != 'origin/master' ? '-SNAPSHOT' : ''}"
     shadowJar {
-        classifier 'withDependencies'
+        classifier ''
     }
     build.dependsOn shadowJar
     dependencies {

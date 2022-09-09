@@ -38,6 +38,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.ReconnectedEvent;
 import net.dv8tion.jda.api.events.ShutdownEvent;
+import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
@@ -48,8 +49,7 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.requests.RestAction;
 import org.slf4j.Logger;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
@@ -68,7 +68,7 @@ public class PreBotListener implements DiscordListener {
                 LOGGER.error("An error occurred while passing onShardReady to " + plugin.getDescription().getName(), ex);
             }
         }
-        registerSlashCommands(e.getJDA());
+        registerSlashCommands(e.getJDA().getGuilds());
     }
 
     @HandleEvent
@@ -80,12 +80,12 @@ public class PreBotListener implements DiscordListener {
                 LOGGER.error("An error occurred while passing onShardReconnect to " + plugin.getDescription().getName(), ex);
             }
         }
-        registerSlashCommands(e.getJDA());
+        registerSlashCommands(e.getJDA().getGuilds());
     }
 
-    private void registerSlashCommands(JDA shard) {
+    private void registerSlashCommands(Collection<Guild> guilds) {
         Set<RestAction<CommandRegistrationResult>> actions = new HashSet<>();
-        for (Guild guild : shard.getGuilds()) {
+        for (Guild guild : guilds) {
             Set<DiscordCommand> commands = new HashSet<>();
             commands.addAll(core.getDiscordCommandManager().getMessageCommands().values());
             commands.addAll(core.getDiscordCommandManager().getUserCommands().values());
@@ -110,13 +110,18 @@ public class PreBotListener implements DiscordListener {
             long maxCreateReached = failures.stream()
                     .filter(r -> r.getException() instanceof ErrorResponseException && ((ErrorResponseException) r.getException()).getErrorCode() == 30034).count();
             long unknown = failures.size() - maxCreateReached;
-            LOGGER.error("Failed to register slash commands in {} guilds in shard {}, max create reached = {}, unknown = {}",
-                    failures.size(), shard.getShardInfo().getShardId(), maxCreateReached, unknown);
+            LOGGER.error("Failed to register slash commands in {}/{} guilds, max create reached = {}, unknown = {}",
+                    failures.size(), guilds.size(), maxCreateReached, unknown);
         }, f -> {
             if (f instanceof TimeoutException) {
-                LOGGER.error("Registration of commands timed out in shard {}", shard.getShardInfo().getShardId());
+                LOGGER.error("Registration of commands timed out for {} guilds", guilds.size());
             } else f.printStackTrace();
         });
+    }
+
+    @HandleEvent
+    public void onJoinServer(GuildJoinEvent e) {
+        registerSlashCommands(Collections.singletonList(e.getGuild()));
     }
 
     @HandleEvent

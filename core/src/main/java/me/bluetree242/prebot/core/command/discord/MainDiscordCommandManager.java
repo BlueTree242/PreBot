@@ -24,18 +24,29 @@ package me.bluetree242.prebot.core.command.discord;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import me.bluetree242.prebot.api.LoggerProvider;
 import me.bluetree242.prebot.api.PreBot;
 import me.bluetree242.prebot.api.commands.discord.DiscordCommand;
 import me.bluetree242.prebot.api.commands.discord.DiscordCommandManager;
 import me.bluetree242.prebot.api.commands.discord.context.MessageContextCommand;
 import me.bluetree242.prebot.api.commands.discord.context.UserContextCommand;
+import me.bluetree242.prebot.api.commands.discord.result.CommandRegistrationResult;
 import me.bluetree242.prebot.api.commands.discord.slash.SlashCommand;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.interactions.commands.Command;
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import net.dv8tion.jda.api.requests.RestAction;
+import org.slf4j.Logger;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class MainDiscordCommandManager implements DiscordCommandManager {
+    private static final Logger LOGGER = LoggerProvider.getProvider().getLogger(MainDiscordCommandManager.class);
     private final PreBot core;
     @Getter
     private final Set<DiscordCommand> commands = new HashSet<>();
@@ -67,5 +78,43 @@ public class MainDiscordCommandManager implements DiscordCommandManager {
             if (cmd.getType() == Command.Type.USER && !(cmd instanceof UserContextCommand)) throw new IllegalArgumentException("Command is type of USER, but not instance of UserContextCommand, for command #" + num);
             if (cmd.getType() == Command.Type.MESSAGE && !(cmd instanceof MessageContextCommand)) throw new IllegalArgumentException("Command is type of MESSAGE, but not instance of MessageContextCommand, for command #" + num);
         }
+    }
+
+    @Override
+    public void registerCommands(Collection<Guild> guilds) {
+        Set<RestAction<CommandRegistrationResult>> actions = new HashSet<>();
+        for (Guild guild : guilds) {
+            Set<DiscordCommand> commands = new HashSet<>();
+            commands.addAll(core.getDiscordCommandManager().getMessageCommands().values());
+            commands.addAll(core.getDiscordCommandManager().getUserCommands().values());
+            commands.addAll(core.getDiscordCommandManager().getSlashCommands().values());
+            commands = commands.stream().filter(c -> c.canRegister(guild)).filter(c -> {
+                if (core.isAdmin(guild)) return true;
+                else return !c.isAdmin();
+            }).collect(Collectors.toSet());
+            Set<CommandData> data = commands.stream().map(DiscordCommand::getData).collect(Collectors.toSet());
+            Set<DiscordCommand> finalCommands = commands;
+            actions.add(
+                    guild.updateCommands()
+                            .addCommands(data)
+                            .timeout(10, TimeUnit.SECONDS)
+                            .map(r -> new CommandRegistrationResult(guild, data, finalCommands))
+                            .onErrorMap(er -> new CommandRegistrationResult(guild, data, finalCommands, er))
+            );
+        }
+        if (actions.isEmpty()) return;
+        RestAction.allOf(actions).timeout(30, TimeUnit.SECONDS).queue(s -> {
+            Set<CommandRegistrationResult> failures = s.stream().filter(CommandRegistrationResult::isFailed).collect(Collectors.toSet());
+            if (failures.isEmpty()) return; //no failures
+            long maxCreateReached = failures.stream()
+                    .filter(r -> r.getException() instanceof ErrorResponseException && ((ErrorResponseException) r.getException()).getErrorCode() == 30034).count();
+            long unknown = failures.size() - maxCreateReached;
+            LOGGER.error("Failed to register slash commands in {}/{} guilds, max create reached = {}, unknown = {}",
+                    failures.size(), guilds.size(), maxCreateReached, unknown);
+        }, f -> {
+            if (f instanceof TimeoutException) {
+                LOGGER.error("Registration of commands timed out for {} guilds", guilds.size());
+            } else f.printStackTrace();
+        });
     }
 }

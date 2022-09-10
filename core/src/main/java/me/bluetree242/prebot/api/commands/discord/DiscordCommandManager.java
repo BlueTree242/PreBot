@@ -25,8 +25,10 @@ package me.bluetree242.prebot.api.commands.discord;
 import me.bluetree242.prebot.api.commands.discord.context.MessageContextCommand;
 import me.bluetree242.prebot.api.commands.discord.context.UserContextCommand;
 import me.bluetree242.prebot.api.commands.discord.slash.SlashCommand;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.Command;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
@@ -70,4 +72,11 @@ public interface DiscordCommandManager {
      * @throws IllegalArgumentException if one of the commands has data different from class type
      */
     void registerCommands(DiscordCommand... cmd);
+
+    /**
+     * Registers discord commands in these guilds.<br>
+     * This method will queue a RestAction (and might also fire events)
+     * @param guilds guilds to register at
+     */
+    void registerCommands(Collection<Guild> guilds);
 }

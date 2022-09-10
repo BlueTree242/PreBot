@@ -207,7 +207,7 @@ public abstract class PreBot {
     public abstract boolean isAdmin(UserSnowflake user);
 
     /**
-     * Reloads PreBot configuration
+     * Reloads PreBot configuration, and re-registers discord commands in all guilds
      */
     public abstract void reload();
 }

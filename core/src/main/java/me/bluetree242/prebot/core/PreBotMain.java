@@ -208,5 +208,6 @@ public class PreBotMain extends PreBot {
     @Override
     public void reload() {
         reloadConfig();
+        getDiscordCommandManager().registerCommands(shardManager.getGuilds());
     }
 }

@@ -28,31 +28,24 @@ import me.bluetree242.jdaeventer.HandlerPriority;
 import me.bluetree242.jdaeventer.annotations.HandleEvent;
 import me.bluetree242.prebot.api.LoggerProvider;
 import me.bluetree242.prebot.api.commands.discord.DiscordCommand;
-import me.bluetree242.prebot.api.commands.discord.result.CommandRegistrationResult;
 import me.bluetree242.prebot.api.commands.discord.slash.SlashCommand;
 import me.bluetree242.prebot.api.plugin.Plugin;
 import me.bluetree242.prebot.api.plugin.commands.discord.PluginDiscordCommand;
 import me.bluetree242.prebot.core.PreBotMain;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.ReconnectedEvent;
 import net.dv8tion.jda.api.events.ShutdownEvent;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
-import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.interactions.commands.Command;
-import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.requests.CloseCode;
 import net.dv8tion.jda.api.requests.GatewayIntent;
-import net.dv8tion.jda.api.requests.RestAction;
 import org.slf4j.Logger;
 
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.stream.Collectors;
+import java.util.Collections;
+import java.util.HashSet;
 
 @RequiredArgsConstructor
 public class PreBotListener implements DiscordListener {
@@ -68,7 +61,7 @@ public class PreBotListener implements DiscordListener {
                 LOGGER.error("An error occurred while passing onShardReady to " + plugin.getDescription().getName(), ex);
             }
         }
-        registerSlashCommands(e.getJDA().getGuilds());
+        core.getDiscordCommandManager().registerCommands(e.getJDA().getGuilds());
     }
 
     @HandleEvent
@@ -80,49 +73,12 @@ public class PreBotListener implements DiscordListener {
                 LOGGER.error("An error occurred while passing onShardReconnect to " + plugin.getDescription().getName(), ex);
             }
         }
-        registerSlashCommands(e.getJDA().getGuilds());
-    }
-
-    private void registerSlashCommands(Collection<Guild> guilds) {
-        Set<RestAction<CommandRegistrationResult>> actions = new HashSet<>();
-        for (Guild guild : guilds) {
-            Set<DiscordCommand> commands = new HashSet<>();
-            commands.addAll(core.getDiscordCommandManager().getMessageCommands().values());
-            commands.addAll(core.getDiscordCommandManager().getUserCommands().values());
-            commands.addAll(core.getDiscordCommandManager().getSlashCommands().values());
-            commands = commands.stream().filter(c -> c.canRegister(guild)).filter(c -> {
-                if (core.isAdmin(guild)) return true;
-                else return !c.isAdmin();
-            }).collect(Collectors.toSet());
-            Set<CommandData> data = commands.stream().map(DiscordCommand::getData).collect(Collectors.toSet());
-            Set<DiscordCommand> finalCommands = commands;
-            actions.add(
-                    guild.updateCommands()
-                            .addCommands(data)
-                            .timeout(10, TimeUnit.SECONDS)
-                            .map(r -> new CommandRegistrationResult(guild, data, finalCommands))
-                            .onErrorMap(er -> new CommandRegistrationResult(guild, data, finalCommands, er))
-            );
-        }
-        if (actions.isEmpty()) return;
-        RestAction.allOf(actions).timeout(30, TimeUnit.SECONDS).queue(s -> {
-            Set<CommandRegistrationResult> failures = s.stream().filter(CommandRegistrationResult::isFailed).collect(Collectors.toSet());
-            if (failures.isEmpty()) return; //no failures
-            long maxCreateReached = failures.stream()
-                    .filter(r -> r.getException() instanceof ErrorResponseException && ((ErrorResponseException) r.getException()).getErrorCode() == 30034).count();
-            long unknown = failures.size() - maxCreateReached;
-            LOGGER.error("Failed to register slash commands in {}/{} guilds, max create reached = {}, unknown = {}",
-                    failures.size(), guilds.size(), maxCreateReached, unknown);
-        }, f -> {
-            if (f instanceof TimeoutException) {
-                LOGGER.error("Registration of commands timed out for {} guilds", guilds.size());
-            } else f.printStackTrace();
-        });
+        core.getDiscordCommandManager().registerCommands(e.getJDA().getGuilds());
     }
 
     @HandleEvent
     public void onJoinServer(GuildJoinEvent e) {
-        registerSlashCommands(Collections.singletonList(e.getGuild()));
+        core.getDiscordCommandManager().registerCommands(Collections.singletonList(e.getGuild()));
     }
 
     @HandleEvent

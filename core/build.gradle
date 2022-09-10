@@ -26,6 +26,7 @@ dependencies {
     implementation('org.slf4j:slf4j-api:2.0.0')
     implementation 'space.arim.dazzleconf:dazzleconf-ext-snakeyaml:1.2.1'
     implementation 'com.github.BlueTree242:JDAEventer:master-SNAPSHOT'
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
 }
 
 tasks.getByName('javadoc') {

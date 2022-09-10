@@ -139,6 +139,14 @@ public class JarPlugin implements Plugin {
     }
 
     @Override
+    public void reload() {
+        confManagers.forEach((k, v) -> {
+            v.reloadConfig();
+            configs.put(k, v.getConfigData());
+        });
+    }
+
+    @Override
     public int compareTo(@NotNull Plugin o) {
         return description.compareTo(o.getDescription());
     }

@@ -205,4 +205,9 @@ public abstract class PreBot {
      * @return true if user is admin, false otherwise
      */
     public abstract boolean isAdmin(UserSnowflake user);
+
+    /**
+     * Reloads PreBot configuration
+     */
+    public abstract void reload();
 }

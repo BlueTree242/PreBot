@@ -34,7 +34,7 @@ public class PluginsConsoleCommand extends PreBotConsoleCommand {
     private final PreBot core;
 
     public PluginsConsoleCommand(PreBot core) {
-        super("plugins", "Get plugins installed on Prebot", "", "ver");
+        super("plugins", "Get plugins installed on Prebot", "", "pl");
         this.core = core;
     }
 

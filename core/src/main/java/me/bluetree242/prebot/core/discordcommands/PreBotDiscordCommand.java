@@ -22,24 +22,35 @@
 
 package me.bluetree242.prebot.core.discordcommands;
 
+import jdk.internal.joptsimple.internal.Strings;
 import lombok.Getter;
+import me.bluetree242.prebot.api.LoggerProvider;
 import me.bluetree242.prebot.api.PreBot;
 import me.bluetree242.prebot.api.PreBotVersion;
 import me.bluetree242.prebot.api.color.TextColor;
 import me.bluetree242.prebot.api.commands.discord.slash.SlashCommand;
 import me.bluetree242.prebot.api.plugin.Plugin;
+import me.bluetree242.prebot.core.utils.Utils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
+import net.dv8tion.jda.api.interactions.commands.OptionMapping;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.slf4j.Logger;
 
 import java.awt.*;
-import java.util.StringJoiner;
+import java.util.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class PreBotDiscordCommand implements SlashCommand {
+    private static final Logger LOGGER = LoggerProvider.getProvider().getLogger(PreBotDiscordCommand.class);
     private final PreBot core;
     @Getter
     private final SlashCommandData data;
@@ -47,7 +58,8 @@ public class PreBotDiscordCommand implements SlashCommand {
     public PreBotDiscordCommand(PreBot core) {
         data = Commands.slash("prebot", "Commands for prebot management").setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER))
                 .addSubcommands(new SubcommandData("plugins", "Get list of installed plugins"))
-                .addSubcommands(new SubcommandData("info", "Get more details of current prebot instance"));
+                .addSubcommands(new SubcommandData("info", "Get more details of current prebot instance"))
+                .addSubcommands(new SubcommandData("reload", "Reload PreBot or a plugin").addOption(OptionType.STRING, "plugin", "Plugin to reload, or all", false, true));
         this.core = core;
     }
 
@@ -73,7 +85,64 @@ public class PreBotDiscordCommand implements SlashCommand {
                     .addField("Total Shards", e.getJDA().getShardInfo().getShardTotal() + "", true)
                     .addField("Enabled Plugins", core.getPluginManager().getPlugins().stream().filter(Plugin::isEnabled).count() + "", true);
             e.replyEmbeds(embed.build()).setEphemeral(true).queue();
+        }else if (e.getSubcommandName().equals("reload")) {
+            OptionMapping pluginOption = e.getOption("plugin");
+            if (pluginOption == null) {
+                try {
+                    core.reload();
+                    e.reply(":white_check_mark: Successfully reloaded PreBot").setEphemeral(true).queue();
+                } catch (Exception ex) {
+                    LOGGER.error("Failed to reload PreBot (reload requested from discord)", ex);
+                    e.reply(":x: Failed to reload PreBot, Console might contain more details\n" + codeBlockError(ex)).setEphemeral(true).queue();
+                }
+            } else {
+                String name = pluginOption.getAsString();
+                if (name.equalsIgnoreCase("all")) {
+                    Set<String> failed = new HashSet<>();
+                    for (Plugin plugin : core.getPluginManager().getPlugins()) {
+                        try {
+                            if (plugin.isEnabled()) plugin.reload();
+                        } catch (Exception ex) {
+                            LOGGER.error("Failed to reload plugin " + plugin.getDescription().getName() + " (reload requested from discord)", ex);
+                            failed.add(plugin.getDescription().getName());
+                        }
+                    }
+                    if (failed.isEmpty()) {
+                        e.reply(":white_check_mark: Successfully reloaded all plugins").setEphemeral(true).queue();
+                    } else {
+                        e.reply("Reloaded all plugins but " + failed.size() + " plugins failed: " + Strings.join(failed, ", ") + ". Check console for more details.").setEphemeral(true).queue();
+                    }
+                } else {
+                    Plugin plugin = core.getPluginManager().getPluginByName(name);
+                    if (plugin == null) {
+                        e.reply(":x: Plugin not found").setEphemeral(true).queue();
+                    } else {
+                        if (!plugin.isEnabled()) {
+                            e.reply(":x: Plugin is disabled").setEphemeral(true).queue();
+                        }
+                        try {
+                            plugin.reload();
+                            e.reply(":white_check_mark: Successfully reloaded " + plugin.getDescription().getName()).setEphemeral(true).queue();
+                        } catch (Exception ex) {
+                            LOGGER.error("Failed to reload " + plugin.getDescription().getName() + " (reload requested from discord)", ex);
+                            e.reply(":x: Failed to reload plugin, Console might contain more details\n" + codeBlockError(ex)).setEphemeral(true).queue();
+                        }
+                    }
+                }
+            }
         }
+    }
+
+    private String codeBlockError(Throwable er) {
+        return "```java\n" + Utils.trim(ExceptionUtils.getStackTrace(er), 2900) + "\n```";
+    }
+
+    @Override
+    public void onAutoComplete(CommandAutoCompleteInteractionEvent e) {
+        if (!e.getFocusedOption().getName().equals("plugin")) return;
+        List<String> result = core.getPluginManager().getPlugins().stream().filter(Plugin::isEnabled).map(p -> p.getDescription().getName()).filter(n -> n.toLowerCase(Locale.ROOT).startsWith(e.getFocusedOption().getValue())).collect(Collectors.toList());
+        result.add("all");
+        e.replyChoiceStrings(result).queue();
     }
 
     @Override

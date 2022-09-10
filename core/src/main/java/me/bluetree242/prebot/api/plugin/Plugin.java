@@ -214,4 +214,9 @@ public interface Plugin extends Comparable<Plugin> {
     default void registerCommands(PluginDiscordCommand... commands) {
         getPreBot().getDiscordCommandManager().registerCommands(commands);
     }
+
+    /**
+     * Reload the Plugin, by default this would reload the configs.
+     */
+    void reload();
 }

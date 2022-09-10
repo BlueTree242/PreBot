@@ -60,8 +60,8 @@ public class JarPluginDescriptionFile implements PluginDescription {
         require("authors", yml, List.class);
         require("main", yml, String.class);
         name = (String) yml.get("name");
-        if (name.toLowerCase(Locale.ROOT).trim().equals("prebot"))
-            throw new IllegalArgumentException("Name cannot be PreBot");
+        if (name.toLowerCase(Locale.ROOT).trim().equals("prebot") || name.toLowerCase(Locale.ROOT).trim().equals("all"))
+            throw new IllegalArgumentException("Blacklisted Plugin Name");
         version = (String) yml.get("version");
         authors = Collections.unmodifiableList((List<String>) yml.get("authors"));
         if (authors.isEmpty()) throw new InvalidPluginException("Authors cannot be empty");

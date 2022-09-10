@@ -27,4 +27,23 @@ public class Utils {
     public static String fileseparator() {
         return System.getProperty("file.separator");
     }
+
+    public static String trim(String s, int limit) {
+        if (s.length() >= 100) {
+            int len = 0;
+            StringBuilder returnvalue = new StringBuilder();
+            for (String l : s.split("")) {
+                len++;
+                if (len >= (limit - 3) && len <= limit) {
+                    returnvalue.append(".");
+                } else {
+                    if (len <= limit)
+                        returnvalue.append(l);
+                }
+            }
+            return returnvalue.toString();
+        }
+        return s;
+    }
+
 }

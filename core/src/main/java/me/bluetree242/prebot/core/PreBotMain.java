@@ -34,10 +34,7 @@ import me.bluetree242.prebot.api.events.ShardManagerPreBuildEvent;
 import me.bluetree242.prebot.config.PreBotConfig;
 import me.bluetree242.prebot.core.command.console.MainConsoleCommandManager;
 import me.bluetree242.prebot.core.command.discord.MainDiscordCommandManager;
-import me.bluetree242.prebot.core.consolecommands.HelpConsoleCommand;
-import me.bluetree242.prebot.core.consolecommands.PluginsConsoleCommand;
-import me.bluetree242.prebot.core.consolecommands.StopConsoleCommand;
-import me.bluetree242.prebot.core.consolecommands.VersionConsoleCommand;
+import me.bluetree242.prebot.core.consolecommands.*;
 import me.bluetree242.prebot.core.discordcommands.PreBotDiscordCommand;
 import me.bluetree242.prebot.core.listener.PreBotListener;
 import me.bluetree242.prebot.core.plugin.MainPluginManager;
@@ -149,7 +146,8 @@ public class PreBotMain extends PreBot {
         consoleCommandManager.registerCommands(new VersionConsoleCommand(this),
                 new StopConsoleCommand(this),
                 new HelpConsoleCommand(this),
-                new PluginsConsoleCommand(this));
+                new PluginsConsoleCommand(this),
+                new ReloadConsoleCommand(this));
     }
 
     public Activity getActivity() {
@@ -205,5 +203,10 @@ public class PreBotMain extends PreBot {
     @Override
     public boolean isAdmin(UserSnowflake user) {
         return config.admin_users().contains(user.getIdLong());
+    }
+
+    @Override
+    public void reload() {
+        reloadConfig();
     }
 }

@@ -33,9 +33,9 @@ import org.jetbrains.annotations.NotNull;
 public interface ContextCommand<T, E extends GenericContextInteractionEvent<T>> extends DiscordCommand {
 
     /**
-     * Called when the slash command is used
+     * Called when the context command is used
      *
-     * @param event slash command event
+     * @param event context command event
      */
     void onCommand(E event);
 

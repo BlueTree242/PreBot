@@ -104,6 +104,7 @@ public class PreBotListener implements DiscordListener {
                             .onErrorMap(er -> new CommandRegistrationResult(guild, data, finalCommands, er))
             );
         }
+        if (actions.isEmpty()) return;
         RestAction.allOf(actions).timeout(30, TimeUnit.SECONDS).queue(s -> {
             Set<CommandRegistrationResult> failures = s.stream().filter(CommandRegistrationResult::isFailed).collect(Collectors.toSet());
             if (failures.isEmpty()) return; //no failures

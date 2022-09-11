@@ -61,7 +61,7 @@ public class ReloadConsoleCommand extends PreBotConsoleCommand {
                 if (failed.isEmpty()) {
                     responder.send(TextColor.GREEN + "Successfully reloaded all plugins");
                 } else {
-                    responder.send(TextColor.GREEN + "Reloaded all plugins but " + failed.size() + " plugins failed: " + String.join( ", ", failed));
+                    responder.send(TextColor.RED + "Reloaded all plugins but " + failed.size() + " plugins failed: " + TextColor.YELLOW + String.join(  TextColor.RESET + ", " + TextColor.YELLOW, failed));
                 }
             } else {
                 Plugin plugin = core.getPluginManager().getPluginByName(name);

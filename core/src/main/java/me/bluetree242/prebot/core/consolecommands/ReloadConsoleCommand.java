@@ -22,7 +22,6 @@
 
 package me.bluetree242.prebot.core.consolecommands;
 
-import jdk.internal.joptsimple.internal.Strings;
 import me.bluetree242.prebot.api.LoggerProvider;
 import me.bluetree242.prebot.api.PreBot;
 import me.bluetree242.prebot.api.color.TextColor;
@@ -62,7 +61,7 @@ public class ReloadConsoleCommand extends PreBotConsoleCommand {
                 if (failed.isEmpty()) {
                     responder.send(TextColor.GREEN + "Successfully reloaded all plugins");
                 } else {
-                    responder.send(TextColor.GREEN + "Reloaded all plugins but " + failed.size() + " plugins failed: " + Strings.join(failed, ", "));
+                    responder.send(TextColor.GREEN + "Reloaded all plugins but " + failed.size() + " plugins failed: " + String.join( ", ", failed));
                 }
             } else {
                 Plugin plugin = core.getPluginManager().getPluginByName(name);

@@ -22,7 +22,6 @@
 
 package me.bluetree242.prebot.core.discordcommands;
 
-import jdk.internal.joptsimple.internal.Strings;
 import lombok.Getter;
 import me.bluetree242.prebot.api.LoggerProvider;
 import me.bluetree242.prebot.api.PreBot;
@@ -110,7 +109,7 @@ public class PreBotDiscordCommand implements SlashCommand {
                     if (failed.isEmpty()) {
                         e.reply(":white_check_mark: Successfully reloaded all plugins").setEphemeral(true).queue();
                     } else {
-                        e.reply("Reloaded all plugins but " + failed.size() + " plugins failed: " + Strings.join(failed, ", ") + ". Check console for more details.").setEphemeral(true).queue();
+                        e.reply("Reloaded all plugins but " + failed.size() + " plugins failed: " + String.join(", ", failed) + ". Check console for more details.").setEphemeral(true).queue();
                     }
                 } else {
                     Plugin plugin = core.getPluginManager().getPluginByName(name);

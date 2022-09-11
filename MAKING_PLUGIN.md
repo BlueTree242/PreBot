@@ -59,11 +59,11 @@ add a resource `prebot.yml` in your project resources, and here is an example:
 ```yaml
 name: TestPlugin
 version: 1.0
-authors: [BlueTree242] #Must have atleast 1 author
+authors: [BlueTree242] #Must have at least 1 author
 dependencies: [] #other plugins that must be installed for this plugin to work
 softdependencies: [] # Other plugins that your plugin might use if it finds it installed
 main: package.to.main.MainClass #the main class of the plugin
-required-intents: [] #Intents this plugin requries, they will be enabled when the bot starts
+required-intents: [] #Intents this plugin requires, they will be enabled when the bot starts
 required-cache-flags: [] #Cache flags this plugin requires, they will be enabled when the bot starts
 ```
 
@@ -101,7 +101,7 @@ If you want to log something using your plugin, please use `getLogger()` method 
 Configuration in PreBot uses [DazzleConf](https://github.com/A248/DazzleConf). This library makes life with
 configuration easier
 
-To create a config.yml, create a config interface (more details on dazzleconf's github).
+To create a config.yml, create a config interface (more details on dazzleconf GitHub).
 Extend `PluginConfiguration` in your interface. here is an example
 
 ```java

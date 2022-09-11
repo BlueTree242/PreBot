@@ -108,9 +108,15 @@ public class MainDiscordCommandManager implements DiscordCommandManager {
             if (failures.isEmpty()) return; //no failures
             long maxCreateReached = failures.stream()
                     .filter(r -> r.getException() instanceof ErrorResponseException && ((ErrorResponseException) r.getException()).getErrorCode() == 30034).count();
-            long unknown = failures.size() - maxCreateReached;
-            LOGGER.error("Failed to register slash commands in {}/{} guilds, max create reached = {}, unknown = {}",
-                    failures.size(), guilds.size(), maxCreateReached, unknown);
+            long timeout = failures.stream()
+                    .filter(r -> r.getException() instanceof TimeoutException).count();
+            long unknown = failures.size() - maxCreateReached - timeout;
+            for (CommandRegistrationResult failure : failures) {
+                LOGGER.debug("Registration failure in {}", failure.getGuild().getName());
+                failure.getException().printStackTrace();
+            }
+            LOGGER.error("Failed to register slash commands in {}/{} guilds, max create reached = {}, time out = {}, unknown = {}",
+                    failures.size(), guilds.size(), maxCreateReached, timeout, unknown);
         }, f -> {
             if (f instanceof TimeoutException) {
                 LOGGER.error("Registration of commands timed out for {} guilds", guilds.size());

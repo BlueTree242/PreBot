@@ -133,7 +133,7 @@ public class PreBotDiscordCommand implements SlashCommand {
     }
 
     private String codeBlockError(Throwable er) {
-        return "```java\n" + Utils.trim(ExceptionUtils.getStackTrace(er), 2900) + "\n```";
+        return "```java\n" + Utils.trim(ExceptionUtils.getStackTrace(er), 1900) + "\n```";
     }
 
     @Override

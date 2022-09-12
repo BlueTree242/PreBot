@@ -210,4 +210,13 @@ public abstract class PreBot {
      * Reloads PreBot configuration, and re-registers discord commands in all guilds
      */
     public abstract void reload();
+
+    /**
+     * The start time of the bot<br>
+     * this is just {@link System#currentTimeMillis()} after building {@link PreBot#getShardManager()}<br>
+     * this is the time the bot started (nothing loaded) before building of the {@link PreBot#getShardManager()}<br>
+     * <strong>HINT: </strong> you can get uptime by subtracting this from {@link System#currentTimeMillis()}
+     * @return the start time of the bot
+     */
+    public abstract long getStartTime();
 }

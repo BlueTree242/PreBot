@@ -44,6 +44,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 
 import java.awt.*;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,7 +54,7 @@ public class PreBotDiscordCommand implements SlashCommand {
     private final PreBot core;
     @Getter
     private final SlashCommandData data;
-
+    DecimalFormat formatter = new DecimalFormat("#.##");
     public PreBotDiscordCommand(PreBot core) {
         data = Commands.slash("prebot", "Commands for prebot management").setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER))
                 .addSubcommands(new SubcommandData("plugins", "Get list of installed plugins"))
@@ -82,7 +83,11 @@ public class PreBotDiscordCommand implements SlashCommand {
                     .addField("Branch", PreBotVersion.BRANCH, true)
                     .addField("Current Shard", e.getJDA().getShardInfo().getShardId() + "", true)
                     .addField("Total Shards", e.getJDA().getShardInfo().getShardTotal() + "", true)
-                    .addField("Enabled Plugins", core.getPluginManager().getPlugins().stream().filter(Plugin::isEnabled).count() + "", true);
+                    .addField("Enabled Plugins", core.getPluginManager().getPlugins().stream().filter(Plugin::isEnabled).count() + "", true)
+                    .addField("Memory Usage", getMemoryUsage(), true)
+                    .addField("Available Processors", Runtime.getRuntime().availableProcessors() + "", true)
+                    .addField("Uptime", Utils.getTime(System.currentTimeMillis() - core.getStartTime()), true);
+
             e.replyEmbeds(embed.build()).setEphemeral(true).queue();
         }else if (e.getSubcommandName().equals("reload")) {
             OptionMapping pluginOption = e.getOption("plugin");
@@ -142,6 +147,36 @@ public class PreBotDiscordCommand implements SlashCommand {
         List<String> result = core.getPluginManager().getPlugins().stream().filter(Plugin::isEnabled).map(p -> p.getDescription().getName()).filter(n -> n.toLowerCase(Locale.ROOT).startsWith(e.getFocusedOption().getValue())).collect(Collectors.toList());
         result.add("all");
         e.replyChoiceStrings(result).queue();
+    }
+
+    private String getMemoryUsage() {
+        float free = Runtime.getRuntime().freeMemory();
+        float max = Runtime.getRuntime().maxMemory();
+        float total = Runtime.getRuntime().totalMemory();
+        float used = total - free;
+        return getHumanReadableSize(used) + "/" + getHumanReadableSize(max) + " (" + formatter.format((used / max) * 100) + "%)";
+    }
+
+    private String formatSize(float size, long divider, String unitName) {
+        return formatter.format(size / divider) + " " + unitName;
+    }
+
+    public String getHumanReadableSize(float size) {
+        long BYTE = 1L;
+        long KiB = BYTE << 10;
+        long MiB = KiB << 10;
+        long GiB = MiB << 10;
+        long TiB = GiB << 10;
+
+        long KB = BYTE * 1000;
+        long MB = KB * 1000;
+        long GB = MB * 1000;
+        long TB = GB * 1000;
+        if (size >= TB) return formatSize(size, TB, "TB");
+        if (size >= GB) return formatSize(size, GB, "GB");
+        if (size >= MB) return formatSize(size, MB, "MB");
+        if (size >= KB) return formatSize(size, KB, "KB");
+        return formatSize(size, BYTE, "Bytes");
     }
 
     @Override

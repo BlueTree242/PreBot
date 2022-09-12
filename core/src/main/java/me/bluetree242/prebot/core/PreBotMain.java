@@ -87,7 +87,8 @@ public class PreBotMain extends PreBot {
     private boolean stopped = false;
     @Getter
     private boolean started;
-
+    @Getter
+    private long startTime = System.currentTimeMillis();
     public PreBotMain(Path rootDirectory) {
         PreBot.setPreBot(this);
         this.rootDirectory = rootDirectory;
@@ -126,6 +127,7 @@ public class PreBotMain extends PreBot {
         eventer.fireEvent(new ShardManagerPreBuildEvent(builder));
         intents = Collections.unmodifiableSet(intents); //now it is unmodifiable
         cacheFlags = Collections.unmodifiableSet(cacheFlags);
+        startTime = System.currentTimeMillis();
         try {
             shardManager = builder.build(true);
             started = true;

@@ -22,6 +22,10 @@
 
 package me.bluetree242.prebot.core.utils;
 
+import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Utils {
 
     public static String fileseparator() {
@@ -46,4 +50,59 @@ public class Utils {
         return s;
     }
 
+    public static String getTime(long ms) {
+        String val = "";
+        long remaining = ms;
+        long days = TimeUnit.MILLISECONDS.toDays(ms);
+        remaining = remaining - TimeUnit.DAYS.toMillis(days);
+        long hours = TimeUnit.MILLISECONDS.toHours(remaining);
+        remaining = remaining - TimeUnit.HOURS.toMillis(hours);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(remaining);
+        remaining = remaining - TimeUnit.MINUTES.toMillis(minutes);
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(remaining);
+        if (days != 0) {
+            val = days + " Day" + (days <= 1 ? "" : "s");
+        }
+        if (hours != 0) {
+            if (val.equals("")) {
+                val = hours + " hour" + (hours <= 1 ? "" : "s");
+            } else {
+                val = val + ", " + hours + " hour" + (hours <= 1 ? "" : "s");
+            }
+        }
+        if (minutes != 0) {
+            if (val.equals("")) {
+                val = minutes + " minute" + (minutes <= 1 ? "" : "s");
+            } else {
+                val = val + ", " + minutes + " minute" + (minutes <= 1 ? "" : "s");
+            }
+        }
+        if (seconds != 0) {
+            if (val.equals("")) {
+                val = seconds + " second" + (seconds <= 1 ? "" : "s");
+            } else {
+                val = val + ", " + seconds + " second" + (seconds <= 1 ? "" : "s");
+            }
+        }
+        if (val.equals("")) {
+            return "Less than a second";
+        }
+        return replaceLast(val, ", ", " and ");
+    }
+    public static String replaceLast(String input, String regex, String replacement) {
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(input);
+        if (!matcher.find()) {
+            return input;
+        }
+        int lastMatchStart;
+        do {
+            lastMatchStart=matcher.start();
+        } while (matcher.find());
+        matcher.find(lastMatchStart);
+        StringBuffer sb = new StringBuffer(input.length());
+        matcher.appendReplacement(sb, replacement);
+        matcher.appendTail(sb);
+        return sb.toString();
+    }
 }

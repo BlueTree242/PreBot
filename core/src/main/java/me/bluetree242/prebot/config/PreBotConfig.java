@@ -42,7 +42,7 @@ public interface PreBotConfig {
 
     @AnnotationBasedSorter.Order(10)
     @ConfDefault.DefaultString("unset")
-    @ConfComments("The bot token to login to discord. This must be valid")
+    @ConfComments("The bot token to login to discord. This must be valid, unless you use bot.token environment variable, which will make prebot ignore this option.")
     String token();
 
     @AnnotationBasedSorter.Order(20)

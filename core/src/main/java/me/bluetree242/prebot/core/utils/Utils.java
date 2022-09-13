@@ -61,7 +61,7 @@ public class Utils {
         remaining = remaining - TimeUnit.MINUTES.toMillis(minutes);
         long seconds = TimeUnit.MILLISECONDS.toSeconds(remaining);
         if (days != 0) {
-            val = days + " Day" + (days <= 1 ? "" : "s");
+            val = days + " day" + (days <= 1 ? "" : "s");
         }
         if (hours != 0) {
             if (val.equals("")) {

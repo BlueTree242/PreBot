@@ -115,7 +115,11 @@ public class PreBotMain extends PreBot {
         LOGGER.info("Loading Plugins..");
         pluginManager.loadPlugins();
         addListeners();
-        DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(config.token());
+        String token = System.getenv("bot.token");
+        boolean env = token != null;
+        if (token != null) LOGGER.info("Using bot token from environment variable.");
+        else token = config.token();
+        DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(token);
         builder.setEnableShutdownHook(false)
                 .setStatusProvider(s -> config.online_status())
                 .setActivityProvider(s -> getActivity())
@@ -132,7 +136,7 @@ public class PreBotMain extends PreBot {
             shardManager = builder.build(true);
             started = true;
         } catch (LoginException e) {
-            LOGGER.error("The provided token in config.yml is invalid. Please make sure the token is correct and try again.");
+            LOGGER.error("The provided token in {} is invalid. Please make sure the token is correct and try again.", env ? "Environment Variable" : "config.yml");
         }
     }
 
@@ -190,7 +194,7 @@ public class PreBotMain extends PreBot {
         LOGGER.info("Shutting down PreBot..");
         stopped = true;
         //make sure no shards are reconnecting
-        while (shardManager.getShards().stream().anyMatch(j -> j.getStatus() != JDA.Status.CONNECTED && j.getStatus() != JDA.Status.DISCONNECTED))
+        while (shardManager == null || shardManager.getShards().stream().anyMatch(j -> j.getStatus() != JDA.Status.CONNECTED && j.getStatus() != JDA.Status.DISCONNECTED))
             Thread.sleep(100);
         pluginManager.disablePlugins();
         LOGGER.info("Shutting down Shard Manager..");

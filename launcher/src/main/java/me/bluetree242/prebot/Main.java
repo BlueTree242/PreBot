@@ -49,7 +49,7 @@ public class Main extends SimpleTerminalConsole {
         thread.setDaemon(true);
         thread.setName("PreBot-Command-Listener");
         thread.start(); //start listening for commands
-        PreBotMain prebot = new PreBotMain(Paths.get("."));
+        PreBotMain prebot = new PreBotMain(System.getenv("bot.root") == null ? Paths.get(".") : Paths.get(System.getenv("bot.root")));
     }
 
     @Override

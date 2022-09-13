@@ -162,16 +162,12 @@ public class PreBotDiscordCommand implements SlashCommand {
     }
 
     public String getHumanReadableSize(float size) {
-        long BYTE = 1L;
-        long KiB = BYTE << 10;
-        long MiB = KiB << 10;
-        long GiB = MiB << 10;
-        long TiB = GiB << 10;
 
-        long KB = BYTE * 1000;
-        long MB = KB * 1000;
-        long GB = MB * 1000;
-        long TB = GB * 1000;
+        long BYTE = 1L;
+        long KB = BYTE << 10;
+        long MB = KB << 10;
+        long GB = MB << 10;
+        long TB = GB << 10;
         if (size >= TB) return formatSize(size, TB, "TB");
         if (size >= GB) return formatSize(size, GB, "GB");
         if (size >= MB) return formatSize(size, MB, "MB");

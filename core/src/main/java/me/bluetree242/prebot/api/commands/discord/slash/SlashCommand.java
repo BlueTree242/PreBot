@@ -55,6 +55,7 @@ public interface SlashCommand extends DiscordCommand {
 
     /**
      * Called when auto complete is requested for this command
+     *
      * @param event the event
      */
     default void onAutoComplete(CommandAutoCompleteInteractionEvent event) {

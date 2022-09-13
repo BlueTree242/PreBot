@@ -36,6 +36,7 @@ import java.util.Set;
 public class ReloadConsoleCommand extends PreBotConsoleCommand {
     private static final Logger LOGGER = LoggerProvider.getProvider().getLogger(ReloadConsoleCommand.class);
     private final PreBot core;
+
     public ReloadConsoleCommand(PreBot core) {
         super("reload", "Reloads PreBot or a plugin", "[plugin|all]", "rl");
         this.core = core;
@@ -61,7 +62,7 @@ public class ReloadConsoleCommand extends PreBotConsoleCommand {
                 if (failed.isEmpty()) {
                     responder.send(TextColor.GREEN + "Successfully reloaded all plugins");
                 } else {
-                    responder.send(TextColor.RED + "Reloaded all plugins but " + failed.size() + " plugins failed: " + TextColor.YELLOW + String.join(  TextColor.RESET + ", " + TextColor.YELLOW, failed));
+                    responder.send(TextColor.RED + "Reloaded all plugins but " + failed.size() + " plugins failed: " + TextColor.YELLOW + String.join(TextColor.RESET + ", " + TextColor.YELLOW, failed));
                 }
             } else {
                 Plugin plugin = core.getPluginManager().getPluginByName(name);

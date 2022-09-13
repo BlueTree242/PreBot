@@ -76,6 +76,7 @@ public interface DiscordCommandManager {
     /**
      * Registers discord commands in these guilds.<br>
      * This method will queue a RestAction (and might also fire events)
+     *
      * @param guilds guilds to register at
      */
     void registerCommands(Collection<Guild> guilds);

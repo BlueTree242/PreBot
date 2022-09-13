@@ -38,6 +38,7 @@ public class DiscordCommandsRegistrationEvent {
 
     /**
      * Get the results of this registration
+     *
      * @return the results of this registration
      */
     public List<CommandRegistrationResult> getResults() {

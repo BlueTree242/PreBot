@@ -31,6 +31,7 @@ import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 public abstract class PluginMessageContextCommand extends PluginDiscordCommand implements MessageContextCommand {
     public PluginMessageContextCommand(Plugin plugin, CommandData data, boolean admin) {
         super(plugin, data, admin);
-        if (!(data.getType() == Command.Type.MESSAGE)) throw new IllegalArgumentException("Command Data must be of type MESSAGE");
+        if (!(data.getType() == Command.Type.MESSAGE))
+            throw new IllegalArgumentException("Command Data must be of type MESSAGE");
     }
 }

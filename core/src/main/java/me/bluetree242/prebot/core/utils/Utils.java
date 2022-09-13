@@ -89,6 +89,7 @@ public class Utils {
         }
         return replaceLast(val, ", ", " and ");
     }
+
     public static String replaceLast(String input, String regex, String replacement) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(input);
@@ -97,7 +98,7 @@ public class Utils {
         }
         int lastMatchStart;
         do {
-            lastMatchStart=matcher.start();
+            lastMatchStart = matcher.start();
         } while (matcher.find());
         matcher.find(lastMatchStart);
         StringBuffer sb = new StringBuffer(input.length());

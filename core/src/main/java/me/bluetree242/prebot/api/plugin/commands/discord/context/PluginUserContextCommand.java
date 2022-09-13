@@ -31,6 +31,7 @@ import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 public abstract class PluginUserContextCommand extends PluginDiscordCommand implements UserContextCommand {
     public PluginUserContextCommand(Plugin plugin, CommandData data, boolean admin) {
         super(plugin, data, admin);
-        if (!(data.getType() == Command.Type.USER)) throw new IllegalArgumentException("Command Data must be of type USER");
+        if (!(data.getType() == Command.Type.USER))
+            throw new IllegalArgumentException("Command Data must be of type USER");
     }
 }

@@ -89,6 +89,7 @@ public class PreBotMain extends PreBot {
     private boolean started;
     @Getter
     private long startTime = System.currentTimeMillis();
+
     public PreBotMain(Path rootDirectory) {
         PreBot.setPreBot(this);
         this.rootDirectory = rootDirectory;

@@ -45,8 +45,8 @@ import org.slf4j.Logger;
 
 import java.awt.*;
 import java.text.DecimalFormat;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class PreBotDiscordCommand implements SlashCommand {
@@ -55,6 +55,7 @@ public class PreBotDiscordCommand implements SlashCommand {
     @Getter
     private final SlashCommandData data;
     DecimalFormat formatter = new DecimalFormat("#.##");
+
     public PreBotDiscordCommand(PreBot core) {
         data = Commands.slash("prebot", "Commands for prebot management").setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_SERVER))
                 .addSubcommands(new SubcommandData("plugins", "Get list of installed plugins"))
@@ -89,7 +90,7 @@ public class PreBotDiscordCommand implements SlashCommand {
                     .addField("Uptime", Utils.getTime(System.currentTimeMillis() - core.getStartTime()), true);
 
             e.replyEmbeds(embed.build()).setEphemeral(true).queue();
-        }else if (e.getSubcommandName().equals("reload")) {
+        } else if (e.getSubcommandName().equals("reload")) {
             OptionMapping pluginOption = e.getOption("plugin");
             if (pluginOption == null) {
                 try {

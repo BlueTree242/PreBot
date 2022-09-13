@@ -41,6 +41,7 @@ public interface ContextCommand<T, E extends GenericContextInteractionEvent<T>> 
 
     /**
      * This redirects to {@link ContextCommand#onCommand(GenericContextInteractionEvent)} <strong>DO NOT OVERRIDE THIS</strong>
+     *
      * @param event the event
      */
     @SuppressWarnings("unchecked")

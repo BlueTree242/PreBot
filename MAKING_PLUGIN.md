@@ -12,15 +12,17 @@
 ## For Maven:
 
 ```xml
-  <repositories>
-        <repository>
-            <id>bluetree242-repo</id>
-            <url>https://repo.bluetree242.ml/repository/maven-public/</url>
-        </repository>     
-  </repositories>
+
+<repositories>
+    <repository>
+        <id>bluetree242-repo</id>
+        <url>https://repo.bluetree242.ml/repository/maven-public/</url>
+    </repository>
+</repositories>
 ```
 
 ```xml
+
 <dependencies>
     <dependency>
         <groupId>me.bluetree242.prebot</groupId>
@@ -59,12 +61,12 @@ add a resource `prebot.yml` in your project resources, and here is an example:
 ```yaml
 name: TestPlugin
 version: 1.0
-authors: [BlueTree242] #Must have at least 1 author
-dependencies: [] #other plugins that must be installed for this plugin to work
-softdependencies: [] # Other plugins that your plugin might use if it finds it installed
+authors: [ BlueTree242 ] #Must have at least 1 author
+dependencies: [ ] #other plugins that must be installed for this plugin to work
+softdependencies: [ ] # Other plugins that your plugin might use if it finds it installed
 main: package.to.main.MainClass #the main class of the plugin
-required-intents: [] #Intents this plugin requires, they will be enabled when the bot starts
-required-cache-flags: [] #Cache flags this plugin requires, they will be enabled when the bot starts
+required-intents: [ ] #Intents this plugin requires, they will be enabled when the bot starts
+required-cache-flags: [ ] #Cache flags this plugin requires, they will be enabled when the bot starts
 ```
 
 After creating your prebot.yml, you need to create your main class. **Your Main class must extend JarPlugin**
@@ -77,14 +79,17 @@ public class MainClass extends JarPlugin {
     public void onEnable() {
         //this is called when this plugin is enabling
     }
+
     @Override
     public void onDisable() {
         //this is called when this plugin is disabling
     }
+
     @Override
     public void onShardReady(JDA shard) {
         //this is called when a jda shard is ready
     }
+
     @Override
     public void onShardReconnect(JDA shard) {
         //this is called when a jda shard has reconnected
@@ -107,7 +112,8 @@ Extend `PluginConfiguration` in your interface. here is an example
 ```java
 public interface Config extends PluginConfig {
 
-    @AnnotationBasedSorter.Order(10) //order this option to be first (10 and not 1 to ease if you want to add others above it later)
+    @AnnotationBasedSorter.Order(10)
+    //order this option to be first (10 and not 1 to ease if you want to add others above it later)
     @ConfDefault.DefaultString("It's Working!")
     @ConfComments("This is just a test!")
     String test();
@@ -142,7 +148,7 @@ Here is an example if you want your config to be named `otherconfig.yml`
         reloadConfig("otherconfig", Config.class);
         getLogger().info("Value: {}", getOtherConfig().test()); //prints "It's Working!"
     }
-    
+
     public Config getOtherConfig() {
         return (Config) super.getConfig("otherconfig"); //return your Config and not PluginConfig
     }
@@ -157,15 +163,16 @@ Event System is managed by [JDAEventer](https://github.com/BlueTree242/JDAEvente
  public class MainClass extends JarPlugin {
     @Override
     public void onEnable() {
-        registerListeners(new ListenerClass()); 
+        registerListeners(new ListenerClass());
     }
 }
+
 public class ListenerClass implements DiscordListener {
     @HandleEvent
     public void onMessage(MessageReceivedEvent event) {
         //do whatever
     }
-    
+
     @HandleEvent
     public void onShardManagerBuild(ShardManagerPreBuildEvent event) {
         //a custom event we have, fired when we are about to build our shard manager.
@@ -194,6 +201,7 @@ static method or `JarPlugin#getPreBot.
 PreBot has API for Discord & Console Commands.
 
 ## Console Commands
+
 If you want to have your own console commands for PreBot, you have to register your
 commands into the console command manager (there is a shortcut in your main class). Here is an example
 
@@ -201,9 +209,10 @@ commands into the console command manager (there is a shortcut in your main clas
  public class MainClass extends JarPlugin {
     @Override
     public void onEnable() {
-        registerConsoleCommands(new TestCommand(this)); 
+        registerConsoleCommands(new TestCommand(this));
     }
 }
+
 public class TestCommand extends PluginConsoleCommand {
     public TestCommand(MainClass main) {
         super(main, "test", "Test console command");
@@ -221,13 +230,15 @@ public class TestCommand extends PluginConsoleCommand {
 Discord Commands are divided into 2 types, Slash Commands, and Context Commands, here is an example for both of them
 
 ### Slash Command
+
 ```java
 public class MainClass extends JarPlugin {
     @Override
     public void onEnable() {
-        registerCommand(new TestCommand(this)); 
+        registerCommand(new TestCommand(this));
     }
 }
+
 public class TestCommand extends PluginSlashCommand {
     public TestCommand(MainClass main) {
         super(
@@ -245,20 +256,23 @@ public class TestCommand extends PluginSlashCommand {
     //this is optional, to auto complete this command
     @Override
     public void onAutoComplete(CommandAutoCompleteInteractionEvent event) {
-        
+
     }
-    
+
 }
 ```
 
 ### Context Commands
+
 Example of a message command that counts words on a message:
+
 ```java
 public class MainClass extends JarPlugin {
     public void onEnable() {
         registerCommand(new TestCommand(this));
     }
 }
+
 public class TestCommand extends PluginMessageContextCommand {
     public TestCommand(MainClass main) {
         super(

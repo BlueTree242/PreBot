@@ -73,13 +73,17 @@ public class MainDiscordCommandManager implements DiscordCommandManager {
                 userCommands.put(cmd.getData().getName(), (UserContextCommand) cmd);
         }
     }
+
     private void performCheck(DiscordCommand... cmds) {
         int num = 0;
         for (DiscordCommand cmd : cmds) {
             num++;
-            if (cmd.getType() == Command.Type.SLASH && !(cmd instanceof SlashCommand)) throw new IllegalArgumentException("Command is type of SLASH, but not instance of SlashCommand, for command #" + num);
-            if (cmd.getType() == Command.Type.USER && !(cmd instanceof UserContextCommand)) throw new IllegalArgumentException("Command is type of USER, but not instance of UserContextCommand, for command #" + num);
-            if (cmd.getType() == Command.Type.MESSAGE && !(cmd instanceof MessageContextCommand)) throw new IllegalArgumentException("Command is type of MESSAGE, but not instance of MessageContextCommand, for command #" + num);
+            if (cmd.getType() == Command.Type.SLASH && !(cmd instanceof SlashCommand))
+                throw new IllegalArgumentException("Command is type of SLASH, but not instance of SlashCommand, for command #" + num);
+            if (cmd.getType() == Command.Type.USER && !(cmd instanceof UserContextCommand))
+                throw new IllegalArgumentException("Command is type of USER, but not instance of UserContextCommand, for command #" + num);
+            if (cmd.getType() == Command.Type.MESSAGE && !(cmd instanceof MessageContextCommand))
+                throw new IllegalArgumentException("Command is type of MESSAGE, but not instance of MessageContextCommand, for command #" + num);
         }
     }
 

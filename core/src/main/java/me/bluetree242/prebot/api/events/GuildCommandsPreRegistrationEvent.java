@@ -29,7 +29,10 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Custom event called when registering commands to a guild
@@ -39,10 +42,12 @@ import java.util.*;
 public class GuildCommandsPreRegistrationEvent {
     private final CommandListUpdateAction action;
     private final List<CommandData> commands = new ArrayList<>();
-    @Getter private final Guild guild;
+    @Getter
+    private final Guild guild;
 
     /**
      * Adds commands to be registered in the guild, make sure to check you will not hit the limit of 100 slash commands, 10 user commands and 10 context commands.
+     *
      * @param data data to add
      * @return this instance, for chaining
      */
@@ -54,6 +59,7 @@ public class GuildCommandsPreRegistrationEvent {
 
     /**
      * Adds commands to be registered in the guild, make sure to check you will not hit the limit of 100 slash commands, 10 user commands and 10 context commands.
+     *
      * @param data data to add
      * @return this instance, for chaining
      */
@@ -65,6 +71,7 @@ public class GuildCommandsPreRegistrationEvent {
 
     /**
      * Get all commands to be registered in this guild. <strong>NOTE:</strong> adding commands to this list will not register them
+     *
      * @return commands to be registered in the guild
      */
     public List<CommandData> getCommands() {

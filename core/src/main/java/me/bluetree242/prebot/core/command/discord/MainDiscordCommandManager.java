@@ -32,11 +32,14 @@ import me.bluetree242.prebot.api.commands.discord.context.MessageContextCommand;
 import me.bluetree242.prebot.api.commands.discord.context.UserContextCommand;
 import me.bluetree242.prebot.api.commands.discord.result.CommandRegistrationResult;
 import me.bluetree242.prebot.api.commands.discord.slash.SlashCommand;
+import me.bluetree242.prebot.api.events.DiscordCommandsRegistrationEvent;
+import me.bluetree242.prebot.api.events.GuildCommandsPreRegistrationEvent;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.requests.RestAction;
+import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 import org.slf4j.Logger;
 
 import java.util.*;
@@ -94,16 +97,18 @@ public class MainDiscordCommandManager implements DiscordCommandManager {
             }).collect(Collectors.toSet());
             Set<CommandData> data = commands.stream().map(DiscordCommand::getData).collect(Collectors.toSet());
             Set<DiscordCommand> finalCommands = commands;
+            CommandListUpdateAction action = guild.updateCommands();
+            GuildCommandsPreRegistrationEvent event = new GuildCommandsPreRegistrationEvent(action, guild).addCommands(data);
             actions.add(
-                    guild.updateCommands()
-                            .addCommands(data)
+                    action
                             .timeout(10, TimeUnit.SECONDS)
                             .map(r -> new CommandRegistrationResult(guild, data, finalCommands))
                             .onErrorMap(er -> new CommandRegistrationResult(guild, data, finalCommands, er))
             );
         }
         if (actions.isEmpty()) return;
-        RestAction.allOf(actions).timeout(30, TimeUnit.SECONDS).queue(s -> {
+        RestAction.allOf(actions).queue(s -> {
+            core.getEventer().fireEvent(new DiscordCommandsRegistrationEvent(s));
             Set<CommandRegistrationResult> failures = s.stream().filter(CommandRegistrationResult::isFailed).collect(Collectors.toSet());
             if (failures.isEmpty()) return; //no failures
             long maxCreateReached = failures.stream()

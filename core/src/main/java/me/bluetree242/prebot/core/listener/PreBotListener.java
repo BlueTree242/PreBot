@@ -26,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 import me.bluetree242.jdaeventer.DiscordListener;
 import me.bluetree242.jdaeventer.HandlerPriority;
 import me.bluetree242.jdaeventer.annotations.HandleEvent;
+import me.bluetree242.jdaeventer.objects.EventInformation;
 import me.bluetree242.prebot.api.LoggerProvider;
 import me.bluetree242.prebot.api.commands.discord.DiscordCommand;
 import me.bluetree242.prebot.api.commands.discord.slash.SlashCommand;
@@ -109,8 +110,8 @@ public class PreBotListener implements DiscordListener {
         return intent.name();
     }
 
-    @HandleEvent(priority = HandlerPriority.MONITOR, ignoreCancelMark = true)
-    public void onCommand(GenericCommandInteractionEvent e) {
+    @HandleEvent(priority = HandlerPriority.LOWEST)
+    public void onPreCommand(GenericCommandInteractionEvent e, EventInformation info) {
         final DiscordCommand command;
         if (e.getCommandType() == Command.Type.SLASH)
             command = core.getDiscordCommandManager().getSlashCommands().get(e.getName());
@@ -119,6 +120,12 @@ public class PreBotListener implements DiscordListener {
         else if (e.getCommandType() == Command.Type.MESSAGE)
             command = core.getDiscordCommandManager().getMessageCommands().get(e.getName());
         else command = null;
+        if (command != null) info.addNote("command", command);
+    }
+
+    @HandleEvent(priority = HandlerPriority.MONITOR, ignoreCancelMark = true)
+    public void onCommand(GenericCommandInteractionEvent e, EventInformation info) {
+        DiscordCommand command = (DiscordCommand) info.getNote("command");
         if (command == null) return;
         if (command instanceof PluginDiscordCommand) {
             Plugin plugin = ((PluginDiscordCommand) command).getPlugin();
@@ -148,9 +155,15 @@ public class PreBotListener implements DiscordListener {
         }
     }
 
-    @HandleEvent(priority = HandlerPriority.MONITOR, ignoreCancelMark = true)
-    public void onAutoComplete(CommandAutoCompleteInteractionEvent e) {
+    @HandleEvent(priority = HandlerPriority.LOWEST)
+    public void onPreAutoComplete(CommandAutoCompleteInteractionEvent e, EventInformation info) {
         SlashCommand command = core.getDiscordCommandManager().getSlashCommands().get(e.getName());
+        if (command != null) info.addNote("command", command);
+    }
+
+    @HandleEvent(priority = HandlerPriority.MONITOR, ignoreCancelMark = true)
+    public void onAutoComplete(CommandAutoCompleteInteractionEvent e, EventInformation info) {
+        SlashCommand command = (SlashCommand) info.getNote("command");
         if (command == null) return;
         if (command.isAdmin() && !core.isAdmin(e.getUser())) return;
         if (command instanceof PluginDiscordCommand) {

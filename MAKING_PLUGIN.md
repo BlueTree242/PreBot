@@ -183,6 +183,12 @@ your event class, and annotate it with `CustomEvent`. you can fire it using `JDA
 You can get JDAEventer instance using `PreBot#getJDAEventer`. And you can get PreBot instance using `PreBot#getInstance`
 static method or `JarPlugin#getPreBot.
 
+## PreBot's custom events
+
+1. `ShardManagerPreBuildEvent` fired right before building the shard manager.
+2. `GuildCommandsPreRegistrationEvent` fired right before registering commands to a discord server
+3. `DiscordCommandsRegistrationEvent` fired after registration of commands to some discord servers
+
 # Commands
 
 PreBot has API for Discord & Console Commands.

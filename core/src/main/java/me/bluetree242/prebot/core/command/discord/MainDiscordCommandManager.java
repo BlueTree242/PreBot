@@ -24,6 +24,7 @@ package me.bluetree242.prebot.core.command.discord;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import me.bluetree242.jdaeventer.objects.EventInformation;
 import me.bluetree242.prebot.api.LoggerProvider;
 import me.bluetree242.prebot.api.PreBot;
 import me.bluetree242.prebot.api.commands.discord.DiscordCommand;
@@ -103,7 +104,9 @@ public class MainDiscordCommandManager implements DiscordCommandManager {
             Set<DiscordCommand> finalCommands = commands;
             CommandListUpdateAction action = guild.updateCommands();
             GuildCommandsPreRegistrationEvent event = new GuildCommandsPreRegistrationEvent(action, guild).addCommands(data);
-            actions.add(
+            EventInformation info = new EventInformation(core.getEventer(), event);
+            core.getEventer().fireEvent(event, info);
+            if (!info.isMarkedCancelled()) actions.add(
                     action
                             .timeout(10, TimeUnit.SECONDS)
                             .map(r -> new CommandRegistrationResult(guild, data, finalCommands))

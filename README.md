@@ -21,6 +21,8 @@ This project is still in alpha, if you have any suggestions feel free to open a 
 5. Put your plugins in the plugins folder
 6. Start the bot again, it should go online.
 
+Your bot will stay online as soon as the bot's terminal is on and running, and your machine does not shut down or sleep/hibernate
+
 ## On Linux
 
 Currently, documenting only pterodactyl panel installation
@@ -28,6 +30,8 @@ Currently, documenting only pterodactyl panel installation
 ### Pterodactyl Panel Installation
 
 1. Create a new server, use this [egg](installation/egg-prebot.json) (view as raw and save page as)
+**If you are not an admin on panel**, you can use the regular java start command (the same one for minecraft, but bot.jar instead of server.jar),
+in case of minecraft egg, just set your server jarfile to `bot.jar`
 2. Download the latest release from [Releases](https://github.com/BlueTree242/PreBot/releases/), or experimental
    development build from [Jenkins](https://github.com/BlueTree242/PreBot/releases/)
    Download the `PreBot-VERSION.jar`, and rename to `prebot.jar`, and upload to your server.

@@ -42,6 +42,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.UserSnowflake;
+import net.dv8tion.jda.api.exceptions.InvalidTokenException;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
@@ -50,7 +51,6 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
-import javax.security.auth.login.LoginException;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.HashSet;
@@ -136,7 +136,7 @@ public class PreBotMain extends PreBot {
         try {
             shardManager = builder.build(true);
             started = true;
-        } catch (LoginException e) {
+        } catch (InvalidTokenException e) {
             LOGGER.error("The provided token in {} is invalid. Please make sure the token is correct and try again.", env ? "Environment Variable" : "config.yml");
         }
     }

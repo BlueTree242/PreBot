@@ -15,7 +15,7 @@ if (branch == null) branch = "unknown"
 var major = 1
 var minor = 0
 var revision = 0
-var verClassifier = 'alpha'
+var verClassifier = 'alpha1'
 var versionNoCommit = "${major}.${minor}.${revision}_${verClassifier}"
 var commit = System.getenv("GIT_COMMIT") ?: project.project.properties["GIT_COMMIT"]
 if (isCI && commit != null)

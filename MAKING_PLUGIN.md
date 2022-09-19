@@ -235,7 +235,7 @@ Discord Commands are divided into 2 types, Slash Commands, and Context Commands,
 public class MainClass extends JarPlugin {
     @Override
     public void onEnable() {
-        registerCommand(new TestCommand(this));
+        registerCommands(new TestCommand(this));
     }
 }
 
@@ -269,7 +269,7 @@ Example of a message command that counts words on a message:
 ```java
 public class MainClass extends JarPlugin {
     public void onEnable() {
-        registerCommand(new TestCommand(this));
+        registerCommands(new TestCommand(this));
     }
 }
 

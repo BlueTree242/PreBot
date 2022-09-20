@@ -60,12 +60,14 @@ public class JarPluginDescriptionFile implements PluginDescription {
         require("authors", yml, List.class);
         require("main", yml, String.class);
         name = (String) yml.get("name");
+        if (name.contains(" ")) throw new InvalidPluginException("Name cannot contain space");
         if (name.toLowerCase(Locale.ROOT).trim().equals("prebot") || name.toLowerCase(Locale.ROOT).trim().equals("all"))
             throw new IllegalArgumentException("Blacklisted Plugin Name");
         version = (String) yml.get("version");
         authors = Collections.unmodifiableList((List<String>) yml.get("authors"));
         if (authors.isEmpty()) throw new InvalidPluginException("Authors cannot be empty");
         main = (String) yml.get("main");
+        if (main.toLowerCase(Locale.ROOT).startsWith("me.bluetree242.prebot.") || main.toLowerCase(Locale.ROOT).startsWith("net.dv8tion.jda.")) throw new InvalidPluginException("Plugin's main class may not start with prebot or Jda's package");
         dependencies = Collections.unmodifiableList(yml.containsKey("dependencies") ? (List<String>) yml.get("dependencies") : new ArrayList<>());
         softDependencies = Collections.unmodifiableList(yml.containsKey("softdependencies") ? (List<String>) yml.get("softdependencies") : new ArrayList<>());
         if (yml.containsKey("required-intents") && !(yml.get("required-intents") instanceof List))

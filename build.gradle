@@ -50,6 +50,13 @@ allprojects {
     repositories {
         mavenCentral()
     }
+    javadoc {
+        if (JavaVersion.current() >= JavaVersion.VERSION_13) {
+            options.addBooleanOption("Xdoclint:all,-missing", true)
+        } else {
+            options.addBooleanOption("Xdoclint:all,-missing,-accessibility", true)
+        }
+    }
 }
 subprojects {
     task packageJavadoc(type: Jar, dependsOn: 'javadoc') {

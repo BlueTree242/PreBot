@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    implementation("net.dv8tion:JDA:5.0.0-alpha.19")
+    implementation("net.dv8tion:JDA:5.0.0-alpha.20")
     implementation('org.yaml:snakeyaml:1.30')
     implementation('org.slf4j:slf4j-api:2.0.0')
     implementation 'space.arim.dazzleconf:dazzleconf-ext-snakeyaml:1.2.1'

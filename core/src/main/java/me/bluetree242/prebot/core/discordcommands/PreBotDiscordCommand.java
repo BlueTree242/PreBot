@@ -23,6 +23,7 @@
 package me.bluetree242.prebot.core.discordcommands;
 
 import lombok.Getter;
+import me.bluetree242.jdaeventer.objects.EventInformation;
 import me.bluetree242.prebot.api.LoggerProvider;
 import me.bluetree242.prebot.api.PreBot;
 import me.bluetree242.prebot.api.PreBotVersion;
@@ -66,7 +67,7 @@ public class PreBotDiscordCommand implements SlashCommand {
 
 
     @Override
-    public void onCommand(SlashCommandInteractionEvent e) {
+    public void onCommand(SlashCommandInteractionEvent e, EventInformation info) {
         if (e.getSubcommandName() == null) return; //impossible, unless some plugin is messing with the system
         if (e.getSubcommandName().equals("plugins")) {
             StringJoiner joiner = new StringJoiner(", ", "", "");
@@ -143,7 +144,7 @@ public class PreBotDiscordCommand implements SlashCommand {
     }
 
     @Override
-    public void onAutoComplete(CommandAutoCompleteInteractionEvent e) {
+    public void onAutoComplete(CommandAutoCompleteInteractionEvent e, EventInformation info) {
         if (!e.getFocusedOption().getName().equals("plugin")) return;
         List<String> result = core.getPluginManager().getPlugins().stream().filter(Plugin::isEnabled).map(p -> p.getDescription().getName()).filter(n -> n.toLowerCase(Locale.ROOT).startsWith(e.getFocusedOption().getValue())).collect(Collectors.toList());
         result.add("all");

@@ -22,6 +22,7 @@
 
 package me.bluetree242.prebot.api.commands.discord.slash;
 
+import me.bluetree242.jdaeventer.objects.EventInformation;
 import me.bluetree242.prebot.api.commands.discord.DiscordCommand;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
@@ -41,24 +42,25 @@ public interface SlashCommand extends DiscordCommand {
      *
      * @param event slash command event
      */
-    void onCommand(SlashCommandInteractionEvent event);
+    void onCommand(SlashCommandInteractionEvent event, EventInformation info);
 
     /**
-     * This redirects to {@link SlashCommand#onCommand(SlashCommandInteractionEvent)} <strong>DO NOT OVERRIDE THIS</strong>
+     * This redirects to {@link SlashCommand#onCommand(SlashCommandInteractionEvent, EventInformation)} <strong>DO NOT OVERRIDE THIS</strong>
      *
      * @param event the event
      */
     @Override
-    default void onCommand(@NotNull GenericCommandInteractionEvent event) {
-        onCommand((SlashCommandInteractionEvent) event);
+    default void onCommand(@NotNull GenericCommandInteractionEvent event, EventInformation info) {
+        onCommand((SlashCommandInteractionEvent) event, info);
     }
 
     /**
      * Called when auto complete is requested for this command
      *
      * @param event the event
+     * @param info event information associated with this event
      */
-    default void onAutoComplete(CommandAutoCompleteInteractionEvent event) {
+    default void onAutoComplete(CommandAutoCompleteInteractionEvent event, EventInformation info) {
         //by default, nothing
     }
 }

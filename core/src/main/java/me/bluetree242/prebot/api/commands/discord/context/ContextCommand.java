@@ -22,6 +22,7 @@
 
 package me.bluetree242.prebot.api.commands.discord.context;
 
+import me.bluetree242.jdaeventer.objects.EventInformation;
 import me.bluetree242.prebot.api.commands.discord.DiscordCommand;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent;
@@ -37,16 +38,16 @@ public interface ContextCommand<T, E extends GenericContextInteractionEvent<T>> 
      *
      * @param event context command event
      */
-    void onCommand(E event);
+    void onCommand(E event, EventInformation info);
 
     /**
-     * This redirects to {@link ContextCommand#onCommand(GenericContextInteractionEvent)} <strong>DO NOT OVERRIDE THIS</strong>
-     *
+     * This redirects to {@link ContextCommand#onCommand} <strong>DO NOT OVERRIDE THIS</strong>
+     *(GenericContextInteractionEvent, EventInformation)
      * @param event the event
      */
     @SuppressWarnings("unchecked")
     @Override
-    default void onCommand(@NotNull GenericCommandInteractionEvent event) {
-        onCommand((E) event);
+    default void onCommand(@NotNull GenericCommandInteractionEvent event, EventInformation info) {
+        onCommand((E) event, info);
     }
 }

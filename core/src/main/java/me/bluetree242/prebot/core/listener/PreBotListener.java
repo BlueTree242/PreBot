@@ -142,7 +142,7 @@ public class PreBotListener implements DiscordListener {
             e.reply(":x: This command can only be used by bot admins").setEphemeral(true).queue();
         } else {
             try {
-                command.onCommand(e);
+                command.onCommand(e, info);
             } catch (Exception x) {
                 if (!e.isAcknowledged()) {
                     if (!core.isAdmin(e.getUser()))
@@ -171,7 +171,7 @@ public class PreBotListener implements DiscordListener {
             if (!plugin.isEnabled()) return;
         }
         try {
-            command.onAutoComplete(e);
+            command.onAutoComplete(e, info);
         } catch (Exception x) {
             LOGGER.error("An error occurred while auto completing command /" + command.getData().getName(), x);
         }

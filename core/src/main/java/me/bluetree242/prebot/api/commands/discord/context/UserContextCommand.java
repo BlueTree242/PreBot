@@ -22,6 +22,7 @@
 
 package me.bluetree242.prebot.api.commands.discord.context;
 
+import me.bluetree242.jdaeventer.objects.EventInformation;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.UserContextInteractionEvent;
 
@@ -31,5 +32,5 @@ import net.dv8tion.jda.api.events.interaction.command.UserContextInteractionEven
 public interface UserContextCommand extends ContextCommand<User, UserContextInteractionEvent> {
 
     @Override
-    void onCommand(UserContextInteractionEvent event);
+    void onCommand(UserContextInteractionEvent event, EventInformation info);
 }

@@ -22,6 +22,7 @@
 
 package me.bluetree242.prebot.api.commands.discord;
 
+import me.bluetree242.jdaeventer.objects.EventInformation;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.Command;
@@ -71,6 +72,7 @@ public interface DiscordCommand {
      * Called when this command was executed
      *
      * @param event the event
+     * @param info event information associated with this event
      */
-    void onCommand(@NotNull GenericCommandInteractionEvent event);
+    void onCommand(@NotNull GenericCommandInteractionEvent event, EventInformation info);
 }

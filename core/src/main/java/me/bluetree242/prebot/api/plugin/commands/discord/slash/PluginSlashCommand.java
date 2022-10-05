@@ -25,7 +25,6 @@ package me.bluetree242.prebot.api.plugin.commands.discord.slash;
 import me.bluetree242.prebot.api.commands.discord.slash.SlashCommand;
 import me.bluetree242.prebot.api.plugin.Plugin;
 import me.bluetree242.prebot.api.plugin.commands.discord.PluginDiscordCommand;
-import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 
 public abstract class PluginSlashCommand extends PluginDiscordCommand implements SlashCommand {
@@ -37,7 +36,4 @@ public abstract class PluginSlashCommand extends PluginDiscordCommand implements
     public SlashCommandData getData() {
         return (SlashCommandData) super.getData();
     }
-
-    @Override
-    public abstract void onCommand(SlashCommandInteractionEvent event);
 }

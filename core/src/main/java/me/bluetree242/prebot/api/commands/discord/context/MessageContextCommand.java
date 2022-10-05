@@ -22,6 +22,7 @@
 
 package me.bluetree242.prebot.api.commands.discord.context;
 
+import me.bluetree242.jdaeventer.objects.EventInformation;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionEvent;
 
@@ -31,5 +32,5 @@ import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionE
 public interface MessageContextCommand extends ContextCommand<Message, MessageContextInteractionEvent> {
 
     @Override
-    void onCommand(MessageContextInteractionEvent event);
+    void onCommand(MessageContextInteractionEvent event, EventInformation info);
 }

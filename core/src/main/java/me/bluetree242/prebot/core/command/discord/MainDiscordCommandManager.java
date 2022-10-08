@@ -100,7 +100,7 @@ public class MainDiscordCommandManager implements DiscordCommandManager {
                 if (core.isAdmin(guild)) return true;
                 else return !c.isAdmin();
             }).collect(Collectors.toSet());
-            Set<CommandData> data = commands.stream().map(DiscordCommand::getData).collect(Collectors.toSet());
+            Set<CommandData> data = commands.stream().map(c -> c.getData(guild)).collect(Collectors.toSet());
             Set<DiscordCommand> finalCommands = commands;
             CommandListUpdateAction action = guild.updateCommands();
             GuildCommandsPreRegistrationEvent event = new GuildCommandsPreRegistrationEvent(action, guild).addCommands(data);

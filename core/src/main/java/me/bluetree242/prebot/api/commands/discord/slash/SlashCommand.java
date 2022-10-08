@@ -24,6 +24,7 @@ package me.bluetree242.prebot.api.commands.discord.slash;
 
 import me.bluetree242.jdaeventer.objects.EventInformation;
 import me.bluetree242.prebot.api.commands.discord.DiscordCommand;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -35,6 +36,12 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface SlashCommand extends DiscordCommand {
 
+    @Override
+    default SlashCommandData getData(Guild guild) {
+        return getData();
+    }
+
+    @Override
     SlashCommandData getData();
 
     /**

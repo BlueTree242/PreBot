@@ -45,7 +45,17 @@ public interface DiscordCommand {
     }
 
     /**
-     * The command data for this command
+     * The command data for this command, for a specific guild, by default returns {@link DiscordCommand#getData()}
+     *
+     * @param guild guild to retrieve data for
+     * @return the command data
+     */
+    default CommandData getData(Guild guild) {
+        return getData();
+    }
+
+    /**
+     * The command data for this command, without a specific guild
      *
      * @return the command data
      */

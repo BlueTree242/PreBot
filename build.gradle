@@ -5,6 +5,9 @@ plugins {
 }
 repositories {
     mavenCentral()
+    repositories {
+        maven { url 'https://repo.bluetree242.ml/repository/maven-public/' }
+    }
 }
 var isCI = project.properties["BUILD_NUMBER"] != null // jenkins
         || System.getenv("BUILD_NUMBER") != null

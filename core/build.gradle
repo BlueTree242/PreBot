@@ -25,8 +25,7 @@ dependencies {
     implementation('org.yaml:snakeyaml:1.30')
     implementation('org.slf4j:slf4j-api:2.0.0')
     implementation 'space.arim.dazzleconf:dazzleconf-ext-snakeyaml:1.2.1'
-    //TODO release JDAEventer on my repo for versions that make more sense
-    implementation 'com.github.BlueTree242:JDAEventer:master-SNAPSHOT'
+    implementation 'me.bluetree242.jdaeventer:JDAEventer:1.0.0_alpha-c955aff-SNAPSHOT'
     implementation 'org.apache.commons:commons-lang3:3.12.0'
 }
 

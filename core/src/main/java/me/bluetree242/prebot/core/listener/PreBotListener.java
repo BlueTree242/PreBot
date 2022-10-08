@@ -34,12 +34,12 @@ import me.bluetree242.prebot.api.plugin.Plugin;
 import me.bluetree242.prebot.api.plugin.commands.discord.PluginDiscordCommand;
 import me.bluetree242.prebot.core.PreBotMain;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.events.ReadyEvent;
-import net.dv8tion.jda.api.events.ReconnectedEvent;
-import net.dv8tion.jda.api.events.ShutdownEvent;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.GenericCommandInteractionEvent;
+import net.dv8tion.jda.api.events.session.ReadyEvent;
+import net.dv8tion.jda.api.events.session.SessionRecreateEvent;
+import net.dv8tion.jda.api.events.session.ShutdownEvent;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.requests.CloseCode;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -66,7 +66,7 @@ public class PreBotListener implements DiscordListener {
     }
 
     @HandleEvent
-    public void onReconnect(ReconnectedEvent e) {
+    public void onReconnect(SessionRecreateEvent e) {
         for (Plugin plugin : new HashSet<>(core.getPluginManager().getPlugins())) {
             try {
                 if (plugin.isEnabled()) plugin.onShardReconnect(e.getJDA());

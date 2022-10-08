@@ -3,10 +3,6 @@ plugins {
     id 'application'
 }
 
-repositories {
-    maven { url 'https://jitpack.io' }
-    maven { url 'https://repository.apache.org/snapshots' }
-}
 mainClassName = "me.bluetree242.prebot.Main"
 jar.baseName = 'PreBot'
 shadowJar {

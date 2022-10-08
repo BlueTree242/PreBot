@@ -48,6 +48,7 @@ import java.awt.*;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class PreBotDiscordCommand implements SlashCommand {
@@ -88,7 +89,7 @@ public class PreBotDiscordCommand implements SlashCommand {
                     .addField("Enabled Plugins", core.getPluginManager().getPlugins().stream().filter(Plugin::isEnabled).count() + "", true)
                     .addField("Memory Usage", getMemoryUsage(), true)
                     .addField("Available Processors", Runtime.getRuntime().availableProcessors() + "", true)
-                    .addField("Uptime", Utils.getTime(System.currentTimeMillis() - core.getStartTime()), true);
+                    .addField("Start Time", "<t:" + TimeUnit.MILLISECONDS.toSeconds(core.getStartTime()) + ":R>", true);
 
             e.replyEmbeds(embed.build()).setEphemeral(true).queue();
         } else if (e.getSubcommandName().equals("reload")) {

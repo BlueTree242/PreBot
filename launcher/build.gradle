@@ -2,13 +2,14 @@ plugins {
     id 'java'
     id 'application'
 }
-
+apply plugin: 'com.github.johnrengelman.shadow'
 mainClassName = "me.bluetree242.prebot.Main"
 jar.baseName = 'PreBot'
 shadowJar {
     archiveFileName = "${jar.baseName}-${version}.${extension}"
     exclude "**/Log4j2Plugins.dat"
 }
+build.dependsOn shadowJar
 dependencies {
     implementation project(":core")
     implementation 'org.apache.logging.log4j:log4j-api:2.19.0'

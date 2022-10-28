@@ -1,5 +1,5 @@
 plugins {
-    id 'java'
+    id 'java-library'
     id("com.github.monosoul.yadegrap") version "1.0.0"
     id("net.kyori.blossom") version "1.2.0"
 }
@@ -17,12 +17,12 @@ blossom {
 jar.baseName = 'core'
 
 dependencies {
-    implementation("net.dv8tion:JDA:5.0.0-alpha.21")
-    implementation('org.yaml:snakeyaml:1.33')
-    implementation('org.slf4j:slf4j-api:2.0.3')
-    implementation 'space.arim.dazzleconf:dazzleconf-ext-snakeyaml:1.2.1'
-    implementation 'me.bluetree242.jdaeventer:JDAEventer:1.0.0_alpha-6aef0af-SNAPSHOT'
-    implementation 'org.apache.commons:commons-lang3:3.12.0'
+    api("net.dv8tion:JDA:5.0.0-alpha.21")
+    api('org.yaml:snakeyaml:1.33')
+    api('org.slf4j:slf4j-api:2.0.3')
+    api 'space.arim.dazzleconf:dazzleconf-ext-snakeyaml:1.2.1'
+    api 'me.bluetree242.jdaeventer:JDAEventer:1.0.0_alpha-6aef0af-SNAPSHOT'
+    api 'org.apache.commons:commons-lang3:3.12.0'
 }
 
 tasks.getByName('javadoc') {

@@ -58,7 +58,7 @@ public interface Plugin extends Comparable<Plugin> {
      * This is only called when plugin is enabled
      *
      * @param shard the shard that has just went ready
-     * @see net.dv8tion.jda.api.events.ReadyEvent
+     * @see net.dv8tion.jda.api.events.session.ReadyEvent
      */
     void onShardReady(JDA shard);
 
@@ -67,7 +67,7 @@ public interface Plugin extends Comparable<Plugin> {
      * This is only called when plugin is enabled
      *
      * @param shard the shard that has just reconnected
-     * @see net.dv8tion.jda.api.events.ReconnectedEvent
+     * @see net.dv8tion.jda.api.events.session.SessionRecreateEvent
      */
     void onShardReconnect(JDA shard);
 

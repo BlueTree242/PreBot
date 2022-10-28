@@ -32,14 +32,9 @@ project.ext.set('commit', commit)
 group = 'me.bluetree242.prebot'
 allprojects {
     apply plugin: 'java'
-    apply plugin: 'com.github.johnrengelman.shadow'
     apply plugin: 'maven-publish'
     compileJava.options.encoding 'UTF-8'
     version = "${versionNoCommit}${branch != 'origin/master' ? "-${commit}-SNAPSHOT" : ''}"
-    shadowJar {
-        classifier ''
-    }
-    build.dependsOn shadowJar
     dependencies {
         compileOnly 'org.projectlombok:lombok:1.18.24'
         annotationProcessor 'org.projectlombok:lombok:1.18.24'

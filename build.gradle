@@ -44,6 +44,7 @@ allprojects {
     }
     repositories {
         mavenCentral()
+        mavenLocal()//Added since my repo is down and one of the dependencies is on my repo so i decided to deploy locallty until repo is back
         maven { url 'https://repo.bluetree242.ml/repository/maven-public/' }
     }
     javadoc {

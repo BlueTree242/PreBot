@@ -1,2 +1,2 @@
-java -jar prebot.jar
+java -jar prebot.jar -nogui
 PAUSE

@@ -58,6 +58,7 @@ See the Instructions for making a PreBot Plugin [here](MAKING_PLUGIN.md)
 -  [X] Discord Commands API.
 -  [ ] Messages System, and Placeholder system for plugins.
 -  [ ] Database for plugins, to ease for database-based plugins.
--  [ ] Settings & Configuration (Per Guild) with powerful API.
+-  [ ] Settings & Configuration (Per Guild, or User, or Global) with powerful API.
 -  [ ] Library System, make prebot download libraries instead of shading them.
--  [ ] Ability to run the bot as a Spigot, Bungee or Velocity plugin.
+-  [ ] Ability to run the bot as a Spigot, Bungee or Velocity plugin, and allow some plugins to access other spigot
+   plugins or spigot api

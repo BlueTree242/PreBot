@@ -31,7 +31,10 @@ import net.minecrell.terminalconsole.TerminalConsoleAppender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.swing.*;
+import java.awt.*;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 public class Main extends SimpleTerminalConsole {
     static {
@@ -44,12 +47,32 @@ public class Main extends SimpleTerminalConsole {
     }
 
     public static void main(String[] args) {
+        if ((args.length == 0) || Arrays.stream(args).noneMatch(s -> s.equalsIgnoreCase("-nogui"))) showGUI();
         TerminalConsoleAppender.isAnsiSupported(); //this initializes terminal
         Thread thread = new Thread(() -> new Main().start());
         thread.setDaemon(true);
         thread.setName("PreBot-Command-Listener");
         thread.start(); //start listening for commands
         PreBotMain prebot = new PreBotMain(System.getenv("bot.root") == null ? Paths.get(".") : Paths.get(System.getenv("bot.root")));
+    }
+
+    private static void showGUI() { //Temporary GUI to help prevent running bot from jar
+        if (GraphicsEnvironment.isHeadless()) return;
+        String[] text = new String[]
+                {
+                        "PreBot detected possible problems ",
+                        "There is a chance you accidentally double-clicked the jar instead of using a start script",
+                        "Which means if PreBot starts you wouldn't be able to see console or control it.",
+                        "If you are 100% sure you are using a script, you can add -nogui to the end of your command.",
+                        "PreBot is currently not ON until you do the previous."
+                };
+        //also a console message
+        System.out.println("If you can see this it means that you are able to see the console and probably control it, to start prebot please add -nogui to your startup command.");
+        JOptionPane.showOptionDialog(
+                null,
+                String.join("\n", text),
+                "PreBot cannot start", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, null, null);
+        System.exit(-1);
     }
 
     @Override

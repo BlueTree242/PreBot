@@ -68,6 +68,9 @@ public class Main extends SimpleTerminalConsole {
                 };
         //also a console message
         System.out.println("If you can see this it means that you are able to see the console and probably control it, to start prebot please add -nogui to your startup command.");
+        final Runnable runnable =
+                (Runnable) Toolkit.getDefaultToolkit().getDesktopProperty("win.sound.exclamation");
+        if (runnable != null) runnable.run();
         JOptionPane.showOptionDialog(
                 null,
                 String.join("\n", text),

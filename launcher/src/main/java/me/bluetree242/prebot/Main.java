@@ -56,6 +56,7 @@ public class Main extends SimpleTerminalConsole {
         PreBotMain prebot = new PreBotMain(System.getenv("bot.root") == null ? Paths.get(".") : Paths.get(System.getenv("bot.root")));
     }
 
+    @SneakyThrows
     private static void showGUI() { //Temporary GUI to help prevent running bot from jar
         if (GraphicsEnvironment.isHeadless()) return;
         String[] text = new String[]
@@ -71,6 +72,7 @@ public class Main extends SimpleTerminalConsole {
         final Runnable runnable =
                 (Runnable) Toolkit.getDefaultToolkit().getDesktopProperty("win.sound.exclamation");
         if (runnable != null) runnable.run();
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         JOptionPane.showOptionDialog(
                 null,
                 String.join("\n", text),

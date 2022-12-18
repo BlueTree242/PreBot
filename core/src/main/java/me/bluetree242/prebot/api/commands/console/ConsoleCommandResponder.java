@@ -33,7 +33,7 @@ import org.slf4j.Logger;
  */
 @RequiredArgsConstructor
 public class ConsoleCommandResponder {
-    private static final Logger LOGGER = LoggerProvider.getProvider().getLogger(ConsoleCommandResponder.class);
+    private static final Logger LOGGER = LoggerProvider.getLogger(ConsoleCommandResponder.class);
     @Getter(onMethod_ = {@Nullable})
     private final ConsoleCommand command;
 

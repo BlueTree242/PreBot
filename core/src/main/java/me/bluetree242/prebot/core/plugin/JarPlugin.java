@@ -50,7 +50,7 @@ import java.util.Set;
  */
 @RequiredArgsConstructor
 public class JarPlugin implements Plugin {
-    private static final Logger LOGGER = LoggerProvider.getProvider().getLogger(Plugin.class);
+    private static final Logger LOGGER = LoggerProvider.getLogger(Plugin.class);
     @Getter
     private final JarPluginDescriptionFile description;
     @Getter

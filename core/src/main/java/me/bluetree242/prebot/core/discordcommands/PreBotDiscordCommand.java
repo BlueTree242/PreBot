@@ -52,7 +52,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class PreBotDiscordCommand implements SlashCommand {
-    private static final Logger LOGGER = LoggerProvider.getProvider().getLogger(PreBotDiscordCommand.class);
+    private static final Logger LOGGER = LoggerProvider.getLogger(PreBotDiscordCommand.class);
     private final PreBot core;
     @Getter
     private final SlashCommandData data;

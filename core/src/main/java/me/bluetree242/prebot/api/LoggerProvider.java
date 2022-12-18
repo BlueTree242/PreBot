@@ -22,18 +22,16 @@
 
 package me.bluetree242.prebot.api;
 
-import lombok.Getter;
-import lombok.Setter;
+import me.bluetree242.prebot.platform.Platform;
 import org.slf4j.Logger;
 
 /**
  * This class Provides Loggers for PreBot.
  * Plugins should never use this.
  */
-public abstract class LoggerProvider {
-    @Getter
-    @Setter
-    private static LoggerProvider provider;
+public class LoggerProvider {
 
-    public abstract Logger getLogger(Class<?> clz);
+    public static Logger getLogger(Class<?> clz) {
+        return Platform.getInstance().getLogger(clz);
+    }
 }

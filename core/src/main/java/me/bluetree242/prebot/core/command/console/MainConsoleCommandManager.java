@@ -36,7 +36,7 @@ import java.util.*;
 
 @RequiredArgsConstructor
 public class MainConsoleCommandManager implements ConsoleCommandManager {
-    private static final Logger LOGGER = LoggerProvider.getProvider().getLogger(MainConsoleCommandManager.class);
+    private static final Logger LOGGER = LoggerProvider.getLogger(MainConsoleCommandManager.class);
     @Getter
     private final Set<ConsoleCommand> commands = new HashSet<>();
     @Getter

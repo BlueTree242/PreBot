@@ -47,7 +47,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class MainPluginManager implements PluginManager {
-    private static final Logger LOGGER = LoggerProvider.getProvider().getLogger(MainPluginManager.class);
+    private static final Logger LOGGER = LoggerProvider.getLogger(MainPluginManager.class);
     private final PreBotMain core;
     @Getter
     private final Set<Plugin> plugins = new HashSet<>();

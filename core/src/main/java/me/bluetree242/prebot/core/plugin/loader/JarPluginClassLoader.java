@@ -39,7 +39,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class JarPluginClassLoader extends URLClassLoader {
-    private static final Logger LOGGER = LoggerProvider.getProvider().getLogger(JarPluginClassLoader.class);
+    private static final Logger LOGGER = LoggerProvider.getLogger(JarPluginClassLoader.class);
     @Getter
     private final JarPluginDescriptionFile description;
     @Getter

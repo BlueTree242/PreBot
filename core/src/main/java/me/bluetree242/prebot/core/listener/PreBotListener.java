@@ -50,7 +50,7 @@ import java.util.HashSet;
 
 @RequiredArgsConstructor
 public class PreBotListener implements DiscordListener {
-    private static final Logger LOGGER = LoggerProvider.getProvider().getLogger(PreBotListener.class);
+    private static final Logger LOGGER = LoggerProvider.getLogger(PreBotListener.class);
     private final PreBotMain core;
 
     @HandleEvent

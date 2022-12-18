@@ -22,10 +22,12 @@
 
 package me.bluetree242.prebot;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.SneakyThrows;
-import me.bluetree242.prebot.api.LoggerProvider;
 import me.bluetree242.prebot.api.PreBot;
 import me.bluetree242.prebot.core.PreBotMain;
+import me.bluetree242.prebot.platform.Platform;
 import net.minecrell.terminalconsole.SimpleTerminalConsole;
 import net.minecrell.terminalconsole.TerminalConsoleAppender;
 import org.slf4j.Logger;
@@ -37,23 +39,19 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 
 public class Main extends SimpleTerminalConsole {
-    static {
-        LoggerProvider.setProvider(new LoggerProvider() {
-            @Override
-            public Logger getLogger(Class<?> clz) {
-                return LoggerFactory.getLogger(clz);
-            }
-        });
-    }
 
     public static void main(String[] args) {
         if ((args.length == 0) || Arrays.stream(args).noneMatch(s -> s.equalsIgnoreCase("-nogui"))) showGUI();
+
+        StandalonePlatform platform = new StandalonePlatform();
+        PreBotMain prebot = new PreBotMain(System.getenv("bot.root") == null ? Paths.get(".") : Paths.get(System.getenv("bot.root")));
+        platform.setPreBot(prebot);
         TerminalConsoleAppender.isAnsiSupported(); //this initializes terminal
         Thread thread = new Thread(() -> new Main().start());
         thread.setDaemon(true);
         thread.setName("PreBot-Command-Listener");
         thread.start(); //start listening for commands
-        PreBotMain prebot = new PreBotMain(System.getenv("bot.root") == null ? Paths.get(".") : Paths.get(System.getenv("bot.root")));
+        prebot.start();
     }
 
     @SneakyThrows
@@ -100,5 +98,25 @@ public class Main extends SimpleTerminalConsole {
         if (PreBot.getInstance() == null || PreBot.getInstance().isStopped()) return;
         while (!PreBot.getInstance().isStarted()) Thread.sleep(100); //wait for prebot to start
         PreBot.getInstance().stop();
+    }
+
+    private static class StandalonePlatform extends Platform {
+        @Getter
+        @Setter
+        private PreBot preBot;
+
+        public StandalonePlatform() {
+            Platform.setPlatform(this);
+        }
+
+        @Override
+        public Platform.PlatformType getType() {
+            return PlatformType.STANDALONE;
+        }
+
+        @Override
+        public Logger getLogger(Class<?> clz) {
+            return LoggerFactory.getLogger(clz);
+        }
     }
 }

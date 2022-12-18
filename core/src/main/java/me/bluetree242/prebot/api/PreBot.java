@@ -27,6 +27,7 @@ import me.bluetree242.prebot.api.commands.console.ConsoleCommandManager;
 import me.bluetree242.prebot.api.commands.discord.DiscordCommandManager;
 import me.bluetree242.prebot.api.plugin.PluginManager;
 import me.bluetree242.prebot.config.PreBotConfig;
+import me.bluetree242.prebot.platform.Platform;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.UserSnowflake;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -44,8 +45,6 @@ import java.util.concurrent.ThreadPoolExecutor;
  */
 public abstract class PreBot {
 
-    private static PreBot bot;
-
     /**
      * Only classes that extend PreBot may call this
      */
@@ -54,25 +53,13 @@ public abstract class PreBot {
 
     /**
      * gets the current instance of PreBot.
-     * This is never null when plugins are being loaded.
      *
      * @return the instance of PreBot currently running
-     * @throws RuntimeException if the implementation of PreBot is not set
+     * @see Platform#getPreBot()
      */
     @Nullable
     public static PreBot getInstance() {
-        return bot;
-    }
-
-    /**
-     * Sets the prebot instance.
-     *
-     * @param prebot the instance to set
-     */
-    public static void setPreBot(@NotNull PreBot prebot) {
-        if (bot != null)
-            throw new UnsupportedOperationException("Instance is already set, and it is not closed.");
-        bot = prebot;
+        return Platform.getInstance().getPreBot();
     }
 
 

@@ -50,7 +50,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class MainDiscordCommandManager implements DiscordCommandManager {
-    private static final Logger LOGGER = LoggerProvider.getProvider().getLogger(MainDiscordCommandManager.class);
+    private static final Logger LOGGER = LoggerProvider.getLogger(MainDiscordCommandManager.class);
     private final PreBot core;
     @Getter
     private final Set<DiscordCommand> commands = new HashSet<>();

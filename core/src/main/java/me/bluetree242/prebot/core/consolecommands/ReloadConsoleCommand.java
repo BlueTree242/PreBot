@@ -34,7 +34,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ReloadConsoleCommand extends PreBotConsoleCommand {
-    private static final Logger LOGGER = LoggerProvider.getProvider().getLogger(ReloadConsoleCommand.class);
+    private static final Logger LOGGER = LoggerProvider.getLogger(ReloadConsoleCommand.class);
     private final PreBot core;
 
     public ReloadConsoleCommand(PreBot core) {

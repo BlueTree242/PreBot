@@ -60,7 +60,7 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class PreBotMain extends PreBot {
-    private static final Logger LOGGER = LoggerProvider.getProvider().getLogger(PreBotMain.class);
+    private static final Logger LOGGER = LoggerProvider.getLogger(PreBotMain.class);
     @Getter
     private final Path rootDirectory;
     @Getter
@@ -91,12 +91,12 @@ public class PreBotMain extends PreBot {
     private long startTime = System.currentTimeMillis();
 
     public PreBotMain(Path rootDirectory) {
-        PreBot.setPreBot(this);
         this.rootDirectory = rootDirectory;
-        start();
     }
-
-    private void start() {
+    private boolean startCalled = false;
+    public void start() {
+        if (startCalled) throw new IllegalStateException();
+        startCalled = true;
         LOGGER.info("Starting PreBot {}...", PreBotVersion.VERSION);
         LOGGER.info("Loading configuration..");
         reloadConfig();

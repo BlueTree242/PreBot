@@ -52,6 +52,7 @@ allprojects {
         } else {
             options.addBooleanOption("Xdoclint:all,-missing,-accessibility", true)
         }
+        options.encoding = 'UTF-8'
     }
 }
 subprojects {

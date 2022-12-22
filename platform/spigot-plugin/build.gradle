@@ -32,8 +32,8 @@ processResources {
         ]
     }
 }
+tasks.withType(Jar).all { duplicatesStrategy 'INCLUDE' }
 tasks.withType(Copy).all { duplicatesStrategy 'INCLUDE' }
-
 
 sourceSets {
     main {

@@ -34,7 +34,10 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public class SpigotCoreImpl extends Platform implements SpigotCore{
     static {
@@ -77,13 +80,18 @@ public class SpigotCoreImpl extends Platform implements SpigotCore{
         } else prebot.getConsoleCommandManager().executeConsoleCommand(cmd, c -> new Responder(this, c, respond));
     }
 
+    @Override
+    public List<String> getConsoleCommands() {
+        if (prebot == null || !prebot.isStarted() || prebot.isStopped()) return Collections.emptyList();
+        return prebot.getConsoleCommandManager().getCommands().stream().map(ConsoleCommand::getName).collect(Collectors.toList());
+    }
+
     public static class Responder extends ConsoleCommandResponder {
         private final Consumer<String> respond;
-        private final SpigotCoreImpl core;
+
         public Responder(SpigotCoreImpl core, ConsoleCommand command, Consumer<String> respond) {
             super(command);
             this.respond = respond != null ? respond : r -> core.getPlugin().sendConsole(r);
-            this.core = core;
         }
 
         @Override
@@ -111,5 +119,15 @@ public class SpigotCoreImpl extends Platform implements SpigotCore{
     @Override
     public void onStop() {
         if (plugin.isEnabled()) plugin.disable();
+    }
+
+    @Override
+    public String getHelpCommandHeader(String label) {
+        return TextColor.GREEN + "Listing all commands, run \"/prebot " + label + " <command>\" to get help for a specific command";
+    }
+
+    @Override
+    public String getUnknownCommandMessage() {
+        return "Unknown Command. Type \"/prebot ?\" for list of existing commands.";
     }
 }

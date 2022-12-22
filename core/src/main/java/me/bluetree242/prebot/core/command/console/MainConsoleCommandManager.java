@@ -30,6 +30,7 @@ import me.bluetree242.prebot.api.commands.console.ConsoleCommand;
 import me.bluetree242.prebot.api.commands.console.ConsoleCommandManager;
 import me.bluetree242.prebot.api.commands.console.ConsoleCommandResponder;
 import me.bluetree242.prebot.api.plugin.commands.console.PluginConsoleCommand;
+import me.bluetree242.prebot.platform.Platform;
 import org.slf4j.Logger;
 
 import java.util.*;
@@ -60,7 +61,7 @@ public class MainConsoleCommandManager implements ConsoleCommandManager {
                     }
                     command.execute(label, args, responder); //execute the command
                 } else {
-                    responder.send("Unknown Command. Type \"?\" for list of existing commands.");
+                    responder.send(Platform.getInstance().getUnknownCommandMessage());
                 }
             } catch (Exception ex) {
                 LOGGER.error("An error occurred while executing console command \"" + cmd + "\"", ex);

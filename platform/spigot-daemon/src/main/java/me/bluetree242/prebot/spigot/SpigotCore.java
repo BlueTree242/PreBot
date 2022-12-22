@@ -22,6 +22,7 @@
 
 package me.bluetree242.prebot.spigot;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 public interface SpigotCore {
@@ -30,4 +31,6 @@ public interface SpigotCore {
     void onDisable();
 
     void executeConsoleCommand(String cmd, Consumer<String> respond);
+
+    List<String> getConsoleCommands();
 }

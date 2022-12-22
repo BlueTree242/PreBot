@@ -24,6 +24,7 @@ package me.bluetree242.prebot.platform;
 
 import lombok.Getter;
 import me.bluetree242.prebot.api.PreBot;
+import me.bluetree242.prebot.api.color.TextColor;
 import me.bluetree242.prebot.api.commands.console.ConsoleCommand;
 import me.bluetree242.prebot.api.commands.console.ConsoleCommandResponder;
 import org.slf4j.Logger;
@@ -130,4 +131,23 @@ public abstract class Platform {
      * Called before stopping PreBot
      */
     public void onStop() {}
+
+    /**
+     * Get the message header when the console help command is used
+     * @param label label of help command, like ? or help
+     * @return message header for console help
+     */
+    public String getHelpCommandHeader(String label) {
+        return TextColor.GREEN + "Listing all commands, run \"" + label + " <command>\" to get help for a specific command";
+    }
+
+    /**
+     * The message when unknown console command is used
+     * @return the unknown console command message.
+     */
+    public String getUnknownCommandMessage() {
+        return "Unknown Command. Type \"?\" for list of existing commands.";
+    }
+
+    //TODO close() method called when prebot closes can be an error or regular stop (with reason)
 }

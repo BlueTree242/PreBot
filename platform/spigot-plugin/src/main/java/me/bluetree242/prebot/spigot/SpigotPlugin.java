@@ -28,22 +28,24 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.logging.LogRecord;
+import java.util.stream.Collectors;
 
-public class SpigotPlugin extends JavaPlugin implements SpigotPluginDaemon, CommandExecutor {
+public class SpigotPlugin extends JavaPlugin implements SpigotPluginDaemon, CommandExecutor, TabCompleter {
     private SpigotCore core;
 
     @Override
     public void onEnable() {
         Objects.requireNonNull(getServer().getPluginCommand("prebot")).setExecutor(this);
+        Objects.requireNonNull(getServer().getPluginCommand("prebot")).setTabCompleter(this);
         core.onEnable();
     }
 
@@ -84,7 +86,7 @@ public class SpigotPlugin extends JavaPlugin implements SpigotPluginDaemon, Comm
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Consumer<String> responder = output -> sender.sendMessage(ChatColor.translateAlternateColorCodes('§', "§e" + output));
         if (args.length == 0) {
-            core.executeConsoleCommand("ver", responder);
+            responder.accept("§eRunning PreBot §c" + getDescription().getVersion());
         } else {
             if (!sender.hasPermission("prebot.command")) {
                 sender.sendMessage(ChatColor.RED + "You do not have permission to use this.");
@@ -94,5 +96,11 @@ public class SpigotPlugin extends JavaPlugin implements SpigotPluginDaemon, Comm
             core.executeConsoleCommand(args[0] + " " + String.join(" ", modifiedArray), responder);
         }
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        if (args.length == 1) return core.getConsoleCommands().stream().filter(c -> c.toLowerCase(Locale.ROOT).startsWith(args[0].toLowerCase())).collect(Collectors.toList());
+        else return Collections.emptyList();
     }
 }

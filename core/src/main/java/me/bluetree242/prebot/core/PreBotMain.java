@@ -194,10 +194,10 @@ public class PreBotMain extends PreBot {
         if (stopped) return; //already stopped/stopping
         LOGGER.info("Shutting down PreBot..");
         stopped = true;
+        pluginManager.disablePlugins();
         //make sure no shards are reconnecting
         while (shardManager == null || shardManager.getShards().stream().anyMatch(j -> j.getStatus() != JDA.Status.CONNECTED && j.getStatus() != JDA.Status.DISCONNECTED))
             Thread.sleep(100);
-        pluginManager.disablePlugins();
         LOGGER.info("Shutting down Shard Manager..");
         shardManager.shutdown();
     }

@@ -1,0 +1,15 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow'
+}
+
+dependencies {
+    implementation project(":core")
+    compileOnly project(":platform:spigot-daemon")
+}
+tasks.build.finalizedBy shadowJar
+shadowJar {
+    classifier ''
+}
+jar.archiveFileName = "spigot-core.jarx"
+shadowJar.archiveFileName = jar.archiveFileName

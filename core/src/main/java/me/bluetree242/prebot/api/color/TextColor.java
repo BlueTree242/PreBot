@@ -62,10 +62,11 @@ public enum TextColor {
      * @return provided string but without any color codes
      */
     public static String strip(String s) {
+        String result = s;
         for (TextColor value : values()) {
-            if (s.contains(codePrefix + value.code)) s = s.replace(codePrefix + value.code, "");
+            if (s.contains(codePrefix + value.code)) result = result.replace(codePrefix + value.code, "");
         }
-        return s;
+        return result;
     }
 
     @Override

@@ -1,3 +1,11 @@
 rootProject.name = 'PreBot'
 include 'core'
 include 'launcher'
+include 'platform'
+include 'platform:spigot-plugin'
+findProject(':platform:spigot-plugin')?.name = 'spigot-plugin'
+include 'platform:spigot-core'
+findProject(':platform:spigot-core')?.name = 'spigot-core'
+include 'platform:spigot-daemon'
+findProject(':platform:spigot-daemon')?.name = 'spigot-daemon'
+

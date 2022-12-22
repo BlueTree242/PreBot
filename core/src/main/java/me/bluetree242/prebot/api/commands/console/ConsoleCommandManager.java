@@ -23,10 +23,12 @@
 package me.bluetree242.prebot.api.commands.console;
 
 import me.bluetree242.prebot.api.PreBot;
+import me.bluetree242.prebot.platform.Platform;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 
 /**
  * This class controls console commands
@@ -39,7 +41,17 @@ public interface ConsoleCommandManager {
      *
      * @param cmd exact command to execute, as if it was written in the console.
      */
-    void executeConsoleCommand(String cmd);
+    void executeConsoleCommand(String cmd, Function<ConsoleCommand, ConsoleCommandResponder> responder);
+
+    /**
+     * Executes a console command, in {@link PreBot#getExecutor()}<br>
+     * Uses platform's ConsoleCommandResponder
+     *
+     * @param cmd exact command to execute, as if it was written in the console.
+     */
+    default void executeConsoleCommand(String cmd) {
+        executeConsoleCommand(cmd, c -> Platform.getInstance().getConsoleCommandResponder(c));
+    }
 
     /**
      * The registered Commands

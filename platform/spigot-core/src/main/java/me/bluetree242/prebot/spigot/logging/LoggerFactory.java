@@ -1,0 +1,105 @@
+/*
+ * LICENSE
+ * PreBot
+ * -------------
+ * Copyright (C) 2022 - 2022 BlueTree242
+ * -------------
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this program.  If not, see
+ * <http://www.gnu.org/licenses/gpl-3.0.html>.
+ * END
+ */
+
+package me.bluetree242.prebot.spigot.logging;
+
+import lombok.RequiredArgsConstructor;
+import me.bluetree242.prebot.api.color.TextColor;
+import me.bluetree242.prebot.platform.Platform;
+import me.bluetree242.prebot.spigot.SpigotCoreImpl;
+import org.slf4j.ILoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.Marker;
+import org.slf4j.event.Level;
+import org.slf4j.helpers.LegacyAbstractLogger;
+
+import java.util.logging.LogRecord;
+
+public class LoggerFactory implements ILoggerFactory {
+    @Override
+    public Logger getLogger(String name) {
+        return new SpigotLogger(name);
+    }
+
+    @RequiredArgsConstructor
+    public static class SpigotLogger extends LegacyAbstractLogger {
+        private final String name;
+
+        @Override
+        protected String getFullyQualifiedCallerName() {
+            return LegacyAbstractLogger.class.getName();
+        }
+
+        @Override
+        protected void handleNormalizedLoggingCall(Level level, Marker marker, String msg, Object[] arguments, Throwable throwable) {
+            SpigotCoreImpl plat = (SpigotCoreImpl) Platform.getInstance();
+            if (arguments != null) {
+                int num = 0;
+                for (Object argument : arguments) {
+                    num++;
+                    if (num > arguments.length) continue;
+                    msg = msg.replaceFirst("\\{}", argument.toString());
+                }
+            }
+            LogRecord record = new LogRecord(toJUtilLevel(level), msg);
+            record.setParameters(arguments);
+            record.setThrown(throwable);
+            plat.getPlugin().log(record);
+        }
+
+        private java.util.logging.Level toJUtilLevel(Level level) {
+            switch (level) {
+                case WARN:
+                    return java.util.logging.Level.WARNING;
+                case ERROR:
+                    return java.util.logging.Level.SEVERE;
+                default:
+                    return java.util.logging.Level.INFO;
+            }
+        }
+
+        @Override
+        public boolean isTraceEnabled() {
+            return false;
+        }
+
+        @Override
+        public boolean isDebugEnabled() {
+            return false;
+        }
+
+        @Override
+        public boolean isInfoEnabled() {
+            return true;
+        }
+
+        @Override
+        public boolean isWarnEnabled() {
+            return true;
+        }
+
+        @Override
+        public boolean isErrorEnabled() {
+            return true;
+        }
+    }
+}

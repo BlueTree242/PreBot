@@ -33,6 +33,7 @@ import me.bluetree242.prebot.api.plugin.commands.console.PluginConsoleCommand;
 import org.slf4j.Logger;
 
 import java.util.*;
+import java.util.function.Function;
 
 @RequiredArgsConstructor
 public class MainConsoleCommandManager implements ConsoleCommandManager {
@@ -44,14 +45,14 @@ public class MainConsoleCommandManager implements ConsoleCommandManager {
     private final PreBot core;
 
     @Override
-    public void executeConsoleCommand(String cmd) {
+    public void executeConsoleCommand(String cmd, Function<ConsoleCommand, ConsoleCommandResponder> responderF) {
         core.getExecutor().execute(() -> {
             String[] split = cmd.split(" ");
             String label = split[0];
             String[] args = Arrays.copyOfRange(split, 1, split.length);
             ConsoleCommand command = commandsMap.get(label.toLowerCase(Locale.ROOT));
+            ConsoleCommandResponder responder = new ConsoleCommandResponder(command);
             try {
-                ConsoleCommandResponder responder = new ConsoleCommandResponder(command);
                 if (command != null) {
                     if (command instanceof PluginConsoleCommand) {
                         if (!((PluginConsoleCommand) command).getPlugin().isEnabled())

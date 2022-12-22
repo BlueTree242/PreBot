@@ -1,0 +1,47 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow'
+}
+
+repositories {
+    maven {
+        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+        content {
+            includeGroup 'org.bukkit'
+            includeGroup 'org.spigotmc'
+        }
+    }
+}
+
+dependencies {
+    compileOnly 'org.spigotmc:spigot-api:1.19.3-R0.1-SNAPSHOT'
+    implementation project(":platform:spigot-daemon")
+}
+
+tasks.build.finalizedBy shadowJar
+jar.baseName = 'PreBot-Spigot'
+shadowJar {
+    classifier ''
+    archiveFileName = "${jar.baseName}-${version}.${extension}"
+}
+import org.apache.tools.ant.filters.ReplaceTokens
+processResources {
+    from(sourceSets.main.resources.srcDirs) {
+        filter ReplaceTokens, tokens: [version    : version.toString(),
+                                       description: project.description
+        ]
+    }
+}
+tasks.withType(Copy).all { duplicatesStrategy 'INCLUDE' }
+
+
+sourceSets {
+    main {
+        resources {
+            srcDir "src/main/resources"
+            srcDir "../spigot-core/build/libs"
+        }
+    }
+}
+tasks.build.mustRunAfter(project(":platform:spigot-core").tasks.shadowJar)
+

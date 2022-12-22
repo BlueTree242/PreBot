@@ -24,6 +24,8 @@ package me.bluetree242.prebot.platform;
 
 import lombok.Getter;
 import me.bluetree242.prebot.api.PreBot;
+import me.bluetree242.prebot.api.commands.console.ConsoleCommand;
+import me.bluetree242.prebot.api.commands.console.ConsoleCommandResponder;
 import org.slf4j.Logger;
 
 /**
@@ -114,4 +116,8 @@ public abstract class Platform {
     public abstract Logger getLogger(Class<?> clz);
 
     public abstract PreBot getPreBot();
+
+    public ConsoleCommandResponder getConsoleCommandResponder(ConsoleCommand cmd) {
+        return new ConsoleCommandResponder(cmd);
+    }
 }

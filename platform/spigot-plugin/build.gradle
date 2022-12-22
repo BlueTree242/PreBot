@@ -43,5 +43,6 @@ sourceSets {
         }
     }
 }
+processResources.exclude('spigot-core-*.jar')
 tasks.build.mustRunAfter(project(":platform:spigot-core").tasks.shadowJar)
 

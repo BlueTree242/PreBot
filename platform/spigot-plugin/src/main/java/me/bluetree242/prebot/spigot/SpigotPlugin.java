@@ -73,7 +73,7 @@ public class SpigotPlugin extends JavaPlugin implements SpigotPluginDaemon, Comm
 
     @Override
     public void sendConsole(String msg) {
-        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('§', msg));
+        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('§', "§e" + msg));
     }
 
     @Override

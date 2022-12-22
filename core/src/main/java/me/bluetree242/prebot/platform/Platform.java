@@ -117,9 +117,17 @@ public abstract class Platform {
 
     public abstract PreBot getPreBot();
 
+    /**
+     * The default {@link ConsoleCommandResponder} if there is none provided when executing a command
+     * @param cmd command for the Responder, can be null
+     * @return the default command responder
+     */
     public ConsoleCommandResponder getConsoleCommandResponder(ConsoleCommand cmd) {
         return new ConsoleCommandResponder(cmd);
     }
 
+    /**
+     * Called before stopping PreBot
+     */
     public void onStop() {}
 }

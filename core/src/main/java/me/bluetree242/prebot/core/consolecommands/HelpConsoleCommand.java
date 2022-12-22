@@ -23,6 +23,7 @@
 package me.bluetree242.prebot.core.consolecommands;
 
 import me.bluetree242.prebot.api.PreBot;
+import me.bluetree242.prebot.api.color.TextColor;
 import me.bluetree242.prebot.api.commands.console.ConsoleCommand;
 import me.bluetree242.prebot.api.commands.console.ConsoleCommandResponder;
 import me.bluetree242.prebot.api.plugin.Plugin;
@@ -59,7 +60,7 @@ public class HelpConsoleCommand extends PreBotConsoleCommand {
             }
             return;
         }
-        responder.send("Listing all commands, run \"" + label + " <command> to get help for a specific command");
+        responder.send(TextColor.GREEN + "Listing all commands, run \"" + label + " <command> to get help for a specific command");
         for (ConsoleCommand command : core.getConsoleCommandManager().getCommands()) {
             responder.send(command.getName() + ": §r" + command.getDescription());
         }

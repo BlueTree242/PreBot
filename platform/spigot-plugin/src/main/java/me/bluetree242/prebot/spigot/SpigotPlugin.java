@@ -74,10 +74,15 @@ public class SpigotPlugin extends JavaPlugin implements SpigotPluginDaemon, Comm
         Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('§', msg));
     }
 
+    @Override
+    public void disable() {
+        setEnabled(false);
+    }
+
     @SuppressWarnings("NullableProblems")
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        Consumer<String> responder = output -> Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('§', output));
+        Consumer<String> responder = output -> sender.sendMessage(ChatColor.translateAlternateColorCodes('§', "§e" + output));
         if (args.length == 0) {
             core.executeConsoleCommand("ver", responder);
         } else {

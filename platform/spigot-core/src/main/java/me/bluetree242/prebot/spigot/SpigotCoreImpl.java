@@ -57,18 +57,17 @@ public class SpigotCoreImpl extends Platform implements SpigotCore{
     public SpigotCoreImpl(SpigotPluginDaemon d) {
         this.plugin = d;
         Platform.setPlatform(this);
-        prebot = new PreBotMain(d.getDataFolder().toPath());
     }
     @Override
     public void onEnable() {
+        prebot = new PreBotMain(plugin.getDataFolder().toPath());
         prebot.start();
         if (!prebot.isStarted()) prebot = null;
     }
 
     @Override
     public void onDisable() {
-        if (prebot != null) prebot.stop();
-        prebot = null;
+        if (prebot != null && !prebot.isStopped()) prebot.stop();
     }
 
     @Override
@@ -107,5 +106,10 @@ public class SpigotCoreImpl extends Platform implements SpigotCore{
     @Override
     public PreBot getPreBot() {
         return prebot;
+    }
+
+    @Override
+    public void onStop() {
+        if (plugin.isEnabled()) plugin.disable();
     }
 }

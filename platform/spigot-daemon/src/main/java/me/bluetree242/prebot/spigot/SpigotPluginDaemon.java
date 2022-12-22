@@ -32,4 +32,8 @@ public interface SpigotPluginDaemon {
     void log(LogRecord record);
 
     void sendConsole(String msg);
+
+    boolean isEnabled();
+
+    void disable();
 }

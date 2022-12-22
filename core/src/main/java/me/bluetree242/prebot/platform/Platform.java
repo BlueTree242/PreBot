@@ -120,4 +120,6 @@ public abstract class Platform {
     public ConsoleCommandResponder getConsoleCommandResponder(ConsoleCommand cmd) {
         return new ConsoleCommandResponder(cmd);
     }
+
+    public void onStop() {}
 }

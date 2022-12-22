@@ -38,6 +38,7 @@ import me.bluetree242.prebot.core.consolecommands.*;
 import me.bluetree242.prebot.core.discordcommands.PreBotDiscordCommand;
 import me.bluetree242.prebot.core.listener.PreBotListener;
 import me.bluetree242.prebot.core.plugin.MainPluginManager;
+import me.bluetree242.prebot.platform.Platform;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
@@ -151,10 +152,10 @@ public class PreBotMain extends PreBot {
 
     private void addConsoleCommands() {
         consoleCommandManager.registerCommands(new VersionConsoleCommand(this),
-                new StopConsoleCommand(this),
                 new HelpConsoleCommand(this),
                 new PluginsConsoleCommand(this),
                 new ReloadConsoleCommand(this));
+        if (Platform.getInstance().isStandalone()) consoleCommandManager.registerCommands(new StopConsoleCommand(this));
     }
 
     public Activity getActivity() {
@@ -192,8 +193,9 @@ public class PreBotMain extends PreBot {
     @Override
     public void stop() {
         if (stopped) return; //already stopped/stopping
-        LOGGER.info("Shutting down PreBot..");
         stopped = true;
+        Platform.getInstance().onStop();
+        LOGGER.info("Shutting down PreBot..");
         pluginManager.disablePlugins();
         //make sure no shards are reconnecting
         while (shardManager == null || shardManager.getShards().stream().anyMatch(j -> j.getStatus() != JDA.Status.CONNECTED && j.getStatus() != JDA.Status.DISCONNECTED))

@@ -51,7 +51,7 @@ public class MainConsoleCommandManager implements ConsoleCommandManager {
             String label = split[0];
             String[] args = Arrays.copyOfRange(split, 1, split.length);
             ConsoleCommand command = commandsMap.get(label.toLowerCase(Locale.ROOT));
-            ConsoleCommandResponder responder = new ConsoleCommandResponder(command);
+            ConsoleCommandResponder responder = responderF.apply(command);
             try {
                 if (command != null) {
                     if (command instanceof PluginConsoleCommand) {

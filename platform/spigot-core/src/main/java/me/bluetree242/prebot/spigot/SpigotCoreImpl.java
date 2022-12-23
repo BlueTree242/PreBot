@@ -100,6 +100,10 @@ public class SpigotCoreImpl extends Platform implements SpigotCore{
         }
     }
 
+    @Override
+    public ConsoleCommandResponder getConsoleCommandResponder(ConsoleCommand cmd) {
+        return new Responder(this, cmd, null);
+    }
 
     @Override
     public PlatformType getType() {

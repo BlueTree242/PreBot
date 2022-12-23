@@ -122,6 +122,19 @@ public class SpigotCoreImpl extends Platform implements SpigotCore{
 
     @Override
     public void onClose(CloseReason reason, Throwable ex) {
+        switch (reason) {
+            case STOP:
+            case OTHER:
+                plugin.setCloseReason("§cPreBot was stopped.");
+                break;
+            case UNKNOWN:
+                plugin.setCloseReason("§cPreBot was stopped by an unknown reason.");
+            case BAD_CONFIG:
+                plugin.setCloseReason("§cPreBot was stopped due to bad configuration. Check logs for more details.");
+                break;
+            case INVALID_TOKEN:
+                plugin.setCloseReason("§cPreBot was stopped due to invalid bot token, Please add a valid discord bot token in config.yml and restart your server.");
+        }
         if (plugin.isEnabled()) plugin.disable();
     }
 

@@ -36,4 +36,6 @@ public interface SpigotPluginDaemon {
     boolean isEnabled();
 
     void disable();
+
+    void setCloseReason(String reason);
 }

@@ -54,6 +54,9 @@ allprojects {
         }
         options.encoding = 'UTF-8'
     }
+    processResources {
+        outputs.upToDateWhen { false }
+    }
 }
 subprojects {
     task packageJavadoc(type: Jar, dependsOn: 'javadoc') {

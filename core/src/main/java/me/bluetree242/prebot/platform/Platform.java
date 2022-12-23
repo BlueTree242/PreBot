@@ -23,6 +23,7 @@
 package me.bluetree242.prebot.platform;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import me.bluetree242.prebot.api.PreBot;
 import me.bluetree242.prebot.api.color.TextColor;
 import me.bluetree242.prebot.api.commands.console.ConsoleCommand;
@@ -149,5 +150,19 @@ public abstract class Platform {
         return "Unknown Command. Type \"?\" for list of existing commands.";
     }
 
-    //TODO close() method called when prebot closes can be an error or regular stop (with reason)
+    @RequiredArgsConstructor
+    public enum CloseReason {
+        STOP(0, false), INVALID_TOKEN(-1, true), BAD_CONFIG(-2, true), OTHER(1, false), UNKNOWN(-100, true);
+        @Getter
+        private final int code;
+        @Getter
+        private final boolean error;
+    }
+
+    /**
+     * Indicates that PreBot has closed.
+     * @param reason Reason that prebot has closed
+     * @param ex Exception that might've occurred, can be null
+     */
+    public void onClose(CloseReason reason, Throwable ex) {}
 }

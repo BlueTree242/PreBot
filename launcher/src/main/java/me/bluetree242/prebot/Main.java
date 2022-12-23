@@ -118,5 +118,10 @@ public class Main extends SimpleTerminalConsole {
         public Logger getLogger(Class<?> clz) {
             return LoggerFactory.getLogger(clz);
         }
+
+        @Override
+        public void onClose(CloseReason reason, Throwable ex) {
+            System.exit(reason.getCode());
+        }
     }
 }

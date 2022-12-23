@@ -31,6 +31,8 @@ import me.bluetree242.prebot.api.PreBotVersion;
 import me.bluetree242.prebot.api.commands.discord.DiscordCommandManager;
 import me.bluetree242.prebot.api.config.ConfigManager;
 import me.bluetree242.prebot.api.events.ShardManagerPreBuildEvent;
+import me.bluetree242.prebot.api.exceptions.config.InvalidSyntaxException;
+import me.bluetree242.prebot.api.exceptions.config.InvalidTypeException;
 import me.bluetree242.prebot.config.PreBotConfig;
 import me.bluetree242.prebot.core.command.console.MainConsoleCommandManager;
 import me.bluetree242.prebot.core.command.discord.MainDiscordCommandManager;
@@ -100,7 +102,12 @@ public class PreBotMain extends PreBot {
         startCalled = true;
         LOGGER.info("Starting PreBot {}...", PreBotVersion.VERSION);
         LOGGER.info("Loading configuration..");
-        reloadConfig();
+        try {
+            reloadConfig();
+        } catch (InvalidSyntaxException | InvalidTypeException ex) {
+            LOGGER.error("Failed to load configuration", ex);
+            Platform.getInstance().onClose(Platform.CloseReason.BAD_CONFIG, ex);
+        }
         executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(config.executor_size(), new ThreadFactory() {
             int num = 0;
 
@@ -139,6 +146,7 @@ public class PreBotMain extends PreBot {
             started = true;
         } catch (InvalidTokenException e) {
             LOGGER.error("The provided token in {} is invalid. Please make sure the token is correct and try again.", env ? "Environment Variable" : "config.yml");
+            Platform.getInstance().onClose(Platform.CloseReason.INVALID_TOKEN, e);
         }
     }
 
@@ -192,7 +200,7 @@ public class PreBotMain extends PreBot {
     @SneakyThrows
     @Override
     public void stop() {
-        if (stopped) return; //already stopped/stopping
+        if (stopped || !started) return; //already stopped/stopping
         stopped = true;
         Platform.getInstance().onStop();
         LOGGER.info("Shutting down PreBot..");
@@ -202,6 +210,9 @@ public class PreBotMain extends PreBot {
             Thread.sleep(100);
         LOGGER.info("Shutting down Shard Manager..");
         shardManager.shutdown();
+        while (shardManager == null || shardManager.getShards().stream().anyMatch(j -> j.getStatus() != JDA.Status.SHUTDOWN))
+            Thread.sleep(100); //make sure shard manager finished stopping then send onClose to the platform
+        Platform.getInstance().onClose(Platform.CloseReason.STOP, null);
     }
 
     @Override

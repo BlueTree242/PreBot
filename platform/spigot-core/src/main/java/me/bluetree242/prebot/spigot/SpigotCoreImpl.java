@@ -121,6 +121,11 @@ public class SpigotCoreImpl extends Platform implements SpigotCore{
     }
 
     @Override
+    public void onClose(CloseReason reason, Throwable ex) {
+        if (plugin.isEnabled()) plugin.disable();
+    }
+
+    @Override
     public void onStop() {
         if (plugin.isEnabled()) plugin.disable();
     }
